@@ -1641,6 +1641,104 @@ body.modal-open { overflow: hidden; }
 @media(max-width: 480px) {
     #page-developer .back-nursing { padding: 10px 16px; font-size: 13px; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE MODE  (≤ 768px only — desktop untouched)
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* 1) أخف ظلال وتوهج عبر المتغيرات (بتأثر على كل اللي بيستخدمها) */
+    #page-developer {
+        --shadow: 0 10px 28px rgba(0,0,0,.32);
+        --gold-glow: 0 0 14px rgba(212,175,55,.10);
+        --purple-glow: 0 0 14px rgba(139,92,246,.10);
+    }
+
+    /* 2) إخفاء العناصر الديكورية التقيلة */
+    #page-developer .orb,
+    #page-developer .particles,
+    #page-developer .signature-bg { display: none; }
+
+    #page-developer .background-grid {
+        mask-image: none;
+        -webkit-mask-image: none;
+        opacity: .13;
+    }
+
+    /* 3) إيقاف الأنيميشن المستمر (Hero In / Avatar Float / Name Shine) */
+    #page-developer .developer-id { animation: none; }
+    #page-developer .avatar { animation: none; }
+    #page-developer .hero-name {
+        animation: none;
+        background-size: 100% 100%;
+    }
+
+    /* 4) إلغاء backdrop-filter + خلفيات صلبة بنفس الألوان تقريباً */
+    #page-developer .developer-id {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: linear-gradient(135deg, #171425, #0d0c14);
+    }
+    #page-developer .glass-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: linear-gradient(145deg, #161322, #0b0a12);
+        box-shadow: 0 8px 24px rgba(0,0,0,.25);
+        transition: border-color .25s ease;
+    }
+    #page-developer .glass-card:hover {
+        transform: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    #page-developer .custom-modal {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(0,0,0,.88);
+    }
+    #page-developer .case-modal,
+    #page-developer .command-modal,
+    #page-developer .terminal-modal {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(2,2,7,.92);
+    }
+    #page-developer .tool-fab {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #0f0d18;
+    }
+    #page-developer .availability-pill {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #0f0d18;
+    }
+    #page-developer .back-top {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #0a0810;
+    }
+    #page-developer .toast-ux {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #0c0a12;
+    }
+
+    /* 5) تخفيف باقي الظلال */
+    #page-developer .avatar { box-shadow: 0 0 16px rgba(212,175,55,.35); }
+    #page-developer .avatar-status { box-shadow: 0 0 6px rgba(40,209,124,.7); }
+    #page-developer .timeline-dot { box-shadow: 0 0 8px rgba(212,175,55,.4); }
+    #page-developer .scroll-progress { box-shadow: none; }
+    #page-developer .tool-fab { box-shadow: 0 6px 16px rgba(0,0,0,.35); }
+    #page-developer .toast-ux { box-shadow: 0 8px 22px rgba(0,0,0,.4); }
+    #page-developer .modal-box,
+    #page-developer .case-box,
+    #page-developer .command-box,
+    #page-developer .terminal-box { box-shadow: 0 14px 40px rgba(0,0,0,.5); }
+    #page-developer .btn-primary-dev,
+    #page-developer .btn-primary-dev:hover { box-shadow: 0 5px 14px rgba(212,175,55,.2); }
+    #page-developer .back-nursing,
+    #page-developer .back-nursing:hover { box-shadow: 0 4px 14px rgba(212,175,55,.22); }
+}
 </style>
 
 <div class="dev-page">
@@ -1684,6 +1782,8 @@ body.modal-open { overflow: hidden; }
                         src="https://files.catbox.moe/ka5o2f.png"
                         class="avatar"
                         alt="Amr Gohar"
+                        width="145" height="145"
+                        decoding="async"
                         onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';"
                     >
                     <div id="avatarFallback" style="display:none; width:145px; height:145px; border-radius:50%; align-items:center; justify-content:center; background:linear-gradient(135deg,#D4AF37,#8B5CF6); color:#09070e; font-size:45px; font-weight:900;">AG</div>
@@ -2497,6 +2597,9 @@ Type <b>help</b> to see available commands.</div>
 (function () {
     const container = document.getElementById("particles");
     if (!container) return;
+    // موبايل أو تقليل الحركة → من غير Particles خالص (نفس breakpoint بتاع الـ CSS)
+    if (window.matchMedia("(max-width: 768px)").matches ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const count = 28;
     for (let i = 0; i < count; i++) {
         const particle = document.createElement("div");
@@ -2525,7 +2628,12 @@ Type <b>help</b> to see available commands.</div>
     let titleIndex = 0, charIndex = 0, deleting = false;
     const element = document.getElementById("typingText");
     if (!element) return;
+    // على الموبايل أبطأ ~60% → تحديثات DOM أقل
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const slow = isMobile ? 1.6 : 1;
     function typeWriter() {
+        // موقوف لو التاب مش ظاهر
+        if (document.hidden) { setTimeout(typeWriter, 500); return; }
         const current = titles[titleIndex];
         if (!deleting) {
             charIndex++;
@@ -2534,7 +2642,7 @@ Type <b>help</b> to see available commands.</div>
             charIndex--;
             element.textContent = current.substring(0, charIndex);
         }
-        let speed = deleting ? 45 : 85;
+        let speed = (deleting ? 45 : 85) * slow;
         if (!deleting && charIndex === current.length) { speed = 1800; deleting = true; }
         else if (deleting && charIndex === 0) { deleting = false; titleIndex = (titleIndex + 1) % titles.length; speed = 500; }
         setTimeout(typeWriter, speed);
@@ -2545,19 +2653,32 @@ Type <b>help</b> to see available commands.</div>
 // SCROLL PROGRESS
 (function(){
     const bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+    let max = 0, ticking = false;
+    function measure(){ max = document.documentElement.scrollHeight - window.innerHeight; }
     function update(){
-        const h = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+        bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+        ticking = false;
     }
-    window.addEventListener('scroll', update, { passive: true });
-    update();
+    function onScroll(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => { measure(); onScroll(); });
+    window.addEventListener('load', () => { measure(); onScroll(); });
+    measure(); update();
 })();
 
 // BACK TO TOP
 (function(){
     const top = document.getElementById('backTop');
-    function update(){ top?.classList.toggle('show', window.scrollY > 650); }
-    window.addEventListener('scroll', update, { passive: true });
+    let visible = null, ticking = false;
+    function update(){
+        const v = window.scrollY > 650;
+        if (v !== visible) { visible = v; top?.classList.toggle('show', v); }
+        ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
     update();
     top?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 })();
