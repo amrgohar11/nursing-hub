@@ -22,22 +22,22 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // الحساب بيتعمل بدون اشتراك (قيد المراجعة)
+    // الاشتراك التلقائي 3 شهور
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + 3);
+
     await setDoc(doc(db, "students", user.uid), {
       name: name,
       email: email,
-      subscriptionEnd: null, // هيتم تفعيله من لوحة التحكم
+      subscriptionEnd: expiryDate,
       completedLectures: [],
       badges: [],
       createdAt: new Date()
     });
 
-    msg.textContent = "تم إنشاء الحساب! حسابك قيد المراجعة، هيتم تفعيله قريباً.";
+    msg.textContent = "تم إنشاء الحساب بنجاح! جاري تحويلك...";
     msg.className = "success-msg";
-    
-    // نظهر زرار التجديد/التواصل
-    const renewBtn = document.getElementById('renew-btn');
-    if (renewBtn) renewBtn.style.display = 'block';
+    setTimeout(() => { window.location.href = 'student-dashboard.html'; }, 1500);
 
   } catch (error) {
     msg.textContent = "حدث خطأ: " + error.message;
@@ -65,9 +65,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       const endDate = studentData.subscriptionEnd ? studentData.subscriptionEnd.toDate() : null;
       const now = new Date();
 
-      // لو الاشتراك مش موجود (قيد المراجعة) أو منتهي
+      // لو الاشتراك منتهي
       if (!endDate || endDate < now) {
-        msg.textContent = "حسابك قيد المراجعة أو اشتراكك منتهي. تواصل مع الإدارة للتفعيل.";
+        msg.textContent = "انتهى اشتراكك! يرجى التجديد للمتابعة.";
         msg.className = "error-msg";
         
         // نظهر زرار التجديد
