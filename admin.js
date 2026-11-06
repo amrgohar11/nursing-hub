@@ -5,7 +5,12 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 
 // === 0. الحماية ===
 onAuthStateChanged(auth, (user) => {
-  if (!user) window.location.href = 'login.html';
+  if (!user) {
+    window.location.href = 'login.html';
+  } else {
+    // نظهر المحتوى بس لو المستخدم مسجل دخول
+    document.getElementById('admin-main').style.display = 'block';
+  }
 });
 
 // === 1. إضافة مادة جديدة ===
@@ -40,6 +45,7 @@ formSubject.addEventListener('submit', async (e) => {
 // === 2. جلب المواد للمنسدلة ===
 async function loadSubjectsForDropdown() {
   const select = document.getElementById('lec-subject-id');
+  if (!select) return;
   select.innerHTML = '<option value="">-- اختر المادة --</option>';
   const querySnapshot = await getDocs(collection(db, "subjects"));
   querySnapshot.forEach((doc) => {
@@ -197,11 +203,8 @@ async function loadStudents() {
   }
 }
 
-// تجديد الاشتراك (مع اختيار المدة)
 window.renewStudent = async (studentId) => {
-  // نسأل الأدمن عن المدة
   const monthsInput = prompt('اكتب عدد الشهور اللي عايز تجدد بيها (مثال: 3، 6، 12):', '3');
-  
   if (monthsInput === null || monthsInput === '') return;
 
   const months = parseInt(monthsInput);
@@ -225,10 +228,8 @@ window.renewStudent = async (studentId) => {
   }
 };
 
-// إيقاف الاشتراك
 window.stopStudent = async (studentId) => {
   if (!confirm('هل أنت متأكد من إيقاف اشتراك هذا الطالب؟')) return;
-  
   const pastDate = new Date();
   pastDate.setDate(pastDate.getDate() - 1);
 
@@ -243,10 +244,8 @@ window.stopStudent = async (studentId) => {
   }
 };
 
-// حذف الطالب
 window.deleteStudent = async (studentId) => {
   if (!confirm('هل أنت متأكد من حذف هذا الطالب نهائياً؟')) return;
-  
   try {
     await deleteDoc(doc(db, "students", studentId));
     alert('تم حذف الطالب!');

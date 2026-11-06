@@ -190,11 +190,30 @@
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
 
+    // تحميل المحاضرة وزيادة العداد
     if (fileName) {
       frame.src = `lectures/${fileName}`;
+      
       if (subjectId && lectureId) {
         const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
-        updateDoc(lectureRef, { views: increment(1) }).catch(e => console.log(e));
+        
+        // بنجيب المحاضرة الأول عشان نتأكد إن حقل views موجود
+        getDoc(lectureRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            if (data.views === undefined) {
+              // لو الحقل مش موجود، نعمله 0 الأول
+              updateDoc(lectureRef, { views: 0 }).then(() => {
+                // بعدين نزوده 1
+                updateDoc(lectureRef, { views: increment(1) });
+              });
+            } else {
+              // لو موجود، نزوده عادي
+              updateDoc(lectureRef, { views: increment(1) });
+            }
+          }
+        }).catch(e => console.log("Error updating views:", e));
+        
         loadComments(subjectId, lectureId);
         checkCompletion(subjectId, lectureId);
       }
@@ -205,11 +224,13 @@
     if (subjectId) backLink.href = `subject.html?id=${subjectId}`;
     else backLink.href = `index.html`;
 
+    // فتح وقفل المودال
     const modal = document.getElementById('comments-modal');
     document.getElementById('open-comments-btn').addEventListener('click', () => modal.classList.add('active'));
     document.getElementById('close-modal-btn').addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
+    // نظام النجوم
     document.querySelectorAll('.star-rating').forEach(star => {
       star.addEventListener('click', (e) => {
         currentRating = parseInt(e.target.getAttribute('data-value'));
@@ -221,6 +242,7 @@
       star.style.color = '#f59e0b';
     });
 
+    // إضافة تعليق
     document.getElementById('submit-comment').addEventListener('click', async () => {
       const text = document.getElementById('comment-text').value.trim();
       if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
@@ -241,6 +263,7 @@
       }
     });
 
+    // تحميل التعليقات
     async function loadComments(subId, lecId) {
       const list = document.getElementById('comments-list');
       list.innerHTML = '<p>جاري التحميل...</p>';
@@ -273,6 +296,7 @@
       }
     }
 
+    // زرار خلصت المذاكرة
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
       try {
@@ -316,6 +340,7 @@
       }
     }
 
+    // الوضع الليلي
     const themeToggleBtn = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
