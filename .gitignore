@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Firebase Admin SDK Key (سري جداً)
+serviceAccountKey.json
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs
+.next/
+build/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
