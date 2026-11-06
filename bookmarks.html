@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header class="glass-nav">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
@@ -17,7 +18,7 @@
   <main class="container">
     <h1 class="section-title">❤️ المحاضرات المفضلة</h1>
     <div id="bookmarks-grid" class="grid">
-      <p style="grid-column: 1/-1; text-align: center; color: #64748b;">جاري تحميل المحاضرات...</p>
+      <p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 20px;">جاري تحميل المحاضرات...</p>
     </div>
   </main>
 
@@ -37,14 +38,16 @@
       grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px;">لسه مفيش محاضرات محفوظة. افتح أي محاضرة ودوس "حفظ".</p>';
     } else {
       grid.innerHTML = '';
-      bookmarks.forEach(bm => {
+      bookmarks.reverse().forEach(bm => {
         const card = document.createElement('a');
+        // نرجع للينك المحاضرة الأصلي
         card.href = `lecture.html?subjectId=${bm.subjectId}&file=${bm.fileName}&id=${bm.id}`;
         card.className = 'subject-card';
         card.innerHTML = `
           <div style="font-size: 30px; margin-bottom: 10px;">📄</div>
-          <h3 class="subject-name-ar">محاضرة محفوظة</h3>
-          <p style="color: var(--text-muted); font-size: 14px;">اضغط لفتح المحاضرة</p>
+          <h3 class="subject-name-ar">${bm.title || 'محاضرة محفوظة'}</h3>
+          <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">${bm.subjectName || ''}</p>
+          <p style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">تم الحفظ: ${new Date(bm.savedAt).toLocaleDateString('ar-EG')}</p>
         `;
         grid.appendChild(card);
       });
