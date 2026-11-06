@@ -122,11 +122,25 @@
     </div>
   </footer>
 
+  <!-- نافذة تثبيت التطبيق -->
+  <div id="install-prompt" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: var(--white); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: fadeInUp 0.5s ease;">
+      
+      <div style="font-size: 60px; margin-bottom: 15px;">🩺</div>
+      <h2 style="color: var(--primary-dark); margin-bottom: 10px; font-size: 22px;">ثبّت تطبيق Nursing Hub</h2>
+      <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 15px; line-height: 1.6;">ثبّت المنصة على شاشتك الرئيسية عشان توصل للملخصات بسهولة ومن غير ما تفتح المتصفح كل مرة.</p>
+      
+      <button id="install-btn" style="width: 100%; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">📲 تثبيت الآن</button>
+      <button id="close-install" style="width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; cursor: pointer;">ليس الآن</button>
+    </div>
+  </div>
+
   <script type="module" src="guard.js"></script>
   <script type="module" src="main.js"></script>
   
-  <!-- سكريبت PWA -->
+  <!-- سكريبت PWA + نافذة التثبيت -->
   <script>
+    // تسجيل Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -134,6 +148,51 @@
           .catch(err => console.log('Service Worker registration failed:', err));
       });
     }
+
+    // === نافذة تثبيت التطبيق (PWA) ===
+    let deferredPrompt;
+    const installPrompt = document.getElementById('install-prompt');
+    const installBtn = document.getElementById('install-btn');
+    const closeInstall = document.getElementById('close-install');
+
+    // نستقبل حدث "beforeinstallprompt" اللي بيظهر لما التطبيق قابل للتثبيت
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // نظهر النافذة بعد 3 ثواني من فتح الموقع
+      setTimeout(() => {
+        // نتأكد إنها مش متعرضة قبل كده في نفس الجلسة
+        if (!sessionStorage.getItem('installPromptShown')) {
+          installPrompt.style.display = 'flex';
+          sessionStorage.setItem('installPromptShown', 'true');
+        }
+      }, 3000);
+    });
+
+    // لما يدوس "تثبيت الآن"
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt(); // نطلب من المتصفح يظهر نافذة التثبيت
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        }
+        deferredPrompt = null;
+        installPrompt.style.display = 'none';
+      }
+    });
+
+    // لما يدوس "ليس الآن"
+    closeInstall.addEventListener('click', () => {
+      installPrompt.style.display = 'none';
+    });
+
+    // لو التطبيق اتثبت خلاص، نخفي النافذة
+    window.addEventListener('appinstalled', () => {
+      installPrompt.style.display = 'none';
+      console.log('PWA was installed');
+    });
   </script>
 </body>
 </html>
