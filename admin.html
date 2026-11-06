@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -57,4 +58,65 @@
 
   <script type="module" src="admin.js"></script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم | Nursing Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="glass-nav">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+      <a href="index.html" style="font-size: 24px; font-weight: 900; color: var(--primary-dark);">🩺 Nursing Hub</a>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <a href="index.html" style="font-weight: 700; color: var(--primary);">العودة للرئيسية</a>
+        <a href="#" id="logout-btn" style="font-weight: 700; color: #ef4444; background: #fef2f2; padding: 8px 15px; border-radius: 10px; transition: 0.3s;">تسجيل خروج</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    
+    <!-- فورم إضافة المادة -->
+    <div class="admin-card">
+      <h1>➕ إضافة مادة جديدة</h1>
+      
+      <form id="add-subject-form" class="admin-form">
+        <input type="text" id="sub-id" placeholder="معرف المادة (إنجليزي بدون مسافات - مثال: anatomy)" required>
+        <input type="text" id="sub-name" placeholder="اسم المادة بالإنجليزي - Anatomy" required>
+        <input type="text" id="sub-name-ar" placeholder="اسم المادة بالعربي - التشريح" required>
+        <input type="text" id="sub-desc" placeholder="وصف المادة (اختياري)">
+        <input type="text" id="sub-icon" placeholder="أيقونة (مثال: 🦴)">
+        
+        <button type="submit">إضافة المادة</button>
+      </form>
+      <p id="msg" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+    </div>
+
+    <!-- فورم إضافة محاضرة -->
+    <div class="admin-card">
+      <h1>📚 إضافة محاضرة جديدة</h1>
+      
+      <form id="add-lecture-form" class="admin-form">
+        <select id="lec-subject-id" required>
+          <option value="">-- اختر المادة --</option>
+        </select>
+        
+        <input type="text" id="lec-title" placeholder="اسم المحاضرة (مثال: مقدمة في التشريح)" required>
+        <input type="text" id="lec-file" placeholder="اسم ملف الـ HTML (مثال: intro.html)" required>
+        
+        <button type="submit" style="background: linear-gradient(135deg, #0c4a6e, #082f49);">إضافة المحاضرة</button>
+      </form>
+      <p id="msg-lec" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+    </div>
+
+  </main>
+
+  <script type="module" src="admin.js"></script>
+</body>
+>>>>>>> de937b76c26eb8c4dc042a8c8c7f9e08854c0587
 </html>
