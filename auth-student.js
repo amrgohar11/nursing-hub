@@ -22,19 +22,22 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    const expiryDate = new Date();
-    expiryDate.setMonth(expiryDate.getMonth() + 3);
-
+    // الحساب بيتعمل بدون اشتراك (قيد المراجعة)
     await setDoc(doc(db, "students", user.uid), {
       name: name,
       email: email,
-      subscriptionEnd: expiryDate,
+      subscriptionEnd: null, // هيتم تفعيله من لوحة التحكم
+      completedLectures: [],
+      badges: [],
       createdAt: new Date()
     });
 
-    msg.textContent = "تم إنشاء الحساب بنجاح! جاري تحويلك...";
+    msg.textContent = "تم إنشاء الحساب! حسابك قيد المراجعة، هيتم تفعيله قريباً.";
     msg.className = "success-msg";
-    setTimeout(() => { window.location.href = 'student-dashboard.html'; }, 1500);
+    
+    // نظهر زرار التجديد/التواصل
+    const renewBtn = document.getElementById('renew-btn');
+    if (renewBtn) renewBtn.style.display = 'block';
 
   } catch (error) {
     msg.textContent = "حدث خطأ: " + error.message;
@@ -59,11 +62,12 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     
     if (studentDoc.exists()) {
       const studentData = studentDoc.data();
-      const endDate = studentData.subscriptionEnd.toDate();
+      const endDate = studentData.subscriptionEnd ? studentData.subscriptionEnd.toDate() : null;
       const now = new Date();
 
-      if (endDate < now) {
-        msg.textContent = "انتهى اشتراكك! يرجى التجديد للمتابعة.";
+      // لو الاشتراك مش موجود (قيد المراجعة) أو منتهي
+      if (!endDate || endDate < now) {
+        msg.textContent = "حسابك قيد المراجعة أو اشتراكك منتهي. تواصل مع الإدارة للتفعيل.";
         msg.className = "error-msg";
         
         // نظهر زرار التجديد
@@ -73,6 +77,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         return; 
       }
       
+      // لو الاشتراك نشط، يروح للداشبورد
       window.location.href = 'student-dashboard.html';
     } else {
       msg.textContent = "لم يتم العثور على بياناتك.";

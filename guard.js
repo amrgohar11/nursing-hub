@@ -19,7 +19,7 @@ onAuthStateChanged(auth, async (user) => {
       const endDate = data.subscriptionEnd ? data.subscriptionEnd.toDate() : null;
       const now = new Date();
 
-      // لو الاشتراك منتهي أو مش موجود، نطرده
+      // لو الاشتراك منتهي أو مش موجود (قيد المراجعة)، نطرده
       if (!endDate || endDate < now) {
         await signOut(auth); // نسجله خروج
         window.location.href = 'login-student.html'; // نوديه لصفحة الدخول
