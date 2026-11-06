@@ -103,38 +103,56 @@ module.exports = async function handler(req, res) {
   global.chatRateLimit.set(ip, userRequests);
 
   try {
-    // ✅ التعديل: استخدام gemini-2.0-flash بدل 1.5-flash
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey
-        },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
-          },
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: message.trim() }]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.5,
-            maxOutputTokens: 700
-          }
-        })
-      }
-    );
+    let response;
+    let data;
+    let retries = 3; // عدد المحاولات
 
-    const data = await response.json();
+    // بنحاول لحد 3 مرات لو الموديل مشغول
+    for (let i = 0; i < retries; i++) {
+      response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey
+          },
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [{ text: SYSTEM_PROMPT }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: message.trim() }]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.5,
+              maxOutputTokens: 700
+            }
+          })
+        }
+      );
+
+      data = await response.json();
+
+      // لو شغال، نكسر الحلقة
+      if (response.ok) break;
+
+      // لو 503 (مشغول)، نستنى شوية ونحاول تاني
+      if (response.status === 503) {
+        await new Promise(r => setTimeout(r, 2000)); // استنى 2 ثانية
+        continue;
+      }
+
+      // لو خطأ تاني، نكسر
+      break;
+    }
 
     if (!response.ok) {
       console.error("Gemini API error:", response.status, data);
-      return res.status(502).json({ error: "حصلت مشكلة أثناء توليد الرد. حاول تاني." });
+      return res.status(502).json({ error: "المساعد مشغول شوية 😅 جرب تاني بعد لحظة." });
     }
 
     const reply =
