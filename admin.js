@@ -3,12 +3,23 @@ import { db, auth } from './firebase-config.js';
 import { doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// === 0. الحماية ===
-onAuthStateChanged(auth, (user) => {
+// === 0. الحماية (التحقق من الأدمن) ===
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = 'login.html';
-  } else {
+    return;
+  }
+  
+  // بنجيب الـ Token عشان نشوف هل فيه Custom Claim اسمه admin
+  const tokenResult = await user.getIdTokenResult();
+  
+  if (tokenResult.claims.admin === true) {
+    // لو أدمن، نظهر المحتوى
     document.getElementById('admin-main').style.display = 'block';
+  } else {
+    // لو مش أدمن، نطرده للرئيسية
+    alert('غير مصرح لك بالدخول!');
+    window.location.href = 'index.html';
   }
 });
 
@@ -35,6 +46,7 @@ formSubject.addEventListener('submit', async (e) => {
     msgSub.style.color = 'green';
     formSubject.reset();
     loadDashboardData();
+    loadSubjectsTable();
   } catch (error) {
     msgSub.textContent = 'حدث خطأ! ❌';
     msgSub.style.color = 'red';
@@ -324,7 +336,6 @@ window.deleteSubject = async (subjectId) => {
   if (!confirm('هل أنت متأكد من حذف هذه المادة وكل محاضراتها؟ لا يمكن التراجع!')) return;
 
   try {
-    // 1. حذف كل المحاضرات اللي جوة المادة
     const lecturesSnap = await getDocs(collection(db, "subjects", subjectId, "lectures"));
     const deletePromises = [];
     lecturesSnap.forEach((lecDoc) => {
@@ -332,12 +343,11 @@ window.deleteSubject = async (subjectId) => {
     });
     await Promise.all(deletePromises);
 
-    // 2. حذف المادة نفسها
     await deleteDoc(doc(db, "subjects", subjectId));
 
     alert('تم حذف المادة وكل محاضراتها بنجاح!');
-    loadSubjectsTable(); // تحديث جدول المواد
-    loadDashboardData(); // تحديث الإحصائيات
+    loadSubjectsTable();
+    loadDashboardData();
   } catch (error) {
     console.error(error);
     alert('حدث خطأ أثناء الحذف!');
