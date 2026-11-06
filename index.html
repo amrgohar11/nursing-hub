@@ -122,6 +122,26 @@
     </div>
   </footer>
 
+  <!-- Bottom Navigation (للموبايل) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item active">
+      <span>🏠</span>
+      <span>الرئيسية</span>
+    </a>
+    <a href="mcq.html" class="bottom-nav-item">
+      <span>📝</span>
+      <span>الأسئلة</span>
+    </a>
+    <a href="terms.html" class="bottom-nav-item">
+      <span>📖</span>
+      <span>المصطلحات</span>
+    </a>
+    <a href="student-dashboard.html" class="bottom-nav-item">
+      <span>👤</span>
+      <span>حسابي</span>
+    </a>
+  </nav>
+
   <!-- نافذة تثبيت التطبيق -->
   <div id="install-prompt" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px;">
     <div style="background: var(--white); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: fadeInUp 0.5s ease;">
@@ -155,14 +175,11 @@
     const installBtn = document.getElementById('install-btn');
     const closeInstall = document.getElementById('close-install');
 
-    // نستقبل حدث "beforeinstallprompt" اللي بيظهر لما التطبيق قابل للتثبيت
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       
-      // نظهر النافذة بعد 3 ثواني من فتح الموقع
       setTimeout(() => {
-        // نتأكد إنها مش متعرضة قبل كده في نفس الجلسة
         if (!sessionStorage.getItem('installPromptShown')) {
           installPrompt.style.display = 'flex';
           sessionStorage.setItem('installPromptShown', 'true');
@@ -170,10 +187,9 @@
       }, 3000);
     });
 
-    // لما يدوس "تثبيت الآن"
     installBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
-        deferredPrompt.prompt(); // نطلب من المتصفح يظهر نافذة التثبيت
+        deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           console.log('User accepted the install prompt');
@@ -183,12 +199,10 @@
       }
     });
 
-    // لما يدوس "ليس الآن"
     closeInstall.addEventListener('click', () => {
       installPrompt.style.display = 'none';
     });
 
-    // لو التطبيق اتثبت خلاص، نخفي النافذة
     window.addEventListener('appinstalled', () => {
       installPrompt.style.display = 'none';
       console.log('PWA was installed');

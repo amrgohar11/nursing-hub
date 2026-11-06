@@ -5,9 +5,43 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/fi
 
 const subjectsGrid = document.getElementById('subjects-grid');
 
-// === 1. تحميل المواد ===
+// === 1. Skeleton Loading ===
+function showSkeleton() {
+  if (!subjectsGrid) return;
+  
+  let skeletonHTML = '';
+  for (let i = 0; i < 6; i++) {
+    skeletonHTML += `
+      <div class="subject-card skeleton-card">
+        <div class="skeleton skeleton-icon"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text short"></div>
+      </div>
+    `;
+  }
+  subjectsGrid.innerHTML = skeletonHTML;
+}
+
+// === 2. Error Handling ===
+function showError(message) {
+  if (!subjectsGrid) return;
+  
+  subjectsGrid.innerHTML = `
+    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+      <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
+      <p style="color: #ef4444; font-weight: bold; margin-bottom: 15px;">${message || 'حدث خطأ في تحميل البيانات'}</p>
+      <button onclick="location.reload()" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">حاول تاني</button>
+    </div>
+  `;
+}
+
+// === 3. تحميل المواد ===
 async function loadSubjects() {
   if (!subjectsGrid) return;
+
+  // نعرض الـ Skeleton الأول
+  showSkeleton();
 
   try {
     const querySnapshot = await getDocs(collection(db, "subjects"));
@@ -52,13 +86,13 @@ async function loadSubjects() {
     });
   } catch (error) {
     console.error("Error loading subjects: ", error);
-    subjectsGrid.innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">حدث خطأ في تحميل البيانات.</p>';
+    showError("حدث خطأ في تحميل المواد. تأكد من اتصالك بالإنترنت.");
   }
 }
 
 loadSubjects();
 
-// === 2. البحث في المواد (مع فتح وقفل الأيقونة) ===
+// === 4. البحث في المواد ===
 const searchToggle = document.getElementById('search-toggle');
 const searchWrapper = document.getElementById('search-wrapper');
 const searchInput = document.getElementById('search-input');
@@ -86,7 +120,7 @@ if (searchInput) {
   });
 }
 
-// === 3. تحميل الإعلان ===
+// === 5. تحميل الإعلان ===
 async function loadAnnouncement() {
   const announcementContent = document.getElementById('announcement-content');
   const announcementBox = document.getElementById('announcement-box');
@@ -108,7 +142,7 @@ async function loadAnnouncement() {
 }
 loadAnnouncement();
 
-// === 4. كود الوضع الليلي ===
+// === 6. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 
