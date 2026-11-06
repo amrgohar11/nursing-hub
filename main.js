@@ -22,7 +22,6 @@ async function loadSubjects() {
       card.href = `subject.html?id=${doc.id}`;
       card.className = 'subject-card';
       
-      // إضافة أنيميشن الظهور (Fade In) مع تأخير بسيط لكل كارت
       card.style.opacity = '0';
       card.style.transform = 'translateY(20px)';
       card.style.transition = 'all 0.5s ease';
@@ -40,11 +39,10 @@ async function loadSubjects() {
 
       subjectsGrid.appendChild(card);
 
-      // تفعيل الأنيميشن بعد ما الكارت يتضاف للصفحة
       setTimeout(() => {
         card.style.opacity = '1';
         card.style.transform = 'translateY(0)';
-      }, 100 + (index * 150)); // كل كارت يظهر بعد اللي قبله بـ 150 ملي ثانية
+      }, 100 + (index * 150)); 
 
       index++;
     });
@@ -55,3 +53,23 @@ async function loadSubjects() {
 }
 
 loadSubjects();
+
+// === كود الوضع الليلي ===
+const themeToggleBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+if (themeToggleBtn) {
+  themeToggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+  
+  themeToggleBtn.addEventListener('click', () => {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  });
+}
