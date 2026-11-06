@@ -41,7 +41,8 @@ async function loadSubjectData() {
       const lecture = doc.data();
 
       const lectureLink = document.createElement('a');
-      lectureLink.href = `lecture.html?subjectId=${subjectId}&file=${lecture.fileName}`;
+      // ✅ هنا التعديل: ضفنا ${doc.id} عشان نبعت الـ id
+      lectureLink.href = `lecture.html?subjectId=${subjectId}&file=${lecture.fileName}&id=${doc.id}`;
       lectureLink.className = 'lecture-item';
       
       lectureLink.innerHTML = `

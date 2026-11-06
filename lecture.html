@@ -184,6 +184,9 @@
     const subjectId = urlParams.get('subjectId');
     const lectureId = urlParams.get('id');
     
+    // حل مشكلة الـ id لو مش موجود
+    const safeLectureId = lectureId || (fileName ? fileName.replace('.html', '') : 'unknown');
+    
     let currentUser = null;
     let currentRating = 5;
 
@@ -248,6 +251,10 @@
       const text = document.getElementById('comment-text').value.trim();
       if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
 
+      if (!subjectId || !lectureId) {
+        return alert('لا يمكن إضافة تعليق: بيانات المحاضرة غير مكتملة.');
+      }
+
       try {
         const commentsRef = collection(db, "subjects", subjectId, "lectures", lectureId, "comments");
         await addDoc(commentsRef, {
@@ -300,6 +307,9 @@
     // زرار خلصت المذاكرة
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
+      if (!lectureId) {
+        return alert('لا يمكن تسجيل الإنجاز: بيانات المحاضرة غير مكتملة.');
+      }
       try {
         const studentRef = doc(db, "students", currentUser.uid);
         const studentDoc = await getDoc(studentRef);
@@ -350,7 +360,7 @@
 
     // === نظام الحفظ (Bookmarks) ===
     const bookmarkBtn = document.getElementById('bookmark-btn');
-    const bookmarkKey = `bookmark_${lectureId}`;
+    const bookmarkKey = `bookmark_${safeLectureId}`;
 
     function checkBookmark() {
       if (localStorage.getItem(bookmarkKey)) {
@@ -368,10 +378,10 @@
         bookmarkBtn.style.color = '';
       } else {
         localStorage.setItem(bookmarkKey, JSON.stringify({
-          id: lectureId,
+          id: safeLectureId,
           subjectId: subjectId,
           fileName: fileName,
-          title: "محاضرة محفوظة", // ممكن نجيب العنوان الحقيقي بعدين
+          title: "محاضرة محفوظة",
           savedAt: new Date().toISOString()
         }));
         bookmarkBtn.textContent = '❤️ محفوظة';
