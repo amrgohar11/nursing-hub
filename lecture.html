@@ -61,21 +61,24 @@
       align-items: center;
       border-top: 1px solid var(--border);
       flex-shrink: 0;
+      gap: 5px;
     }
 
     .bottom-bar button {
       background: var(--primary-light);
       color: var(--primary-dark);
       border: none;
-      padding: 10px 20px;
+      padding: 8px 12px;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       transition: 0.3s;
       display: flex;
       align-items: center;
       gap: 5px;
+      flex: 1;
+      justify-content: center;
     }
     .bottom-bar button:hover { background: var(--primary); color: white; }
 
@@ -140,8 +143,9 @@
     </div>
 
     <div class="bottom-bar">
-      <button id="complete-btn">✅ خلصت المذاكرة</button>
-      <button id="open-comments-btn">💬 التقييم والتعليقات</button>
+      <button id="complete-btn">✅ خلصت</button>
+      <button id="bookmark-btn">❤️ حفظ</button>
+      <button id="open-comments-btn">💬 التعليقات</button>
     </div>
 
   </div>
@@ -197,18 +201,14 @@
       if (subjectId && lectureId) {
         const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
         
-        // بنجيب المحاضرة الأول عشان نتأكد إن حقل views موجود
         getDoc(lectureRef).then((snapshot) => {
           if (snapshot.exists()) {
             const data = snapshot.data();
             if (data.views === undefined) {
-              // لو الحقل مش موجود، نعمله 0 الأول
               updateDoc(lectureRef, { views: 0 }).then(() => {
-                // بعدين نزوده 1
                 updateDoc(lectureRef, { views: increment(1) });
               });
             } else {
-              // لو موجود، نزوده عادي
               updateDoc(lectureRef, { views: increment(1) });
             }
           }
@@ -216,6 +216,7 @@
         
         loadComments(subjectId, lectureId);
         checkCompletion(subjectId, lectureId);
+        checkBookmark();
       }
     } else {
       frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
@@ -296,19 +297,17 @@
       }
     }
 
-    // زرار خلصت المذاكرة (مع إصلاح المشكلة)
+    // زرار خلصت المذاكرة
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
       try {
         const studentRef = doc(db, "students", currentUser.uid);
         const studentDoc = await getDoc(studentRef);
         
-        // لو الحقل مش موجود، نعمله array فاضي الأول
         if (studentDoc.exists() && !studentDoc.data().completedLectures) {
           await updateDoc(studentRef, { completedLectures: [] });
         }
         
-        // بعدها نضيف المحاضرة
         await updateDoc(studentRef, {
           completedLectures: arrayUnion(lectureId)
         });
@@ -326,7 +325,7 @@
       if (studentDoc.exists()) {
         const completed = studentDoc.data().completedLectures || [];
         if (completed.includes(lecId)) {
-          document.getElementById('complete-btn').textContent = '✅ تم المذاكرة';
+          document.getElementById('complete-btn').textContent = '✅ تم';
           document.getElementById('complete-btn').style.background = '#d1fae5';
           document.getElementById('complete-btn').style.color = '#065f46';
           document.getElementById('complete-btn').disabled = true;
@@ -348,6 +347,38 @@
         }
       }
     }
+
+    // === نظام الحفظ (Bookmarks) ===
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const bookmarkKey = `bookmark_${lectureId}`;
+
+    function checkBookmark() {
+      if (localStorage.getItem(bookmarkKey)) {
+        bookmarkBtn.textContent = '❤️ محفوظة';
+        bookmarkBtn.style.background = '#fee2e2';
+        bookmarkBtn.style.color = '#ef4444';
+      }
+    }
+
+    bookmarkBtn?.addEventListener('click', () => {
+      if (localStorage.getItem(bookmarkKey)) {
+        localStorage.removeItem(bookmarkKey);
+        bookmarkBtn.textContent = '❤️ حفظ';
+        bookmarkBtn.style.background = '';
+        bookmarkBtn.style.color = '';
+      } else {
+        localStorage.setItem(bookmarkKey, JSON.stringify({
+          id: lectureId,
+          subjectId: subjectId,
+          fileName: fileName,
+          title: "محاضرة محفوظة", // ممكن نجيب العنوان الحقيقي بعدين
+          savedAt: new Date().toISOString()
+        }));
+        bookmarkBtn.textContent = '❤️ محفوظة';
+        bookmarkBtn.style.background = '#fee2e2';
+        bookmarkBtn.style.color = '#ef4444';
+      }
+    });
 
     // الوضع الليلي
     const themeToggleBtn = document.getElementById('theme-toggle');
