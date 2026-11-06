@@ -59,11 +59,11 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // التأكد من وجود المفتاح
-  const apiKey = process.env.GEMINI_API_KEY;
+  // التأكد من وجود المفتاح (هنغير اسم المتغير لـ DEEPSEEK_API_KEY)
+  const apiKey = process.env.DEEPSEEK_API_KEY;
 
   if (!apiKey) {
-    console.error("GEMINI_API_KEY is missing");
+    console.error("DEEPSEEK_API_KEY is missing");
     return res.status(500).json({ error: "المساعد غير متاح حاليًا." });
   }
 
@@ -103,63 +103,36 @@ module.exports = async function handler(req, res) {
   global.chatRateLimit.set(ip, userRequests);
 
   try {
-    let response;
-    let data;
-    let retries = 3; // عدد المحاولات
-
-    // بنحاول لحد 3 مرات لو الموديل مشغول
-    for (let i = 0; i < retries; i++) {
-      response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": apiKey
-          },
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{ text: SYSTEM_PROMPT }]
-            },
-            contents: [
-              {
-                role: "user",
-                parts: [{ text: message.trim() }]
-              }
-            ],
-            generationConfig: {
-              temperature: 0.5,
-              maxOutputTokens: 700
-            }
-          })
-        }
-      );
-
-      data = await response.json();
-
-      // لو شغال، نكسر الحلقة
-      if (response.ok) break;
-
-      // لو 503 (مشغول)، نستنى شوية ونحاول تاني
-      if (response.status === 503) {
-        await new Promise(r => setTimeout(r, 2000)); // استنى 2 ثانية
-        continue;
+    // ✅ هنا التعديل: استخدام DeepSeek API
+    const response = await fetch(
+      "https://api.deepseek.com/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-flash", // الموديل الحالي من DeepSeek
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: message.trim() }
+          ],
+          temperature: 0.5,
+          max_tokens: 700
+        })
       }
+    );
 
-      // لو خطأ تاني، نكسر
-      break;
-    }
+    const data = await response.json();
 
     if (!response.ok) {
-      console.error("Gemini API error:", response.status, data);
-      return res.status(502).json({ error: "المساعد مشغول شوية 😅 جرب تاني بعد لحظة." });
+      console.error("DeepSeek API error:", response.status, data);
+      return res.status(502).json({ error: "حصلت مشكلة أثناء توليد الرد. حاول تاني." });
     }
 
-    const reply =
-      data?.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("")
-        .trim();
+    // استخراج الرد من DeepSeek
+    const reply = data?.choices?.[0]?.message?.content?.trim();
 
     if (!reply) {
       return res.status(502).json({ error: "المساعد مقدرش يولد رد دلوقتي." });
