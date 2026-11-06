@@ -58,88 +58,35 @@ async function loadSubjects() {
 
 loadSubjects();
 
-// === 2. البحث في المواد ===
-document.getElementById('search-input')?.addEventListener('input', function(e) {
-  const searchTerm = e.target.value.toLowerCase();
-  const cards = document.querySelectorAll('#subjects-grid .subject-card');
-  
-  cards.forEach(card => {
-    const text = card.textContent.toLowerCase();
-    if (text.includes(searchTerm)) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-});
+// === 2. البحث في المواد (مع فتح وقفل الأيقونة) ===
+const searchToggle = document.getElementById('search-toggle');
+const searchWrapper = document.getElementById('search-wrapper');
+const searchInput = document.getElementById('search-input');
 
-// === 3. تحميل آخر المحاضرات اللي شفتها ===
-async function loadRecentLectures() {
-  const recentContainer = document.getElementById('recent-lectures');
-  if (!recentContainer) return;
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) return;
-
-    try {
-      const studentDoc = await getDoc(doc(db, "students", user.uid));
-      if (studentDoc.exists()) {
-        const data = studentDoc.data();
-        const completed = data.completedLectures || [];
-        
-        if (completed.length > 0) {
-          recentContainer.innerHTML = '';
-          
-          const recent = completed.slice(-3).reverse();
-          
-          for (const lecId of recent) {
-            // بنجيب كل المواد الأول عشان نلاقي المحاضرة
-            const subjectsSnap = await getDocs(collection(db, "subjects"));
-            let found = false;
-            
-            for (const subDoc of subjectsSnap.docs) {
-              const lecRef = doc(db, "subjects", subDoc.id, "lectures", lecId);
-              const lecSnap = await getDoc(lecRef);
-              
-              if (lecSnap.exists()) {
-                const lecData = lecSnap.data();
-                const subData = subDoc.data();
-                
-                const card = document.createElement('a');
-                card.href = `lecture.html?subjectId=${subDoc.id}&file=${lecData.fileName}&id=${lecId}`;
-                card.className = 'subject-card';
-                card.innerHTML = `
-                  <div style="font-size: 30px; margin-bottom: 10px;">📄</div>
-                  <h3 class="subject-name-ar">${lecData.title}</h3>
-                  <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">${subData.nameAr}</p>
-                `;
-                recentContainer.appendChild(card);
-                found = true;
-                break;
-              }
-            }
-            
-            if (!found) {
-              const card = document.createElement('div');
-              card.className = 'subject-card';
-              card.innerHTML = `<h3>📄 محاضرة</h3><p style="color:#666;">تفاصيل غير متاحة</p>`;
-              recentContainer.appendChild(card);
-            }
-          }
-        } else {
-          recentContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 20px;">لسه مخلصتش محاضرات. ابدأ مذاكرة الآن!</p>';
-        }
-      }
-    } catch (error) {
-      console.error("Error loading recent lectures:", error);
-      recentContainer.innerHTML = '<p style="color: red; text-align: center;">حدث خطأ في تحميل المحاضرات.</p>';
-    }
+if (searchToggle) {
+  searchToggle.addEventListener('click', () => {
+    searchWrapper.classList.toggle('active');
+    if (searchWrapper.classList.contains('active')) searchInput.focus();
   });
 }
 
-loadRecentLectures();
+if (searchInput) {
+  searchInput.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll('#subjects-grid .subject-card');
+    
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (text.includes(searchTerm)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+}
 
-// === 4. تحميل الإعلان ===
+// === 3. تحميل الإعلان ===
 async function loadAnnouncement() {
   const announcementContent = document.getElementById('announcement-content');
   const announcementBox = document.getElementById('announcement-box');
@@ -153,17 +100,15 @@ async function loadAnnouncement() {
       announcementContent.textContent = docSnap.data().text;
       announcementBox.style.display = 'block';
     } else {
-      // لو مفيش إعلان، نخفي الصندوق
       announcementBox.style.display = 'none';
     }
   } catch (e) {
-    // لو حصل خطأ، نخفي الصندوق
     announcementBox.style.display = 'none';
   }
 }
 loadAnnouncement();
 
-// === 5. كود الوضع الليلي ===
+// === 4. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 
