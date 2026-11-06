@@ -6,13 +6,6 @@
     <title>Amr Gohar — Portfolio | Nursing Hub</title>
     <meta name="description" content="Amr Gohar — Frontend Developer. مطور منصة Nursing Hub التعليمية، FORSA Store، وA M R Bot.">
     <meta name="theme-color" content="#07070d">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2307070d'/%3E%3Ctext x='50' y='66' font-size='46' font-weight='900' text-anchor='middle' fill='%23D4AF37' font-family='Arial'%3EAG%3C/text%3E%3C/svg%3E">
-    <link rel="canonical" href="https://nursing-hub-two.vercel.app/portfolio.html">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Amr Gohar — Frontend Developer | Nursing Hub">
-    <meta property="og:description" content="مطور ويب مهتم ببناء المنصات التعليمية — صاحب منصة Nursing Hub وFORSA Store وA M R Bot.">
-    <meta property="og:url" content="https://nursing-hub-two.vercel.app/portfolio.html">
-    <meta property="og:image" content="https://files.catbox.moe/ka5o2f.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -62,7 +55,6 @@
     font-family: "Cairo", "Segoe UI", sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    overflow-x: clip;
     position: relative;
 }
 
@@ -71,7 +63,6 @@
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    overflow: clip;
     padding: 40px 0;
 }
 
@@ -1650,64 +1641,6 @@ body.modal-open { overflow: hidden; }
 @media(max-width: 480px) {
     #page-developer .back-nursing { padding: 10px 16px; font-size: 13px; }
 }
-
-/* ===== v2 ENHANCEMENTS ===== */
-#page-developer .developer-id > *:not(.hero-spotlight) { position: relative; z-index: 1; }
-#page-developer .hero-spotlight {
-    position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 20%), rgba(212,175,55,.13), rgba(139,92,246,.07) 40%, transparent 70%);
-    transition: background .15s ease;
-}
-#page-developer .avatar-wrap { animation: avatarFloat 4s ease-in-out infinite; }
-#page-developer .avatar { animation: none; }
-#page-developer .avatar-wrap::before {
-    content: ""; position: absolute; inset: -10px; border-radius: 50%; z-index: 0;
-    background: conic-gradient(from 0deg, var(--gold), var(--purple), transparent 40%, var(--gold-light), var(--gold));
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-            mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-    animation: ringSpin 6s linear infinite;
-}
-@keyframes ringSpin { to { transform: rotate(360deg); } }
-#page-developer .avatar-wrap .avatar, #page-developer .avatar-wrap #avatarFallback { position: relative; z-index: 1; }
-#page-developer .avatar-status { z-index: 2; }
-#page-developer .hero-intro {
-    max-width: 620px; margin: 0 auto 22px; color: #b9b7c6; font-size: 15px; line-height: 1.9;
-}
-#page-developer .hero-intro strong { color: var(--gold-light); }
-#page-developer .hero-cta {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 30px;
-}
-#page-developer .hero-chips {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 26px;
-}
-#page-developer .hero-chip {
-    padding: 6px 13px; border-radius: 50px; font-size: 11px; direction: ltr; font-weight: 700;
-    color: var(--purple-light); background: rgba(139,92,246,.09); border: 1px solid rgba(139,92,246,.25);
-    animation: chipPulse 4s ease-in-out infinite;
-}
-#page-developer .hero-chip:nth-child(2n) { animation-delay: -1.3s; color: var(--gold); background: rgba(212,175,55,.07); border-color: rgba(212,175,55,.25); }
-#page-developer .hero-chip:nth-child(3n) { animation-delay: -2.6s; }
-@keyframes chipPulse { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-#page-developer .project-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-#page-developer .project-links .project-link { margin-top: 0; }
-#page-developer button.project-link { cursor: pointer; }
-#page-developer .about-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 22px 0 6px; }
-#page-developer .about-fact {
-    display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px;
-    background: rgba(255,255,255,.025); border: 1px solid rgba(212,175,55,.14); font-weight: 700; font-size: 13px;
-}
-#page-developer .about-fact i { color: var(--gold); font-size: 18px; width: 22px; text-align: center; }
-#page-developer .about-fact small { display: block; color: var(--muted); font-weight: 400; font-size: 11px; margin-top: 2px; }
-#page-developer .js-reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
-#page-developer .js-reveal.in { opacity: 1; transform: none; }
-@media(max-width: 480px) {
-    #page-developer .hero-cta .btn-dev { width: 100%; justify-content: center; }
-    #page-developer .hero-intro { font-size: 13px; }
-}
-@media(prefers-reduced-motion: reduce) {
-    #page-developer .avatar-wrap, #page-developer .avatar-wrap::before, #page-developer .hero-chip { animation: none !important; }
-    #page-developer .js-reveal { opacity: 1; transform: none; transition: none; }
-}
 </style>
 
 <div class="dev-page">
@@ -1745,8 +1678,7 @@ body.modal-open { overflow: hidden; }
 
         <!-- HERO -->
         <section class="hero">
-            <div class="developer-id" id="heroCard">
-                <div class="hero-spotlight"></div>
+            <div class="developer-id">
                 <div class="avatar-wrap">
                     <img
                         src="https://files.catbox.moe/ka5o2f.png"
@@ -1765,36 +1697,10 @@ body.modal-open { overflow: hidden; }
                     <span class="cursor"></span>
                 </div>
 
-                <p class="hero-intro">
-                    مطور ويب <strong>Frontend</strong> بحوّل الأفكار لمنصات حقيقية —
-                    صاحب منصة <strong>Nursing Hub</strong> التعليمية لطلبة كلية التمريض.
-                </p>
-
                 <div class="hero-badges">
                     <div class="hero-badge"><i class="fa-solid fa-location-dot"></i> Egypt — Damanhur</div>
                     <div class="hero-badge"><i class="fa-solid fa-code"></i> Frontend Developer</div>
                     <div class="hero-badge"><i class="fa-solid fa-graduation-cap"></i> Educational Platforms</div>
-                </div>
-
-                <div class="hero-chips" aria-hidden="true">
-                    <span class="hero-chip">HTML5</span>
-                    <span class="hero-chip">CSS3</span>
-                    <span class="hero-chip">JavaScript</span>
-                    <span class="hero-chip">Firebase</span>
-                    <span class="hero-chip">Vercel</span>
-                    <span class="hero-chip">Node.js</span>
-                </div>
-
-                <div class="hero-cta">
-                    <a href="https://nursing-hub-two.vercel.app/" target="_blank" rel="noopener" class="btn-dev btn-primary-dev">
-                        <i class="fa-solid fa-user-nurse"></i> زيارة Nursing Hub
-                    </a>
-                    <a href="#projects" class="btn-dev btn-outline-dev">
-                        <i class="fa-solid fa-folder-open"></i> شاهد المشاريع
-                    </a>
-                    <a href="#contact" class="btn-dev btn-outline-dev">
-                        <i class="fa-solid fa-address-card"></i> تواصل معي
-                    </a>
                 </div>
 
                 <div class="stats">
@@ -1844,13 +1750,6 @@ body.modal-open { overflow: hidden; }
                     ومن أبرزها <strong>Nursing Hub</strong> — منصة تعليمية لطلبة كلية التمريض،
                     و<strong>FORSA Store</strong> — متجر إلكتروني متكامل.
                 </p>
-
-                <div class="about-facts">
-                    <div class="about-fact"><i class="fa-solid fa-laptop-code"></i><div>Frontend Developer<small>HTML • CSS • JavaScript</small></div></div>
-                    <div class="about-fact"><i class="fa-solid fa-graduation-cap"></i><div>منصات تعليمية<small>Nursing Hub</small></div></div>
-                    <div class="about-fact"><i class="fa-solid fa-desktop"></i><div>تطبيقات سطح المكتب<small>Electron + SQLite</small></div></div>
-                    <div class="about-fact"><i class="fa-solid fa-robot"></i><div>بوتات وAI<small>Node.js + APIs</small></div></div>
-                </div>
 
                 <div class="highlight-box">
                     <h4><i class="fa-solid fa-lightbulb"></i> كيف بدأت؟</h4>
@@ -2185,14 +2084,9 @@ body.modal-open { overflow: hidden; }
                             <span>Firebase</span>
                             <span>Vercel</span>
                         </div>
-                        <div class="project-links">
-                            <a href="https://nursing-hub-two.vercel.app/" target="_blank" rel="noopener" class="project-link">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> زيارة المنصة
-                            </a>
-                            <button type="button" class="project-link" onclick="openDevCase('nursing')">
-                                <i class="fa-solid fa-book-open"></i> Case Study
-                            </button>
-                        </div>
+                        <a href="https://nursing-hub-two.vercel.app/" target="_blank" rel="noopener" class="project-link">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> زيارة المنصة
+                        </a>
                     </div>
 
                     <div class="project">
@@ -2219,11 +2113,6 @@ body.modal-open { overflow: hidden; }
                             <span>Firebase</span>
                             <span>Vercel</span>
                         </div>
-                        <div class="project-links">
-                            <button type="button" class="project-link" onclick="openDevCase('forsa')">
-                                <i class="fa-solid fa-book-open"></i> Case Study
-                            </button>
-                        </div>
                     </div>
 
                     <div class="project">
@@ -2249,11 +2138,6 @@ body.modal-open { overflow: hidden; }
                             <span>Node.js</span>
                             <span>WhatsApp</span>
                             <span>AI APIs</span>
-                        </div>
-                        <div class="project-links">
-                            <button type="button" class="project-link" onclick="openDevCase('bot')">
-                                <i class="fa-solid fa-book-open"></i> Case Study
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -2776,12 +2660,11 @@ devTerminal?.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const cmd = devTerminal.value.trim().toLowerCase();
     let res = '';
-    if (cmd === 'help') res = 'Available commands:\n• about\n• skills\n• projects\n• contact\n• nursing\n• clear\n• date';
+    if (cmd === 'help') res = 'Available commands:\n• about\n• skills\n• projects\n• contact\n• clear\n• date';
     else if (cmd === 'about') res = 'Amr Gohar — Frontend Developer\nEducational Platforms • Web • Bots • AI Integrations';
     else if (cmd === 'skills') res = 'JavaScript • HTML/CSS • Firebase • Node.js • Electron • APIs';
     else if (cmd === 'projects') res = 'Featured: Nursing Hub • FORSA Store • A M R Bot';
     else if (cmd === 'contact') res = 'WhatsApp: 01061863235\nEmail: goharamr17@gmail.com';
-    else if (cmd === 'nursing') { res = 'Opening Nursing Hub...'; window.open('https://nursing-hub-two.vercel.app/', '_blank'); }
     else if (cmd === 'date') res = new Date().toLocaleString('ar-EG');
     else if (cmd === 'clear') { devOut.textContent = ''; devTerminal.value = ''; return; }
     else if (cmd) res = `Command not found: ${cmd}`;
@@ -2827,44 +2710,6 @@ document.addEventListener('keydown', e => {
         closeDevFeatureModal();
     }
 });
-
-// HERO SPOTLIGHT
-(function(){
-    const card = document.getElementById('heroCard');
-    if (!card || window.matchMedia('(pointer: coarse)').matches) return;
-    card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-})();
-
-// STATS COUNT-UP
-(function(){
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('#page-developer .stat-number').forEach(el => {
-        const m = el.textContent.trim().match(/^(\d+)(.*)$/);
-        if (!m || reduce) return;
-        const target = +m[1], suffix = m[2], start = performance.now(), dur = 1400;
-        const from = target > 100 ? target - 40 : 0;
-        function tick(now){
-            const t = Math.min((now - start) / dur, 1), eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = Math.round(from + (target - from) * eased) + suffix;
-            if (t < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-    });
-})();
-
-// SCROLL REVEAL (safe: content stays visible if JS/observer unavailable)
-(function(){
-    if (!('IntersectionObserver' in window)) return;
-    const items = document.querySelectorAll('#page-developer .section .glass-card');
-    const io = new IntersectionObserver(entries => {
-        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, { threshold: .08 });
-    items.forEach(el => { el.classList.add('js-reveal'); io.observe(el); });
-})();
 
 // COPY BUTTONS
 (function(){
