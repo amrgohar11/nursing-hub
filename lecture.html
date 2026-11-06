@@ -29,6 +29,9 @@
     ></iframe>
   </main>
 
+  <!-- الحماية -->
+  <script type="module" src="guard.js"></script>
+  
   <script type="module">
     import { db } from './firebase-config.js';
     import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -36,7 +39,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const fileName = urlParams.get('file');
     const subjectId = urlParams.get('subjectId');
-    const lectureId = urlParams.get('id'); // ضفنا الـ ID هنا
+    const lectureId = urlParams.get('id');
 
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
@@ -44,7 +47,6 @@
     if (fileName) {
       frame.src = `lectures/${fileName}`;
       
-      // === كود زيادة عدد المشاهدات ===
       if (subjectId && lectureId) {
         const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
         updateDoc(lectureRef, {
@@ -62,7 +64,6 @@
       backLink.href = `index.html`;
     }
 
-    // === كود الوضع الليلي ===
     const themeToggleBtn = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
 
