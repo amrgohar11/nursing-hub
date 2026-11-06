@@ -29,16 +29,29 @@
     ></iframe>
   </main>
 
-  <script>
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
     const urlParams = new URLSearchParams(window.location.search);
     const fileName = urlParams.get('file');
     const subjectId = urlParams.get('subjectId');
+    const lectureId = urlParams.get('id'); // ضفنا الـ ID هنا
 
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
 
     if (fileName) {
       frame.src = `lectures/${fileName}`;
+      
+      // === كود زيادة عدد المشاهدات ===
+      if (subjectId && lectureId) {
+        const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
+        updateDoc(lectureRef, {
+          views: increment(1)
+        }).catch((err) => console.log("Error updating views:", err));
+      }
+
     } else {
       frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px; font-family:sans-serif;">لم يتم العثور على ملف المحاضرة</h1>';
     }
