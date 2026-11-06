@@ -124,6 +124,43 @@
     .comment-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: bold; color: var(--primary-dark); }
     .comment-text { font-size: 14px; color: var(--text); }
     .hidden { display: none; }
+
+    /* Premium lecture viewer refinements */
+    :root{--lecture-radius:18px}
+    body{background:var(--bg);color:var(--text)}
+    .lecture-fullscreen{background:var(--bg)}
+    .top-bar{padding:12px clamp(14px,3vw,28px);gap:12px;min-height:62px}
+    .top-bar a:first-child{display:flex;align-items:center;gap:8px;font-size:15px}
+    .top-bar a:first-child:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 5px var(--primary-light)}
+    .top-bar>div{align-items:center}
+    #back-link{padding:9px 13px;border-radius:12px;background:var(--primary-light);transition:background .2s}
+    #back-link:hover{background:var(--primary);color:#fff}
+    #theme-toggle{width:38px;height:38px;border-radius:12px;background:var(--bg)!important;border:1px solid var(--border)!important;display:grid;place-items:center}
+    .iframe-container{background:var(--bg);padding:12px clamp(8px,2vw,22px)}
+    .iframe-container iframe{border-radius:var(--lecture-radius);background:#fff;box-shadow:0 8px 28px rgba(15,23,42,.08);border:1px solid var(--border)}
+    .bottom-bar{padding:12px clamp(10px,3vw,28px);gap:12px;background:var(--white);box-shadow:0 -5px 20px rgba(15,23,42,.035)}
+    .bottom-bar button{border-radius:13px;min-height:46px;font-family:inherit;font-size:14px;box-shadow:none}
+    #complete-btn{background:var(--primary)!important;color:#fff!important}
+    #complete-btn:hover{filter:brightness(.95);transform:translateY(-1px)}
+    #complete-btn:disabled{background:#dcfce7!important;color:#166534!important;cursor:default}
+    #open-comments-btn{background:var(--bg)!important;border:1px solid var(--border)!important;color:var(--text)!important}
+    #open-comments-btn:hover{border-color:var(--primary)!important;color:var(--primary)!important}
+    .modal-content{border:1px solid var(--border);border-radius:22px}
+    .comment-card{border-radius:14px;border-right-width:3px}
+    #comment-text{background:var(--bg);color:var(--text);outline:none;resize:vertical}
+    #comment-text:focus{border-color:var(--primary)!important;box-shadow:0 0 0 3px var(--primary-light)}
+    @media(max-width:600px){
+      .top-bar{min-height:56px;padding:9px 12px}
+      .top-bar a:first-child{font-size:13px}
+      .top-bar>div{gap:8px!important}
+      #back-link{font-size:12px;padding:8px 10px}
+      .iframe-container{padding:7px}
+      .iframe-container iframe{border-radius:12px}
+      .bottom-bar{padding:9px;gap:8px}
+      .bottom-bar button{padding:10px 8px;font-size:12px;min-height:43px}
+    }
+    @media(prefers-reduced-motion:reduce){.bottom-bar button,#back-link{transition:none}}
+
   </style>
 </head>
 <body>
@@ -131,10 +168,10 @@
   <div class="lecture-fullscreen">
     
     <div class="top-bar">
-      <a href="index.html">🩺 Nursing Hub</a>
+      <a href="index.html">Nursing Hub</a>
       <div style="display: flex; gap: 15px;">
         <a id="back-link" href="#">&rarr; العودة للمادة</a>
-        <button id="theme-toggle">🌙</button>
+        <button id="theme-toggle" aria-label="تبديل الوضع الليلي">◐</button>
       </div>
     </div>
 
@@ -143,8 +180,8 @@
     </div>
 
     <div class="bottom-bar">
-      <button id="complete-btn">✅ خلصت المذاكرة</button>
-      <button id="open-comments-btn">💬 التقييم والتعليقات</button>
+      <button id="complete-btn">✓ خلصت المذاكرة</button>
+      <button id="open-comments-btn">✦ التقييم والتعليقات</button>
     </div>
 
   </div>
