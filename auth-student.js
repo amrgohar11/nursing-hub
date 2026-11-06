@@ -22,11 +22,8 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // --- تحديد مدة الاشتراك الافتراضية عند التسجيل ---
     const expiryDate = new Date();
-    expiryDate.setMonth(expiryDate.getMonth() + 3); // الافتراضي: 3 شهور
-    // expiryDate.setMonth(expiryDate.getMonth() + 6); // لو عايز 6 شهور
-    // expiryDate.setFullYear(expiryDate.getFullYear() + 1); // لو عايز سنة
+    expiryDate.setMonth(expiryDate.getMonth() + 3);
 
     await setDoc(doc(db, "students", user.uid), {
       name: name,
@@ -68,6 +65,11 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       if (endDate < now) {
         msg.textContent = "انتهى اشتراكك! يرجى التجديد للمتابعة.";
         msg.className = "error-msg";
+        
+        // نظهر زرار التجديد
+        const renewBtn = document.getElementById('renew-btn');
+        if (renewBtn) renewBtn.style.display = 'block';
+        
         return; 
       }
       
