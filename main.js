@@ -139,7 +139,31 @@ async function loadRecentLectures() {
 
 loadRecentLectures();
 
-// === 4. كود الوضع الليلي ===
+// === 4. تحميل الإعلان ===
+async function loadAnnouncement() {
+  const announcementContent = document.getElementById('announcement-content');
+  const announcementBox = document.getElementById('announcement-box');
+  
+  if (!announcementContent || !announcementBox) return;
+  
+  try {
+    const docRef = doc(db, "settings", "announcement");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data().text) {
+      announcementContent.textContent = docSnap.data().text;
+      announcementBox.style.display = 'block';
+    } else {
+      // لو مفيش إعلان، نخفي الصندوق
+      announcementBox.style.display = 'none';
+    }
+  } catch (e) {
+    // لو حصل خطأ، نخفي الصندوق
+    announcementBox.style.display = 'none';
+  }
+}
+loadAnnouncement();
+
+// === 5. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 

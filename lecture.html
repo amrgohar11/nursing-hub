@@ -296,17 +296,26 @@
       }
     }
 
-    // زرار خلصت المذاكرة
+    // زرار خلصت المذاكرة (مع إصلاح المشكلة)
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
       try {
         const studentRef = doc(db, "students", currentUser.uid);
+        const studentDoc = await getDoc(studentRef);
+        
+        // لو الحقل مش موجود، نعمله array فاضي الأول
+        if (studentDoc.exists() && !studentDoc.data().completedLectures) {
+          await updateDoc(studentRef, { completedLectures: [] });
+        }
+        
+        // بعدها نضيف المحاضرة
         await updateDoc(studentRef, {
           completedLectures: arrayUnion(lectureId)
         });
         alert('تم تسجيل الإنجاز! 🎉');
         await checkAndAwardBadges(currentUser.uid);
       } catch (error) {
+        console.error(error);
         alert('حدث خطأ!');
       }
     });

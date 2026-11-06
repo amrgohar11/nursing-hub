@@ -1,6 +1,6 @@
 // admin.js
 import { db, auth } from './firebase-config.js';
-import { doc, setDoc, collection, getDocs, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // === 0. الحماية ===
@@ -8,7 +8,6 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = 'login.html';
   } else {
-    // نظهر المحتوى بس لو المستخدم مسجل دخول
     document.getElementById('admin-main').style.display = 'block';
   }
 });
@@ -255,11 +254,42 @@ window.deleteStudent = async (studentId) => {
   }
 };
 
-// === 8. تشغيل الداشبورد أول ما الصفحة تفتح ===
+// === 8. إدارة الإعلان ===
+const announcementForm = document.getElementById('announcement-form');
+const announcementText = document.getElementById('announcement-text');
+const announcementMsg = document.getElementById('announcement-msg');
+
+async function loadAnnouncement() {
+  if (!announcementText) return;
+  const docRef = doc(db, "settings", "announcement");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    announcementText.value = docSnap.data().text || '';
+  }
+}
+loadAnnouncement();
+
+announcementForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const text = announcementText.value.trim();
+  announcementMsg.textContent = 'جاري الحفظ...';
+  announcementMsg.style.color = '#0077b6';
+
+  try {
+    await setDoc(doc(db, "settings", "announcement"), { text: text });
+    announcementMsg.textContent = 'تم حفظ الإعلان! ✅';
+    announcementMsg.style.color = 'green';
+  } catch (error) {
+    announcementMsg.textContent = 'حدث خطأ! ❌';
+    announcementMsg.style.color = 'red';
+  }
+});
+
+// === 9. تشغيل الداشبورد أول ما الصفحة تفتح ===
 loadDashboardData();
 loadStudents();
 
-// === 9. كود الوضع الليلي ===
+// === 10. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);
