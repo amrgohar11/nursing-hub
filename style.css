@@ -370,21 +370,6 @@ a { text-decoration: none; color: inherit; }
 .lecture-item:hover .lecture-action { background: var(--primary); color: white; }
 
 /* =========================================
-   صفحة المحاضرة (Lecture Page)
-   ========================================= */
-.lecture-frame-container {
-  flex-grow: 1;
-  background: var(--border);
-  padding: 15px;
-  border-radius: 20px;
-  box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
-  height: calc(100vh - 150px);
-}
-.lecture-frame {
-  width: 100%; height: 100%; border: none; border-radius: 12px; background: white;
-}
-
-/* =========================================
    صفحة الأدمن (Admin Page)
    ========================================= */
 .admin-container { max-width: 700px; margin: 50px auto; padding: 0 20px; width: 100%; }
@@ -494,7 +479,6 @@ a { text-decoration: none; color: inherit; }
   .subject-header-info h1 { font-size: 26px; }
   .lecture-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
   .lecture-action { width: 100%; text-align: center; }
-  .lecture-frame-container { height: calc(100vh - 180px); padding: 5px; }
   .admin-card { padding: 25px; }
   .admin-card h1 { font-size: 20px; }
   .admin-form input, .admin-form select { padding: 14px; font-size: 15px; }

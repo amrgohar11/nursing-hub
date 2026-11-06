@@ -7,17 +7,15 @@
   <link rel="stylesheet" href="style.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg); }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); overflow: hidden; }
 
-    /* الحاوية الرئيسية */
     .lecture-fullscreen {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100dvh;
       width: 100vw;
     }
 
-    /* شريط علوي صغير */
     .top-bar {
       background: var(--white);
       padding: 10px 15px;
@@ -40,24 +38,21 @@
       cursor: pointer;
     }
 
-    /* منطقة العرض */
     .iframe-container {
       flex-grow: 1;
       width: 100%;
       background: #fff;
       position: relative;
+      overflow: hidden;
     }
 
     .iframe-container iframe {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       border: none;
     }
 
-    /* شريط سفلي للأزرار */
     .bottom-bar {
       background: var(--white);
       padding: 10px 15px;
@@ -84,7 +79,6 @@
     }
     .bottom-bar button:hover { background: var(--primary); color: white; }
 
-    /* مودال التعليقات */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -112,19 +106,16 @@
 
     .close-modal {
       position: absolute;
-      top: 15px;
-      left: 15px;
+      top: 15px; left: 15px;
       background: #fee2e2;
       color: #ef4444;
       border: none;
-      width: 30px;
-      height: 30px;
+      width: 30px; height: 30px;
       border-radius: 50%;
       cursor: pointer;
       font-weight: bold;
     }
 
-    /* باقي الستايلات */
     .star-rating { color: #f59e0b; font-size: 24px; cursor: pointer; }
     .comment-card { background: var(--bg); padding: 15px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--primary); }
     .comment-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: bold; color: var(--primary-dark); }
@@ -136,7 +127,6 @@
 
   <div class="lecture-fullscreen">
     
-    <!-- شريط علوي صغير -->
     <div class="top-bar">
       <a href="index.html">🩺 Nursing Hub</a>
       <div style="display: flex; gap: 15px;">
@@ -145,12 +135,10 @@
       </div>
     </div>
 
-    <!-- عارض المحاضرة (ملء الشاشة) -->
     <div class="iframe-container">
       <iframe id="lecture-frame" src="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
     </div>
 
-    <!-- شريط سفلي للأزرار -->
     <div class="bottom-bar">
       <button id="complete-btn">✅ خلصت المذاكرة</button>
       <button id="open-comments-btn">💬 التقييم والتعليقات</button>
@@ -158,7 +146,6 @@
 
   </div>
 
-  <!-- مودال التعليقات -->
   <div class="modal-overlay" id="comments-modal">
     <div class="modal-content">
       <button class="close-modal" id="close-modal-btn">✕</button>
@@ -177,13 +164,10 @@
         <button id="submit-comment" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">إرسال التعليق</button>
       </div>
       
-      <div id="comments-list" style="margin-top: 20px;">
-        <!-- التعليقات هتظهر هنا -->
-      </div>
+      <div id="comments-list" style="margin-top: 20px;"></div>
     </div>
   </div>
 
-  <!-- الحماية -->
   <script type="module" src="guard.js"></script>
   
   <script type="module">
@@ -206,7 +190,6 @@
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
 
-    // تحميل المحاضرة
     if (fileName) {
       frame.src = `lectures/${fileName}`;
       if (subjectId && lectureId) {
@@ -222,13 +205,11 @@
     if (subjectId) backLink.href = `subject.html?id=${subjectId}`;
     else backLink.href = `index.html`;
 
-    // فتح وقفل المودال
     const modal = document.getElementById('comments-modal');
     document.getElementById('open-comments-btn').addEventListener('click', () => modal.classList.add('active'));
     document.getElementById('close-modal-btn').addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-    // نظام النجوم
     document.querySelectorAll('.star-rating').forEach(star => {
       star.addEventListener('click', (e) => {
         currentRating = parseInt(e.target.getAttribute('data-value'));
@@ -240,7 +221,6 @@
       star.style.color = '#f59e0b';
     });
 
-    // إضافة تعليق
     document.getElementById('submit-comment').addEventListener('click', async () => {
       const text = document.getElementById('comment-text').value.trim();
       if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
@@ -261,7 +241,6 @@
       }
     });
 
-    // تحميل التعليقات
     async function loadComments(subId, lecId) {
       const list = document.getElementById('comments-list');
       list.innerHTML = '<p>جاري التحميل...</p>';
@@ -294,7 +273,6 @@
       }
     }
 
-    // نظام خلصت المذاكرة
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
       try {
@@ -338,7 +316,6 @@
       }
     }
 
-    // الوضع الليلي
     const themeToggleBtn = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
