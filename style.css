@@ -968,3 +968,101 @@ a { text-decoration: none; color: inherit; }
     animation: none;
   }
 }
+
+/* =====================================================
+   Nursing Hub 2.0 — Design polish (append-only overrides)
+   ===================================================== */
+:root{
+  --radius-card:20px;
+  --radius-control:13px;
+  --surface: #ffffff;
+  --surface-soft: #f1f5f9;
+  --surface-hover: #f8fafc;
+  --focus-ring: 0 0 0 4px rgba(2,132,199,.18);
+  --shadow-card: 0 5px 18px rgba(15,23,42,.045);
+  --shadow-card-hover: 0 12px 28px rgba(15,23,42,.085);
+}
+[data-theme="dark"]{
+  --surface:#172235;
+  --surface-soft:#1e293b;
+  --surface-hover:#243247;
+  --shadow-card:0 5px 18px rgba(0,0,0,.14);
+  --shadow-card-hover:0 12px 28px rgba(0,0,0,.24);
+  --glass-bg:rgba(15,23,42,.92);
+  --glass-border:rgba(148,163,184,.12);
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(2,132,199,.2);color:var(--text)}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+
+/* Reduce global transitions: keep interactions crisp */
+*,*::before,*::after{transition-property:background-color,color,border-color,box-shadow,transform,opacity!important;transition-duration:.2s!important;transition-timing-function:ease!important}
+
+/* Hero: calmer, more readable */
+.hero{padding:76px 20px 92px!important;background:linear-gradient(135deg,#0c4a6e 0%,#075985 55%,#0284c7 100%)}
+[data-theme="dark"] .hero{background:linear-gradient(135deg,#081426 0%,#10253d 58%,#123b59 100%)}
+.hero h1{font-size:clamp(30px,4.8vw,48px)!important;line-height:1.4!important;letter-spacing:-.5px!important}
+.hero p{line-height:2!important;margin-bottom:26px!important}
+.hero-cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px}
+.hero-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:11px 20px;border-radius:14px;font-weight:800;text-decoration:none!important}
+.hero-cta-primary{background:#fff;color:#075985!important;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.hero-cta-secondary{background:rgba(255,255,255,.10);color:#fff!important;border:1px solid rgba(255,255,255,.24)}
+.hero-cta:hover{transform:translateY(-2px)}
+
+/* Cards & sections */
+.subject-card,.home-shortcut,.subjects-shell,.admin-card,.continue-card{border-radius:var(--radius-card)!important;box-shadow:var(--shadow-card)!important}
+.subject-card{border:1px solid var(--border)!important;background:var(--surface)!important;padding:24px!important}
+.subject-card:hover{transform:translateY(-3px)!important;box-shadow:var(--shadow-card-hover)!important;border-color:rgba(2,132,199,.35)!important}
+.subject-icon{border-radius:16px!important}
+.subject-footer{margin-top:18px}
+.subject-btn{border-radius:11px!important}
+.container{margin-top:42px!important;margin-bottom:48px!important}
+.section-title{line-height:1.5!important;margin-bottom:18px!important}
+.grid{gap:18px!important}
+.home-shortcut{border:1px solid var(--border)!important;box-shadow:var(--shadow-card)!important}
+.home-shortcut:hover{box-shadow:var(--shadow-card-hover)!important}
+.subjects-shell{background:var(--surface)!important;border:1px solid var(--border)!important}
+
+/* Unified controls */
+button,.admin-form button,.whatsapp-btn,.subject-btn{font-family:inherit;font-weight:800}
+button:not(.theme-toggle-btn):not(.search-icon-btn):not(.nh-chat-close),.admin-form button{border-radius:var(--radius-control)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--primary);outline-offset:3px;box-shadow:var(--focus-ring)}
+.search-input-wrapper input,.nh-chat-form input{border-radius:13px!important}
+
+/* Complete dark-mode surfaces (avoid white leftovers) */
+[data-theme="dark"] .subjects-shell,[data-theme="dark"] .home-shortcut,[data-theme="dark"] .subject-card,
+[data-theme="dark"] #continue-link,[data-theme="dark"] .admin-card,[data-theme="dark"] .search-input-wrapper input,
+[data-theme="dark"] #install-prompt>div{background:var(--surface)!important;color:var(--text)!important;border-color:var(--border)!important}
+[data-theme="dark"] .home-shortcut small,[data-theme="dark"] .subject-desc,[data-theme="dark"] .subject-name-en{color:var(--text-muted)!important}
+[data-theme="dark"] .subject-name-ar,[data-theme="dark"] #continue-title{color:var(--primary-dark)!important}
+[data-theme="dark"] #announcement-box{background:#332817!important;border-color:#b45309!important}
+[data-theme="dark"] #announcement-box h3{color:#fbbf24!important}
+[data-theme="dark"] #announcement-content{color:#fde68a!important}
+[data-theme="dark"] .theme-toggle-btn{background:var(--surface-soft);color:var(--text)}
+
+/* Skeleton loading */
+.skeleton-card{pointer-events:none;min-height:220px}
+.skeleton{display:block;position:relative;overflow:hidden;background:var(--surface-soft);border-radius:10px}
+.skeleton::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(148,163,184,.16),transparent);animation:skeleton-shimmer 1.35s infinite}
+.skeleton-icon{width:56px;height:56px;border-radius:16px;margin:0 auto 18px}
+.skeleton-title{height:17px;width:58%;margin:0 auto 12px}
+.skeleton-text{height:11px;width:82%;margin:0 auto 9px}
+.skeleton-text.short{width:52%}
+@keyframes skeleton-shimmer{100%{transform:translateX(100%)}}
+
+/* Soft, restrained motion */
+.animate-fade-in-up{animation-duration:.55s!important}
+.subject-card,.home-shortcut,.hero-cta,.ai-promo button{will-change:transform}
+@media(max-width:768px){
+ .hero{padding:52px 18px 72px!important}
+ .container{margin-top:28px!important;margin-bottom:34px!important}
+ .grid{gap:13px!important}
+ .subject-card{padding:20px!important}
+ .hero-cta{width:100%;max-width:330px}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+ .skeleton::after{animation:none}
+}
