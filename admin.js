@@ -30,7 +30,7 @@ formSubject.addEventListener('submit', async (e) => {
     msgSub.textContent = 'تم إضافة المادة بنجاح! ✅';
     msgSub.style.color = 'green';
     formSubject.reset();
-    loadDashboardData(); // تحديث الإحصائيات والجدول
+    loadDashboardData();
   } catch (error) {
     msgSub.textContent = 'حدث خطأ! ❌';
     msgSub.style.color = 'red';
@@ -77,7 +77,7 @@ formLecture.addEventListener('submit', async (e) => {
     msgLec.textContent = 'تم إضافة المحاضرة! ✅';
     msgLec.style.color = 'green';
     formLecture.reset();
-    loadDashboardData(); // تحديث الجدول
+    loadDashboardData();
   } catch (error) {
     msgLec.textContent = 'حدث خطأ! ❌';
     msgLec.style.color = 'red';
@@ -99,7 +99,7 @@ async function loadDashboardData() {
   let totalViews = 0;
 
   const tableBody = document.getElementById('lectures-table-body');
-  tableBody.innerHTML = '';
+  if (tableBody) tableBody.innerHTML = '';
 
   for (const subjectDoc of subjectsSnap.docs) {
     const subject = subjectDoc.data();
@@ -111,21 +111,26 @@ async function loadDashboardData() {
       const lec = lecDoc.data();
       totalViews += (lec.views || 0);
 
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><strong>${lec.title}</strong></td>
-        <td><span class="badge badge-subject">${subject.icon || ''} ${subject.nameAr}</span></td>
-        <td><span class="badge badge-file">${lec.fileName}</span></td>
-        <td>${lec.views || 0}</td>
-        <td><button class="btn-delete" onclick="deleteLecture('${subjectDoc.id}', '${lecDoc.id}')">حذف</button></td>
-      `;
-      tableBody.appendChild(tr);
+      if (tableBody) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${lec.title}</strong></td>
+          <td><span class="badge badge-subject">${subject.icon || ''} ${subject.nameAr}</span></td>
+          <td><span class="badge badge-file">${lec.fileName}</span></td>
+          <td>${lec.views || 0}</td>
+          <td><button class="btn-delete" onclick="deleteLecture('${subjectDoc.id}', '${lecDoc.id}')">حذف</button></td>
+        `;
+        tableBody.appendChild(tr);
+      }
     });
   }
 
-  document.getElementById('total-subjects').textContent = totalSubjects;
-  document.getElementById('total-lectures').textContent = totalLectures;
-  document.getElementById('total-views').textContent = totalViews;
+  const elSub = document.getElementById('total-subjects');
+  const elLec = document.getElementById('total-lectures');
+  const elViews = document.getElementById('total-views');
+  if (elSub) elSub.textContent = totalSubjects;
+  if (elLec) elLec.textContent = totalLectures;
+  if (elViews) elViews.textContent = totalViews;
   
   loadSubjectsForDropdown();
 }
@@ -192,20 +197,30 @@ async function loadStudents() {
   }
 }
 
-// تجديد الاشتراك (3 شهور من الآن)
+// تجديد الاشتراك (مع اختيار المدة)
 window.renewStudent = async (studentId) => {
-  if (!confirm('هل أنت متأكد من تجديد اشتراك هذا الطالب لمدة 3 شهور؟')) return;
+  // نسأل الأدمن عن المدة
+  const monthsInput = prompt('اكتب عدد الشهور اللي عايز تجدد بيها (مثال: 3، 6، 12):', '3');
   
+  if (monthsInput === null || monthsInput === '') return;
+
+  const months = parseInt(monthsInput);
+  if (isNaN(months) || months <= 0) {
+    alert('من فضلك اكتب رقم صحيح للشهور!');
+    return;
+  }
+
   const newDate = new Date();
-  newDate.setMonth(newDate.getMonth() + 3);
+  newDate.setMonth(newDate.getMonth() + months);
 
   try {
     await updateDoc(doc(db, "students", studentId), {
       subscriptionEnd: newDate
     });
-    alert('تم تجديد الاشتراك بنجاح!');
+    alert(`تم تجديد الاشتراك لمدة ${months} شهر بنجاح!`);
     loadStudents();
   } catch (error) {
+    console.error(error);
     alert('حدث خطأ أثناء التجديد!');
   }
 };

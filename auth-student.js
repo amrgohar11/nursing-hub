@@ -3,13 +3,11 @@ import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// تبديل بين الفورمين
 window.toggleAuth = (type) => {
   document.getElementById('login-section').classList.toggle('hidden', type === 'signup');
   document.getElementById('signup-section').classList.toggle('hidden', type === 'login');
 };
 
-// === إنشاء حساب جديد ===
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('signup-name').value;
@@ -24,15 +22,16 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // تحديد تاريخ انتهاء الاشتراك (3 شهور من الآن)
+    // --- تحديد مدة الاشتراك الافتراضية عند التسجيل ---
     const expiryDate = new Date();
-    expiryDate.setMonth(expiryDate.getMonth() + 3);
+    expiryDate.setMonth(expiryDate.getMonth() + 3); // الافتراضي: 3 شهور
+    // expiryDate.setMonth(expiryDate.getMonth() + 6); // لو عايز 6 شهور
+    // expiryDate.setFullYear(expiryDate.getFullYear() + 1); // لو عايز سنة
 
-    // حفظ بيانات الطالب في Firestore
     await setDoc(doc(db, "students", user.uid), {
       name: name,
       email: email,
-      subscriptionEnd: expiryDate, // تاريخ الانتهاء
+      subscriptionEnd: expiryDate,
       createdAt: new Date()
     });
 
@@ -46,7 +45,6 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   }
 });
 
-// === تسجيل الدخول ===
 document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('login-email').value;
@@ -60,12 +58,11 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // التحقق من تاريخ انتهاء الاشتراك من Firestore
     const studentDoc = await getDoc(doc(db, "students", user.uid));
     
     if (studentDoc.exists()) {
       const studentData = studentDoc.data();
-      const endDate = studentData.subscriptionEnd.toDate(); // تحويل Timestamp لتاريخ
+      const endDate = studentData.subscriptionEnd.toDate();
       const now = new Date();
 
       if (endDate < now) {
@@ -74,7 +71,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         return; 
       }
       
-      // لو كل حاجة تمام، يروح للداشبورد
       window.location.href = 'student-dashboard.html';
     } else {
       msg.textContent = "لم يتم العثور على بياناتك.";
