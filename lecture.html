@@ -6,159 +6,181 @@
   <title>عرض المحاضرة | Nursing Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .lecture-container {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); }
+
+    /* الحاوية الرئيسية */
+    .lecture-fullscreen {
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      background-color: var(--bg);
+      height: 100vh;
+      width: 100vw;
     }
-    
-    .lecture-header {
+
+    /* شريط علوي صغير */
+    .top-bar {
       background: var(--white);
-      padding: 15px 20px;
+      padding: 10px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       z-index: 10;
     }
 
-    .lecture-content {
+    .top-bar a, .top-bar button {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* منطقة العرض */
+    .iframe-container {
       flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      gap: 20px;
-    }
-
-    .iframe-wrapper {
-      background: var(--white);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
       width: 100%;
-      height: 70vh; /* ارتفاع ثابت كبير */
-      min-height: 500px;
+      background: #fff;
+      position: relative;
     }
 
-    .lecture-iframe {
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    .comments-section {
+    /* شريط سفلي للأزرار */
+    .bottom-bar {
       background: var(--white);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: var(--shadow-md);
-    }
-
-    .comment-card {
-      background: var(--bg);
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      border-right: 4px solid var(--primary);
-    }
-
-    .comment-header {
+      padding: 10px 15px;
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: bold;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .bottom-bar button {
+      background: var(--primary-light);
       color: var(--primary-dark);
-    }
-
-    .comment-text {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    .star-rating {
-      color: #f59e0b;
-      font-size: 22px;
-      cursor: pointer;
-      margin-left: 2px;
-    }
-
-    .action-btn {
-      background: var(--primary);
-      color: white;
       border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 14px;
       cursor: pointer;
       transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
-    .action-btn:hover { background: var(--primary-dark); }
+    .bottom-bar button:hover { background: var(--primary); color: white; }
 
+    /* مودال التعليقات */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #fee2e2;
+      color: #ef4444;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* باقي الستايلات */
+    .star-rating { color: #f59e0b; font-size: 24px; cursor: pointer; }
+    .comment-card { background: var(--bg); padding: 15px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--primary); }
+    .comment-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: bold; color: var(--primary-dark); }
+    .comment-text { font-size: 14px; color: var(--text); }
     .hidden { display: none; }
-
-    @media (max-width: 768px) {
-      .iframe-wrapper {
-        height: 60vh;
-        min-height: 400px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <div class="lecture-container">
+  <div class="lecture-fullscreen">
     
-    <!-- الهيدر -->
-    <header class="lecture-header">
-      <a href="index.html" class="nav-logo" style="font-size: 20px; font-weight: 900; color: var(--primary-dark);">🩺 Nursing Hub</a>
-      <div style="display: flex; gap: 15px; align-items: center;">
-        <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
-        <button id="theme-toggle" class="theme-toggle-btn" title="تبديل الوضع الليلي">🌙</button>
+    <!-- شريط علوي صغير -->
+    <div class="top-bar">
+      <a href="index.html">🩺 Nursing Hub</a>
+      <div style="display: flex; gap: 15px;">
+        <a id="back-link" href="#">&rarr; العودة للمادة</a>
+        <button id="theme-toggle">🌙</button>
       </div>
-    </header>
+    </div>
 
-    <!-- المحتوى -->
-    <main class="lecture-content">
+    <!-- عارض المحاضرة (ملء الشاشة) -->
+    <div class="iframe-container">
+      <iframe id="lecture-frame" src="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+
+    <!-- شريط سفلي للأزرار -->
+    <div class="bottom-bar">
+      <button id="complete-btn">✅ خلصت المذاكرة</button>
+      <button id="open-comments-btn">💬 التقييم والتعليقات</button>
+    </div>
+
+  </div>
+
+  <!-- مودال التعليقات -->
+  <div class="modal-overlay" id="comments-modal">
+    <div class="modal-content">
+      <button class="close-modal" id="close-modal-btn">✕</button>
+      <h3 style="margin-bottom: 15px; color: var(--primary-dark);">التقييم والتعليقات</h3>
       
-      <!-- الملخص (iframe) -->
-      <div class="iframe-wrapper">
-        <iframe id="lecture-frame" class="lecture-iframe" src="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-      </div>
-
-      <!-- زرار خلصت المذاكرة -->
-      <div style="text-align: center; margin-bottom: 10px;">
-        <button id="complete-btn" class="action-btn">✅ خلصت المذاكرة</button>
-        <p id="completion-msg" style="color: green; font-weight: bold; margin-top: 10px; display: none;">تم تسجيل الإنجاز!</p>
-      </div>
-
-      <!-- قسم التعليقات -->
-      <div class="comments-section" id="comments-section">
-        <h3 style="margin-bottom: 15px; color: var(--primary-dark);">التعليقات والتقييم</h3>
-        
-        <div id="add-comment-form">
-          <div style="margin-bottom: 15px; text-align: center;">
-            <span style="font-size: 16px; font-weight: bold; margin-left: 10px;">تقييمك:</span>
-            <span class="star-rating" data-value="1">★</span>
-            <span class="star-rating" data-value="2">★</span>
-            <span class="star-rating" data-value="3">★</span>
-            <span class="star-rating" data-value="4">★</span>
-            <span class="star-rating" data-value="5">★</span>
-          </div>
-          <textarea id="comment-text" placeholder="اكتب تعليقك هنا..." style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; font-family: inherit; font-size: 15px; min-height: 80px;"></textarea>
-          <button id="submit-comment" class="action-btn" style="width: 100%; background: var(--primary-dark);">إرسال التعليق</button>
+      <div id="add-comment-form">
+        <div style="margin-bottom: 15px; text-align: center;">
+          <span style="font-size: 14px; font-weight: bold; margin-left: 5px;">تقييمك:</span>
+          <span class="star-rating" data-value="1">★</span>
+          <span class="star-rating" data-value="2">★</span>
+          <span class="star-rating" data-value="3">★</span>
+          <span class="star-rating" data-value="4">★</span>
+          <span class="star-rating" data-value="5">★</span>
         </div>
-        
-        <div id="comments-list" style="margin-top: 20px;">
-          <!-- التعليقات هتظهر هنا -->
-        </div>
+        <textarea id="comment-text" placeholder="اكتب تعليقك هنا..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; font-family: inherit; min-height: 70px;"></textarea>
+        <button id="submit-comment" style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">إرسال التعليق</button>
       </div>
-
-    </main>
-
+      
+      <div id="comments-list" style="margin-top: 20px;">
+        <!-- التعليقات هتظهر هنا -->
+      </div>
+    </div>
   </div>
 
   <!-- الحماية -->
@@ -184,6 +206,7 @@
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
 
+    // تحميل المحاضرة
     if (fileName) {
       frame.src = `lectures/${fileName}`;
       if (subjectId && lectureId) {
@@ -199,7 +222,13 @@
     if (subjectId) backLink.href = `subject.html?id=${subjectId}`;
     else backLink.href = `index.html`;
 
-    // === نظام التقييم بالنجوم ===
+    // فتح وقفل المودال
+    const modal = document.getElementById('comments-modal');
+    document.getElementById('open-comments-btn').addEventListener('click', () => modal.classList.add('active'));
+    document.getElementById('close-modal-btn').addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+    // نظام النجوم
     document.querySelectorAll('.star-rating').forEach(star => {
       star.addEventListener('click', (e) => {
         currentRating = parseInt(e.target.getAttribute('data-value'));
@@ -211,7 +240,7 @@
       star.style.color = '#f59e0b';
     });
 
-    // === إضافة تعليق ===
+    // إضافة تعليق
     document.getElementById('submit-comment').addEventListener('click', async () => {
       const text = document.getElementById('comment-text').value.trim();
       if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
@@ -232,7 +261,7 @@
       }
     });
 
-    // === تحميل التعليقات ===
+    // تحميل التعليقات
     async function loadComments(subId, lecId) {
       const list = document.getElementById('comments-list');
       list.innerHTML = '<p>جاري التحميل...</p>';
@@ -265,7 +294,7 @@
       }
     }
 
-    // === نظام "خلصت المذاكرة" ===
+    // نظام خلصت المذاكرة
     document.getElementById('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
       try {
@@ -273,8 +302,7 @@
         await updateDoc(studentRef, {
           completedLectures: arrayUnion(lectureId)
         });
-        document.getElementById('complete-btn').style.display = 'none';
-        document.getElementById('completion-msg').style.display = 'block';
+        alert('تم تسجيل الإنجاز! 🎉');
         await checkAndAwardBadges(currentUser.uid);
       } catch (error) {
         alert('حدث خطأ!');
@@ -287,8 +315,10 @@
       if (studentDoc.exists()) {
         const completed = studentDoc.data().completedLectures || [];
         if (completed.includes(lecId)) {
-          document.getElementById('complete-btn').style.display = 'none';
-          document.getElementById('completion-msg').style.display = 'block';
+          document.getElementById('complete-btn').textContent = '✅ تم المذاكرة';
+          document.getElementById('complete-btn').style.background = '#d1fae5';
+          document.getElementById('complete-btn').style.color = '#065f46';
+          document.getElementById('complete-btn').disabled = true;
         }
       }
     }
@@ -306,6 +336,21 @@
           await updateDoc(doc(db, "students", uid), { badges: newBadges });
         }
       }
+    }
+
+    // الوضع الليلي
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (themeToggleBtn) {
+      themeToggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+      themeToggleBtn.addEventListener('click', () => {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      });
     }
   </script>
 </body>
