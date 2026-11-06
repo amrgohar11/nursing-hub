@@ -285,11 +285,71 @@ announcementForm?.addEventListener('submit', async (e) => {
   }
 });
 
-// === 9. تشغيل الداشبورد أول ما الصفحة تفتح ===
+// === 9. إدارة المواد (عرض وحذف) ===
+async function loadSubjectsTable() {
+  const tableBody = document.getElementById('subjects-table-body');
+  if (!tableBody) return;
+
+  tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">جاري تحميل المواد...</td></tr>';
+
+  try {
+    const subjectsSnap = await getDocs(collection(db, "subjects"));
+    tableBody.innerHTML = '';
+
+    if (subjectsSnap.empty) {
+      tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">لا توجد مواد حتى الآن.</td></tr>';
+      return;
+    }
+
+    for (const subjectDoc of subjectsSnap.docs) {
+      const subject = subjectDoc.data();
+      const lecturesSnap = await getDocs(collection(db, "subjects", subjectDoc.id, "lectures"));
+      
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${subject.icon || ''} ${subject.nameAr}</strong></td>
+        <td>${subject.name}</td>
+        <td>${lecturesSnap.size}</td>
+        <td><button class="btn-delete" onclick="deleteSubject('${subjectDoc.id}')">حذف</button></td>
+      `;
+      tableBody.appendChild(tr);
+    }
+  } catch (error) {
+    console.error("Error loading subjects table:", error);
+    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">حدث خطأ.</td></tr>';
+  }
+}
+
+window.deleteSubject = async (subjectId) => {
+  if (!confirm('هل أنت متأكد من حذف هذه المادة وكل محاضراتها؟ لا يمكن التراجع!')) return;
+
+  try {
+    // 1. حذف كل المحاضرات اللي جوة المادة
+    const lecturesSnap = await getDocs(collection(db, "subjects", subjectId, "lectures"));
+    const deletePromises = [];
+    lecturesSnap.forEach((lecDoc) => {
+      deletePromises.push(deleteDoc(doc(db, "subjects", subjectId, "lectures", lecDoc.id)));
+    });
+    await Promise.all(deletePromises);
+
+    // 2. حذف المادة نفسها
+    await deleteDoc(doc(db, "subjects", subjectId));
+
+    alert('تم حذف المادة وكل محاضراتها بنجاح!');
+    loadSubjectsTable(); // تحديث جدول المواد
+    loadDashboardData(); // تحديث الإحصائيات
+  } catch (error) {
+    console.error(error);
+    alert('حدث خطأ أثناء الحذف!');
+  }
+};
+
+// === 10. تشغيل الداشبورد أول ما الصفحة تفتح ===
 loadDashboardData();
 loadStudents();
+loadSubjectsTable();
 
-// === 10. كود الوضع الليلي ===
+// === 11. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);
