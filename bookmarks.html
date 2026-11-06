@@ -6,7 +6,7 @@
   <title>المحاضرات المفضلة | Nursing Hub</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="background: var(--bg); min-height: 100vh;">
 
   <header class="glass-nav">
     <div class="nav-container">
@@ -26,7 +26,6 @@
     const grid = document.getElementById('bookmarks-grid');
     const bookmarks = [];
 
-    // جمع كل المحاضرات المحفوظة من localStorage
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key.startsWith('bookmark_')) {
@@ -40,7 +39,6 @@
       grid.innerHTML = '';
       bookmarks.reverse().forEach(bm => {
         const card = document.createElement('a');
-        // نرجع للينك المحاضرة الأصلي
         card.href = `lecture.html?subjectId=${bm.subjectId}&file=${bm.fileName}&id=${bm.id}`;
         card.className = 'subject-card';
         card.innerHTML = `
