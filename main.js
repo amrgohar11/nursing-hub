@@ -40,7 +40,6 @@ function showError(message) {
 async function loadSubjects() {
   if (!subjectsGrid) return;
 
-  // نعرض الـ Skeleton الأول
   showSkeleton();
 
   try {
@@ -161,3 +160,83 @@ if (themeToggleBtn) {
     themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   });
 }
+
+// === 7. كارت "كمّل من حيث وقفت" + شريط التقدم ===
+async function loadUserProgress() {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+
+    try {
+      const studentDoc = await getDoc(doc(db, "students", user.uid));
+      if (!studentDoc.exists()) return;
+      
+      const data = studentDoc.data();
+      const completed = data.completedLectures || [];
+
+      // === 1. كارت "كمّل من حيث وقفت" ===
+      if (completed.length > 0) {
+        const lastLectureId = completed[completed.length - 1];
+        
+        const subjectsSnap = await getDocs(collection(db, "subjects"));
+        for (const subDoc of subjectsSnap.docs) {
+          const lecRef = doc(db, "subjects", subDoc.id, "lectures", lastLectureId);
+          const lecSnap = await getDoc(lecRef);
+          
+          if (lecSnap.exists()) {
+            const lecData = lecSnap.data();
+            const continueCard = document.getElementById('continue-card');
+            const continueLink = document.getElementById('continue-link');
+            const continueTitle = document.getElementById('continue-title');
+            
+            if (continueCard && continueLink && continueTitle) {
+              continueTitle.textContent = lecData.title;
+              continueLink.href = `lecture.html?subjectId=${subDoc.id}&file=${lecData.fileName}&id=${lastLectureId}`;
+              continueCard.style.display = 'block';
+            }
+            break;
+          }
+        }
+      }
+
+      // === 2. شريط التقدم لكل مادة ===
+      const subjectsSnap = await getDocs(collection(db, "subjects"));
+      
+      for (const subDoc of subjectsSnap.docs) {
+        const subjectId = subDoc.id;
+        const lecturesSnap = await getDocs(collection(db, "subjects", subjectId, "lectures"));
+        
+        const totalLectures = lecturesSnap.size;
+        let completedCount = 0;
+        
+        lecturesSnap.forEach((lecDoc) => {
+          if (completed.includes(lecDoc.id)) completedCount++;
+        });
+        
+        if (totalLectures > 0) {
+          const percent = Math.round((completedCount / totalLectures) * 100);
+          
+          const card = document.querySelector(`a[href="subject.html?id=${subjectId}"]`);
+          if (card && !card.querySelector('.progress-bar-container')) {
+            const progressHTML = `
+              <div class="progress-bar-container" style="margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 5px;">
+                  <span>${completedCount} من ${totalLectures} محاضرة</span>
+                  <span>${percent}%</span>
+                </div>
+                <div style="width: 100%; height: 8px; background: var(--border); border-radius: 5px; overflow: hidden;">
+                  <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 5px; transition: width 1s ease;"></div>
+                </div>
+              </div>
+            `;
+            card.insertAdjacentHTML('beforeend', progressHTML);
+          }
+        }
+      }
+
+    } catch (error) {
+      console.error("Error loading user progress:", error);
+    }
+  });
+}
+
+loadUserProgress();
