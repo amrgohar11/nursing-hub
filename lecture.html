@@ -61,17 +61,17 @@
       align-items: center;
       border-top: 1px solid var(--border);
       flex-shrink: 0;
-      gap: 5px;
+      gap: 10px;
     }
 
     .bottom-bar button {
       background: var(--primary-light);
       color: var(--primary-dark);
       border: none;
-      padding: 8px 12px;
+      padding: 10px 15px;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 14px;
       cursor: pointer;
       transition: 0.3s;
       display: flex;
@@ -143,9 +143,8 @@
     </div>
 
     <div class="bottom-bar">
-      <button id="complete-btn">✅ خلصت</button>
-      <button id="bookmark-btn">❤️ حفظ</button>
-      <button id="open-comments-btn">💬 التعليقات</button>
+      <button id="complete-btn">✅ خلصت المذاكرة</button>
+      <button id="open-comments-btn">💬 التقييم والتعليقات</button>
     </div>
 
   </div>
@@ -219,7 +218,6 @@
         
         loadComments(subjectId, lectureId);
         checkCompletion(subjectId, lectureId);
-        checkBookmark();
       }
     } else {
       frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
@@ -361,38 +359,6 @@
         }
       }
     }
-
-    // === نظام الحفظ (Bookmarks) ===
-    const bookmarkBtn = document.getElementById('bookmark-btn');
-    const bookmarkKey = `bookmark_${safeLectureId}`;
-
-    function checkBookmark() {
-      if (localStorage.getItem(bookmarkKey)) {
-        bookmarkBtn.textContent = '❤️ محفوظة';
-        bookmarkBtn.style.background = '#fee2e2';
-        bookmarkBtn.style.color = '#ef4444';
-      }
-    }
-
-    bookmarkBtn?.addEventListener('click', () => {
-      if (localStorage.getItem(bookmarkKey)) {
-        localStorage.removeItem(bookmarkKey);
-        bookmarkBtn.textContent = '❤️ حفظ';
-        bookmarkBtn.style.background = '';
-        bookmarkBtn.style.color = '';
-      } else {
-        localStorage.setItem(bookmarkKey, JSON.stringify({
-          id: safeLectureId,
-          subjectId: subjectId,
-          fileName: fileName,
-          title: "محاضرة محفوظة",
-          savedAt: new Date().toISOString()
-        }));
-        bookmarkBtn.textContent = '❤️ محفوظة';
-        bookmarkBtn.style.background = '#fee2e2';
-        bookmarkBtn.style.color = '#ef4444';
-      }
-    });
 
     // الوضع الليلي
     const themeToggleBtn = document.getElementById('theme-toggle');
