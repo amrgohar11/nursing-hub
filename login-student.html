@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دخول الطلاب | Nursing Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: var(--bg); margin: 0; font-family: 'Cairo', sans-serif; }
+    .auth-container { background: var(--white); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-xl); width: 100%; max-width: 420px; text-align: center; border-top: 6px solid var(--primary); }
+    .auth-container h2 { color: var(--primary-dark); margin-bottom: 25px; font-size: 28px; font-weight: 900; }
+    .auth-container input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 2px solid var(--border); font-family: inherit; font-size: 16px; background: var(--bg); color: var(--text); outline: none; transition: 0.3s; }
+    .auth-container input:focus { border-color: var(--primary); background: var(--white); }
+    .auth-container button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+    .auth-container button:hover { background: var(--primary-dark); }
+    .toggle-link { color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline; margin-top: 15px; display: block; }
+    .error-msg { color: #ef4444; margin-top: 15px; font-weight: bold; font-size: 14px; }
+    .success-msg { color: #10b981; margin-top: 15px; font-weight: bold; font-size: 14px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <!-- فورم تسجيل الدخول -->
+    <div id="login-section">
+      <h2>🔐 دخول الطلاب</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="الإيميل" required>
+        <input type="password" id="login-password" placeholder="الباسورد" required>
+        <button type="submit">دخول</button>
+      </form>
+      <p id="login-msg" class="error-msg"></p>
+      <span class="toggle-link" onclick="toggleAuth('signup')">ليس لديك حساب؟ سجل الآن</span>
+    </div>
+
+    <!-- فورم إنشاء حساب -->
+    <div id="signup-section" class="hidden">
+      <h2>📝 حساب جديد</h2>
+      <form id="signup-form">
+        <input type="text" id="signup-name" placeholder="الاسم بالكامل" required>
+        <input type="email" id="signup-email" placeholder="الإيميل" required>
+        <input type="password" id="signup-password" placeholder="الباسورد (6 حروف على الأقل)" required>
+        <button type="submit">إنشاء حساب</button>
+      </form>
+      <p id="signup-msg" class="error-msg"></p>
+      <span class="toggle-link" onclick="toggleAuth('login')">لديك حساب بالفعل؟ سجل دخول</span>
+    </div>
+  </div>
+
+  <script type="module" src="auth-student.js"></script>
+</body>
+</html>
