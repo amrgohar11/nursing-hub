@@ -4,6 +4,7 @@
 
   const overlay = document.getElementById("nhChatOverlay");
   const openBtn = document.getElementById("nhAssistantOpen");
+  const floatingBtn = document.getElementById("nhAssistantFloating");
   const closeBtn = document.getElementById("nhChatClose");
 
   const form = document.getElementById("nhChatForm");
@@ -40,10 +41,16 @@
   }
 
   // فتح الشات من زرار الـ Bottom Nav
-  // (الزرار بيستخدم onclick مباشرة في index.html)
-  // بس بنضيف دعم لو حبيت تستخدم openBtn لاحقاً
   if (openBtn) {
     openBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openChat();
+    });
+  }
+
+  // فتح الشات من الزرار العايم (iOS Style)
+  if (floatingBtn) {
+    floatingBtn.addEventListener("click", (e) => {
       e.preventDefault();
       openChat();
     });
