@@ -5,82 +5,213 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>عرض المحاضرة | Nursing Hub</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .lecture-wrapper { display: flex; flex-direction: column; height: 100vh; }
+    .lecture-body { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--border); padding: 15px; }
+    .lecture-iframe { flex-grow: 1; width: 100%; border: none; border-radius: 15px; background: white; }
+    .lecture-actions { padding: 15px; background: var(--white); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+    .comments-section { background: var(--white); padding: 20px; max-height: 300px; overflow-y: auto; border-top: 1px solid var(--border); }
+    .comment-card { background: var(--bg); padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+    .comment-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: var(--primary-dark); }
+    .comment-text { font-size: 14px; color: var(--text); }
+    .star-rating { color: #f59e0b; font-size: 18px; cursor: pointer; }
+    .hidden { display: none; }
+    @media (min-width: 768px) { .lecture-wrapper { flex-direction: row; } .lecture-body { padding: 20px; } .comments-section { width: 350px; max-height: none; border-top: none; border-right: 1px solid var(--border); } }
+  </style>
 </head>
-<body style="height: 100vh; display: flex; flex-direction: column; overflow: hidden;">
+<body>
 
-  <!-- الهيدر -->
-  <header class="glass-nav" style="flex-shrink: 0;">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
-      <div class="nav-links">
-        <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
-        <button id="theme-toggle" class="theme-toggle-btn" title="تبديل الوضع الليلي">🌙</button>
+  <div class="lecture-wrapper">
+    
+    <!-- المحتوى الأساسي -->
+    <div class="lecture-body">
+      <header class="glass-nav" style="flex-shrink: 0; margin-bottom: 15px;">
+        <div class="nav-container">
+          <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
+          <div class="nav-links">
+            <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
+            <button id="theme-toggle" class="theme-toggle-btn" title="تبديل الوضع الليلي">🌙</button>
+          </div>
+        </div>
+      </header>
+
+      <iframe id="lecture-frame" class="lecture-iframe" src="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+
+      <div class="lecture-actions">
+        <button id="complete-btn" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">✅ خلصت المذاكرة</button>
+        <span id="completion-msg" style="color: green; font-weight: bold; display: none;">تم تسجيل الإنجاز!</span>
       </div>
     </div>
-  </header>
 
-  <!-- عارض المحاضرة -->
-  <main style="flex-grow: 1; background: var(--border); padding: 15px;">
-    <iframe 
-      id="lecture-frame" 
-      src="" 
-      style="width: 100%; height: 100%; border: none; border-radius: 15px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
-      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-    ></iframe>
-  </main>
+    <!-- قسم التعليقات -->
+    <div class="comments-section" id="comments-section">
+      <h3 style="margin-bottom: 15px; color: var(--primary-dark);">التعليقات والتقييم</h3>
+      
+      <!-- فورم إضافة تعليق -->
+      <div id="add-comment-form">
+        <div style="margin-bottom: 10px;">
+          <span>تقييمك: </span>
+          <span class="star-rating" data-value="1">★</span>
+          <span class="star-rating" data-value="2">★</span>
+          <span class="star-rating" data-value="3">★</span>
+          <span class="star-rating" data-value="4">★</span>
+          <span class="star-rating" data-value="5">★</span>
+        </div>
+        <textarea id="comment-text" placeholder="اكتب تعليقك هنا..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 10px; font-family: inherit;"></textarea>
+        <button id="submit-comment" style="width: 100%; padding: 10px; background: var(--primary-dark); color: white; border: none; border-radius: 8px; cursor: pointer;">إرسال التعليق</button>
+      </div>
+      
+      <div id="comments-list" style="margin-top: 20px;">
+        <!-- التعليقات هتظهر هنا -->
+      </div>
+    </div>
 
-  <!-- الحماية -->
+  </div>
+
   <script type="module" src="guard.js"></script>
-  
   <script type="module">
-    import { db } from './firebase-config.js';
-    import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { auth, db } from './firebase-config.js';
+    import { doc, getDoc, updateDoc, increment, arrayUnion, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const urlParams = new URLSearchParams(window.location.search);
     const fileName = urlParams.get('file');
     const subjectId = urlParams.get('subjectId');
     const lectureId = urlParams.get('id');
+    
+    let currentUser = null;
+    let currentRating = 5; // التقييم الافتراضي
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) currentUser = user;
+    });
 
     const frame = document.getElementById('lecture-frame');
     const backLink = document.getElementById('back-link');
 
     if (fileName) {
       frame.src = `lectures/${fileName}`;
-      
       if (subjectId && lectureId) {
         const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
-        updateDoc(lectureRef, {
-          views: increment(1)
-        }).catch((err) => console.log("Error updating views:", err));
+        updateDoc(lectureRef, { views: increment(1) }).catch(e => console.log(e));
+        loadComments(subjectId, lectureId);
+        checkCompletion(subjectId, lectureId);
       }
-
     } else {
-      frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px; font-family:sans-serif;">لم يتم العثور على ملف المحاضرة</h1>';
+      frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
     }
 
-    if (subjectId) {
-      backLink.href = `subject.html?id=${subjectId}`;
-    } else {
-      backLink.href = `index.html`;
-    }
+    if (subjectId) backLink.href = `subject.html?id=${subjectId}`;
+    else backLink.href = `index.html`;
 
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-      
-      themeToggleBtn.addEventListener('click', () => {
-        const theme = document.documentElement.getAttribute('data-theme');
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    // === نظام التقييم بالنجوم ===
+    document.querySelectorAll('.star-rating').forEach(star => {
+      star.addEventListener('click', (e) => {
+        currentRating = parseInt(e.target.getAttribute('data-value'));
+        document.querySelectorAll('.star-rating').forEach(s => s.style.color = '#ccc');
+        for (let i = 1; i <= currentRating; i++) {
+          document.querySelector(`.star-rating[data-value="${i}"]`).style.color = '#f59e0b';
+        }
       });
+      star.style.color = '#f59e0b'; // افتراضي 5 نجوم
+    });
+
+    // === إضافة تعليق ===
+    document.getElementById('submit-comment').addEventListener('click', async () => {
+      const text = document.getElementById('comment-text').value.trim();
+      if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
+
+      try {
+        const commentsRef = collection(db, "subjects", subjectId, "lectures", lectureId, "comments");
+        await addDoc(commentsRef, {
+          userId: currentUser.uid,
+          userName: currentUser.email.split('@')[0], // اسم مبسط
+          text: text,
+          rating: currentRating,
+          createdAt: new Date()
+        });
+        document.getElementById('comment-text').value = '';
+        loadComments(subjectId, lectureId);
+      } catch (error) {
+        alert('حدث خطأ أثناء إضافة التعليق');
+      }
+    });
+
+    // === تحميل التعليقات ===
+    async function loadComments(subId, lecId) {
+      const list = document.getElementById('comments-list');
+      list.innerHTML = '<p>جاري التحميل...</p>';
+      
+      try {
+        const q = query(collection(db, "subjects", subId, "lectures", lecId, "comments"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        list.innerHTML = '';
+        
+        if (snapshot.empty) {
+          list.innerHTML = '<p style="color:#666; font-size:14px;">لا توجد تعليقات بعد. كن أول من يعلق!</p>';
+          return;
+        }
+
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          const div = document.createElement('div');
+          div.className = 'comment-card';
+          div.innerHTML = `
+            <div class="comment-header">
+              <span>${data.userName}</span>
+              <span class="star-rating" style="color:#f59e0b;">${'★'.repeat(data.rating)}</span>
+            </div>
+            <div class="comment-text">${data.text}</div>
+          `;
+          list.appendChild(div);
+        });
+      } catch (e) {
+        list.innerHTML = '<p style="color:red;">حدث خطأ في تحميل التعليقات</p>';
+      }
+    }
+
+    // === نظام "خلصت المذاكرة" ===
+    document.getElementById('complete-btn').addEventListener('click', async () => {
+      if (!currentUser) return;
+      try {
+        const studentRef = doc(db, "students", currentUser.uid);
+        await updateDoc(studentRef, {
+          completedLectures: arrayUnion(lectureId)
+        });
+        document.getElementById('complete-btn').style.display = 'none';
+        document.getElementById('completion-msg').style.display = 'block';
+        // إضافة شارة "مذاكرة" لو دي أول محاضرة
+        await checkAndAwardBadges(currentUser.uid);
+      } catch (error) {
+        alert('حدث خطأ!');
+      }
+    });
+
+    async function checkCompletion(subId, lecId) {
+      if (!currentUser) return;
+      const studentDoc = await getDoc(doc(db, "students", currentUser.uid));
+      if (studentDoc.exists()) {
+        const completed = studentDoc.data().completedLectures || [];
+        if (completed.includes(lecId)) {
+          document.getElementById('complete-btn').style.display = 'none';
+          document.getElementById('completion-msg').style.display = 'block';
+        }
+      }
+    }
+
+    async function checkAndAwardBadges(uid) {
+      const studentDoc = await getDoc(doc(db, "students", uid));
+      if (studentDoc.exists()) {
+        const completed = studentDoc.data().completedLectures || [];
+        let newBadges = [];
+        if (completed.length >= 1) newBadges.push('🌱 مبتدئ');
+        if (completed.length >= 3) newBadges.push('📚 مذاكر');
+        if (completed.length >= 5) newBadges.push('🏆 متفوق');
+        
+        if (newBadges.length > 0) {
+          await updateDoc(doc(db, "students", uid), { badges: newBadges });
+        }
+      }
     }
   </script>
 </body>

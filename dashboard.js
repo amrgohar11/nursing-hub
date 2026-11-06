@@ -24,6 +24,7 @@ onAuthStateChanged(auth, async (user) => {
     const detailsContainer = document.getElementById('details-container');
     const statusText = document.getElementById('status-text');
     const renewBtn = document.getElementById('renew-btn');
+    const badgesContainer = document.getElementById('badges-container');
 
     detailsContainer.classList.remove('hidden');
 
@@ -39,6 +40,20 @@ onAuthStateChanged(auth, async (user) => {
       renewBtn.style.display = "block";
       document.querySelector('.action-btn').style.opacity = '0.5';
       document.querySelector('.action-btn').style.pointerEvents = 'none';
+    }
+
+    // === عرض الشارات ===
+    const badges = data.badges || [];
+    if (badges.length > 0) {
+      badgesContainer.innerHTML = ''; // مسح رسالة التحميل
+      badges.forEach(badge => {
+        const span = document.createElement('span');
+        span.textContent = badge;
+        span.className = 'badge-item';
+        badgesContainer.appendChild(span);
+      });
+    } else {
+      badgesContainer.innerHTML = '<span style="color: #666; font-size: 14px;">لسه مفيش شارات. ذاكر محاضراتك عشان تاخد شارات!</span>';
     }
   }
 });

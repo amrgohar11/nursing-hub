@@ -16,6 +16,8 @@
     .action-btn { display: block; width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 30px; text-decoration: none; }
     .action-btn:hover { background: var(--primary-dark); }
     .hidden { display: none; }
+    .badges-container { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+    .badge-item { background: var(--primary-light); color: var(--primary-dark); padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -42,6 +44,14 @@
       <div class="info-row">
         <span>الحالة</span>
         <span id="status-text"></span>
+      </div>
+    </div>
+
+    <!-- قسم الشارات -->
+    <div style="margin-top: 25px; text-align: right;">
+      <h3 style="color: var(--primary-dark); font-size: 16px; margin-bottom: 10px;">🏅 شاراتك</h3>
+      <div id="badges-container" class="badges-container">
+        <span style="color: #666; font-size: 14px;">جاري تحميل الشارات...</span>
       </div>
     </div>
     
