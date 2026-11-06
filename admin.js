@@ -71,7 +71,7 @@ formLecture.addEventListener('submit', async (e) => {
     await setDoc(doc(db, "subjects", subjectId, "lectures", lecId), {
       title: title,
       fileName: fileName,
-      views: 0, // عشان نحسب عدد المشاهدات
+      views: 0,
       createdAt: new Date()
     });
     msgLec.textContent = 'تم إضافة المحاضرة! ✅';
@@ -109,9 +109,8 @@ async function loadDashboardData() {
 
     lecturesSnap.forEach((lecDoc) => {
       const lec = lecDoc.data();
-      totalViews += (lec.views || 0); // بنجمع المشاهدات
+      totalViews += (lec.views || 0);
 
-      // إضافة صف في الجدول
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><strong>${lec.title}</strong></td>
@@ -124,7 +123,6 @@ async function loadDashboardData() {
     });
   }
 
-  // تحديث الكروت
   document.getElementById('total-subjects').textContent = totalSubjects;
   document.getElementById('total-lectures').textContent = totalLectures;
   document.getElementById('total-views').textContent = totalViews;
@@ -132,23 +130,122 @@ async function loadDashboardData() {
   loadSubjectsForDropdown();
 }
 
-// === 6. حذف محاضرة (دالة عامة عشان تتنادى من HTML) ===
+// === 6. حذف محاضرة ===
 window.deleteLecture = async (subjectId, lectureId) => {
   if (confirm('هل أنت متأكد من حذف هذه المحاضرة؟')) {
     try {
       await deleteDoc(doc(db, "subjects", subjectId, "lectures", lectureId));
       alert('تم الحذف بنجاح!');
-      loadDashboardData(); // نحدث الجدول
+      loadDashboardData();
     } catch (error) {
       alert('حدث خطأ أثناء الحذف!');
     }
   }
 };
 
-// === 7. تشغيل الداشبورد أول ما الصفحة تفتح ===
-loadDashboardData();
+// === 7. إدارة الطلاب والاشتراكات ===
+async function loadStudents() {
+  const tableBody = document.getElementById('students-table-body');
+  if (!tableBody) return;
 
-// === 8. كود الوضع الليلي ===
+  tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">جاري تحميل الطلاب...</td></tr>';
+
+  try {
+    const studentsSnap = await getDocs(collection(db, "students"));
+    tableBody.innerHTML = '';
+
+    if (studentsSnap.empty) {
+      tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">لا يوجد طلاب مسجلين حتى الآن.</td></tr>';
+      return;
+    }
+
+    studentsSnap.forEach((docSnap) => {
+      const student = docSnap.data();
+      const studentId = docSnap.id;
+      
+      const endDate = student.subscriptionEnd ? student.subscriptionEnd.toDate() : null;
+      const isActive = endDate && endDate > new Date();
+      const dateStr = endDate ? endDate.toLocaleDateString('ar-EG') : 'غير محدد';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${student.name}</strong></td>
+        <td>${student.email}</td>
+        <td>${dateStr}</td>
+        <td>
+          <span class="badge" style="background: ${isActive ? '#d1fae5' : '#fee2e2'}; color: ${isActive ? '#065f46' : '#991b1b'};">
+            ${isActive ? 'نشط' : 'منتهي'}
+          </span>
+        </td>
+        <td style="display: flex; gap: 5px;">
+          <button class="btn-delete" style="background: #0284c7; color: white;" onclick="renewStudent('${studentId}')">تجديد</button>
+          <button class="btn-delete" style="background: #f59e0b; color: white;" onclick="stopStudent('${studentId}')">إيقاف</button>
+          <button class="btn-delete" onclick="deleteStudent('${studentId}')">حذف</button>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    });
+
+  } catch (error) {
+    console.error("Error loading students:", error);
+    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:red;">حدث خطأ أثناء التحميل.</td></tr>';
+  }
+}
+
+// تجديد الاشتراك (3 شهور من الآن)
+window.renewStudent = async (studentId) => {
+  if (!confirm('هل أنت متأكد من تجديد اشتراك هذا الطالب لمدة 3 شهور؟')) return;
+  
+  const newDate = new Date();
+  newDate.setMonth(newDate.getMonth() + 3);
+
+  try {
+    await updateDoc(doc(db, "students", studentId), {
+      subscriptionEnd: newDate
+    });
+    alert('تم تجديد الاشتراك بنجاح!');
+    loadStudents();
+  } catch (error) {
+    alert('حدث خطأ أثناء التجديد!');
+  }
+};
+
+// إيقاف الاشتراك
+window.stopStudent = async (studentId) => {
+  if (!confirm('هل أنت متأكد من إيقاف اشتراك هذا الطالب؟')) return;
+  
+  const pastDate = new Date();
+  pastDate.setDate(pastDate.getDate() - 1);
+
+  try {
+    await updateDoc(doc(db, "students", studentId), {
+      subscriptionEnd: pastDate
+    });
+    alert('تم إيقاف الاشتراك!');
+    loadStudents();
+  } catch (error) {
+    alert('حدث خطأ!');
+  }
+};
+
+// حذف الطالب
+window.deleteStudent = async (studentId) => {
+  if (!confirm('هل أنت متأكد من حذف هذا الطالب نهائياً؟')) return;
+  
+  try {
+    await deleteDoc(doc(db, "students", studentId));
+    alert('تم حذف الطالب!');
+    loadStudents();
+  } catch (error) {
+    alert('حدث خطأ أثناء الحذف!');
+  }
+};
+
+// === 8. تشغيل الداشبورد أول ما الصفحة تفتح ===
+loadDashboardData();
+loadStudents();
+
+// === 9. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);

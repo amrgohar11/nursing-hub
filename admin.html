@@ -26,9 +26,9 @@
     .admin-form button { padding: 15px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
     .admin-form button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(2,132,199,0.3); }
 
-    /* جدول عرض المحاضرات */
-    .table-container { background: var(--white); border-radius: 24px; box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--border); }
-    .admin-table { width: 100%; border-collapse: collapse; text-align: right; }
+    /* جدول عرض المحاضرات والطلاب */
+    .table-container { background: var(--white); border-radius: 24px; box-shadow: var(--shadow-lg); overflow-x: auto; border: 1px solid var(--border); }
+    .admin-table { width: 100%; border-collapse: collapse; text-align: right; min-width: 600px; }
     .admin-table th { background: var(--primary-light); color: var(--primary-dark); padding: 18px; font-size: 15px; font-weight: 800; }
     .admin-table td { padding: 18px; border-bottom: 1px solid var(--border); color: var(--text); font-size: 15px; }
     .admin-table tr:last-child td { border-bottom: none; }
@@ -107,7 +107,7 @@
     </div>
 
     <!-- جدول المحاضرات -->
-    <div class="admin-card" style="margin-bottom: 50px;">
+    <div class="admin-card" style="margin-bottom: 40px;">
       <h2>🗂️ المحاضرات المضافة</h2>
       <div class="table-container">
         <table class="admin-table">
@@ -122,6 +122,27 @@
           </thead>
           <tbody id="lectures-table-body">
             <!-- البيانات هتظهر هنا -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- جدول الطلاب والاشتراكات -->
+    <div class="admin-card" style="margin-bottom: 50px;">
+      <h2>👨‍🎓 إدارة الطلاب والاشتراكات</h2>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>الطالب</th>
+              <th>الإيميل</th>
+              <th>تاريخ الانتهاء</th>
+              <th>الحالة</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="students-table-body">
+            <!-- بيانات الطلاب هتظهر هنا -->
           </tbody>
         </table>
       </div>
