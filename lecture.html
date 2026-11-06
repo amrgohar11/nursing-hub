@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -13,12 +12,15 @@
   <header class="glass-nav" style="flex-shrink: 0;">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
-      <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
+      <div class="nav-links">
+        <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
+        <button id="theme-toggle" class="theme-toggle-btn" title="تبديل الوضع الليلي">🌙</button>
+      </div>
     </div>
   </header>
 
   <!-- عارض المحاضرة -->
-  <main style="flex-grow: 1; background: #e2e8f0; padding: 15px;">
+  <main style="flex-grow: 1; background: var(--border); padding: 15px;">
     <iframe 
       id="lecture-frame" 
       src="" 
@@ -28,7 +30,6 @@
   </main>
 
   <script>
-    // السكريبت ده بيقرأ اسم الملف من الرابط ويعرضه
     const urlParams = new URLSearchParams(window.location.search);
     const fileName = urlParams.get('file');
     const subjectId = urlParams.get('subjectId');
@@ -37,7 +38,6 @@
     const backLink = document.getElementById('back-link');
 
     if (fileName) {
-      // بيروح يجيب الملف من فولدر lectures
       frame.src = `lectures/${fileName}`;
     } else {
       frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px; font-family:sans-serif;">لم يتم العثور على ملف المحاضرة</h1>';
@@ -48,59 +48,26 @@
     } else {
       backLink.href = `index.html`;
     }
-  </script>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عرض المحاضرة | Nursing Hub</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body style="height: 100vh; display: flex; flex-direction: column; overflow: hidden;">
 
-  <!-- الهيدر -->
-  <header class="glass-nav" style="flex-shrink: 0;">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
-      <a id="back-link" href="#" style="font-weight: 700; color: var(--primary);">&rarr; العودة للمادة</a>
-    </div>
-  </header>
+    // === كود الوضع الليلي ===
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
 
-  <!-- عارض المحاضرة -->
-  <main style="flex-grow: 1; background: #e2e8f0; padding: 15px;">
-    <iframe 
-      id="lecture-frame" 
-      src="" 
-      style="width: 100%; height: 100%; border: none; border-radius: 15px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
-      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-    ></iframe>
-  </main>
+    document.documentElement.setAttribute('data-theme', currentTheme);
 
-  <script>
-    // السكريبت ده بيقرأ اسم الملف من الرابط ويعرضه
-    const urlParams = new URLSearchParams(window.location.search);
-    const fileName = urlParams.get('file');
-    const subjectId = urlParams.get('subjectId');
-
-    const frame = document.getElementById('lecture-frame');
-    const backLink = document.getElementById('back-link');
-
-    if (fileName) {
-      // بيروح يجيب الملف من فولدر lectures
-      frame.src = `lectures/${fileName}`;
-    } else {
-      frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px; font-family:sans-serif;">لم يتم العثور على ملف المحاضرة</h1>';
-    }
-
-    if (subjectId) {
-      backLink.href = `subject.html?id=${subjectId}`;
-    } else {
-      backLink.href = `index.html`;
+    if (themeToggleBtn) {
+      themeToggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+      
+      themeToggleBtn.addEventListener('click', () => {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      });
     }
   </script>
 </body>
->>>>>>> de937b76c26eb8c4dc042a8c8c7f9e08854c0587
 </html>
