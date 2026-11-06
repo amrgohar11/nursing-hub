@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بنك الأسئلة | Nursing Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .question-card { background: var(--white); padding: 25px; border-radius: 16px; box-shadow: var(--shadow-md); margin-bottom: 20px; }
+    .options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .option { background: var(--bg); padding: 12px 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+    .option:hover { background: var(--primary-light); }
+    .option.correct { background: #d1fae5; border-color: #10b981; color: #065f46; font-weight: bold; }
+    .option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <header class="glass-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
+      <a href="index.html" style="font-weight: 700; color: var(--primary);">&rarr; الرئيسية</a>
+    </div>
+  </header>
+
+  <main class="container" style="max-width: 800px;">
+    <h1 class="section-title">📝 بنك الأسئلة</h1>
+
+    <div class="question-card" data-correct="b">
+      <h3>1. ما هي الكلمة التي تعني "ارتفاع ضغط الدم"؟</h3>
+      <div class="options">
+        <div class="option" onclick="checkAnswer(this, 'a')">A. Tachycardia</div>
+        <div class="option" onclick="checkAnswer(this, 'b')">B. Hypertension</div>
+        <div class="option" onclick="checkAnswer(this, 'c')">C. Dyspnea</div>
+        <div class="option" onclick="checkAnswer(this, 'd')">D. Edema</div>
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="c">
+      <h3>2. أي من التالي يعتبر من العلامات الحيوية؟</h3>
+      <div class="options">
+        <div class="option" onclick="checkAnswer(this, 'a')">A. الوزن</div>
+        <div class="option" onclick="checkAnswer(this, 'b')">B. الطول</div>
+        <div class="option" onclick="checkAnswer(this, 'c')">C. معدل ضربات القلب</div>
+        <div class="option" onclick="checkAnswer(this, 'd')">D. لون العين</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function checkAnswer(element, choice) {
+      const card = element.closest('.question-card');
+      const correct = card.getAttribute('data-correct');
+      
+      if (choice === correct) {
+        element.classList.add('correct');
+      } else {
+        element.classList.add('wrong');
+        const correctOption = Array.from(card.querySelectorAll('.option')).find(opt => opt.getAttribute('onclick').includes(`'${correct}'`));
+        if (correctOption) correctOption.classList.add('correct');
+      }
+
+      card.querySelectorAll('.option').forEach(opt => {
+        opt.style.pointerEvents = 'none';
+      });
+    }
+  </script>
+</body>
+</html>

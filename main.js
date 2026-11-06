@@ -58,7 +58,22 @@ async function loadSubjects() {
 
 loadSubjects();
 
-// === 2. تحميل آخر المحاضرات اللي شفتها ===
+// === 2. البحث في المواد ===
+document.getElementById('search-input')?.addEventListener('input', function(e) {
+  const searchTerm = e.target.value.toLowerCase();
+  const cards = document.querySelectorAll('#subjects-grid .subject-card');
+  
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    if (text.includes(searchTerm)) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+
+// === 3. تحميل آخر المحاضرات اللي شفتها ===
 async function loadRecentLectures() {
   const recentContainer = document.getElementById('recent-lectures');
   if (!recentContainer) return;
@@ -75,11 +90,9 @@ async function loadRecentLectures() {
         if (completed.length > 0) {
           recentContainer.innerHTML = '';
           
-          // عرض آخر 3 محاضرات
           const recent = completed.slice(-3).reverse();
           
           for (const lecId of recent) {
-            // بنلف على المواد كلها عشان نلاقي المحاضرة دي فين
             const subjectsSnap = await getDocs(collection(db, "subjects"));
             let found = false;
             
@@ -125,7 +138,7 @@ async function loadRecentLectures() {
 
 loadRecentLectures();
 
-// === 3. كود الوضع الليلي ===
+// === 4. كود الوضع الليلي ===
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
 
