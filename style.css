@@ -588,3 +588,374 @@ a { text-decoration: none; color: inherit; }
   .section-title { font-size: 20px; }
   .nav-logo { font-size: 18px; }
 }
+
+/* =========================================
+   Nursing Hub AI Assistant
+   ========================================= */
+
+/* زرار المساعد في Bottom Nav */
+.bottom-nav-item[onclick] {
+  color: var(--primary) !important;
+}
+
+/* Overlay (الخلفية المعتمة) */
+.nh-chat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  background: rgba(10, 15, 30, 0.65);
+  backdrop-filter: blur(6px);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.nh-chat-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* المودال (نافذة الشات) */
+.nh-chat-modal {
+  width: min(500px, 100%);
+  height: 80vh;
+  max-height: 750px;
+  min-height: 400px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+  border-radius: 22px;
+
+  background: #f8fafc;
+  color: #111827;
+
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+
+  transform: translateY(25px) scale(0.97);
+  transition: transform 0.25s ease;
+}
+
+.nh-chat-overlay.active .nh-chat-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* الهيدر */
+.nh-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+}
+
+.nh-chat-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nh-chat-avatar {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.nh-chat-header h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.nh-chat-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.nh-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+}
+
+.nh-chat-close {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nh-chat-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* الرسائل */
+.nh-chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 14px;
+  background: #f1f5f9;
+  scroll-behavior: smooth;
+}
+
+.nh-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 90%;
+  animation: nhMessageIn 0.2s ease;
+}
+
+.nh-message.bot {
+  align-self: flex-start;
+}
+
+.nh-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.nh-message-avatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  border-radius: 50%;
+  background: #e0e7ff;
+}
+
+.nh-message.user .nh-message-avatar {
+  display: none;
+}
+
+.nh-message-content {
+  padding: 12px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.nh-message.bot .nh-message-content {
+  background: white;
+  color: #1e293b;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.nh-message.user .nh-message-content {
+  background: #2563eb;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.nh-message-content ul {
+  margin: 8px 0;
+  padding-right: 20px;
+}
+
+.nh-message-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.nh-message.user .nh-message-content a {
+  color: white;
+}
+
+/* جاري الكتابة */
+.nh-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px;
+}
+
+.nh-typing span {
+  width: 7px;
+  height: 7px;
+  background: #94a3b8;
+  border-radius: 50%;
+  animation: nhTyping 1s infinite ease-in-out;
+}
+
+.nh-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.nh-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* الإدخال */
+.nh-chat-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nh-chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  outline: none;
+  font: inherit;
+  font-size: 14px;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nh-chat-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.nh-chat-form button {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: #2563eb;
+  color: white;
+  font-size: 21px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.nh-chat-form button:hover {
+  background: #1d4ed8;
+}
+
+.nh-chat-form button:active {
+  transform: scale(0.95);
+}
+
+.nh-chat-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* الفوتر */
+.nh-chat-footer {
+  padding: 9px 12px;
+  text-align: center;
+  font-size: 11px;
+  background: white;
+  color: #64748b;
+}
+
+/* الأنيميشن */
+@keyframes nhMessageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nhTyping {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* الوضع الليلي */
+[data-theme="dark"] .nh-chat-modal {
+  background: #111827;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .nh-chat-messages {
+  background: #0f172a;
+}
+
+[data-theme="dark"] .nh-message.bot .nh-message-content {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .nh-chat-form,
+[data-theme="dark"] .nh-chat-footer {
+  background: #111827;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .nh-chat-form input {
+  background: #1e293b;
+  color: white;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .nh-chat-form input::placeholder {
+  color: #94a3b8;
+}
+
+/* الموبايل */
+@media (max-width: 600px) {
+  .nh-chat-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .nh-chat-modal {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    border-radius: 0;
+  }
+
+  .nh-chat-header {
+    padding: max(16px, env(safe-area-inset-top)) 16px 16px;
+  }
+
+  .nh-chat-form {
+    padding: 12px 12px max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-chat-overlay,
+  .nh-chat-modal,
+  .nh-message {
+    transition: none;
+    animation: none;
+  }
+}

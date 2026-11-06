@@ -147,6 +147,11 @@
       <span>👤</span>
       <span>حسابي</span>
     </a>
+    <!-- زرار المساعد -->
+    <button onclick="document.getElementById('nhChatOverlay').classList.add('active'); document.body.style.overflow='hidden';" class="bottom-nav-item" style="color: var(--primary); background: none; border: none; cursor: pointer; font-family: inherit;">
+      <span>🤖</span>
+      <span>المساعد</span>
+    </button>
   </nav>
 
   <!-- نافذة تثبيت التطبيق -->
@@ -162,8 +167,66 @@
     </div>
   </div>
 
+  <!-- نافذة الشات بوت -->
+  <div class="nh-chat-overlay" id="nhChatOverlay" aria-hidden="true">
+
+    <section class="nh-chat-modal" role="dialog" aria-modal="true" aria-labelledby="nhChatTitle">
+
+      <!-- Header -->
+      <header class="nh-chat-header">
+        <div class="nh-chat-brand">
+          <div class="nh-chat-avatar">🤖</div>
+          <div>
+            <h3 id="nhChatTitle">المساعد الذكي</h3>
+            <span class="nh-chat-status">
+              <span class="nh-status-dot"></span>
+              جاهز لمساعدتك
+            </span>
+          </div>
+        </div>
+
+        <button class="nh-chat-close" id="nhChatClose" type="button" aria-label="إغلاق الشات">✕</button>
+      </header>
+
+      <!-- Messages -->
+      <div class="nh-chat-messages" id="nhChatMessages" aria-live="polite">
+
+        <div class="nh-message bot">
+          <div class="nh-message-avatar">🤖</div>
+          <div class="nh-message-content">
+            أهلاً بيك في Nursing Hub! 👋<br>
+            أنا مساعدك الذكي، صممني المطور <strong>عمرو جوهر</strong> عشان أكون معاك خطوة بخطوة في رحلة مذاكرة التمريض.<br>
+            تقدر تسألني عن المواد، المحاضرات، المصطلحات الطبية، أو أي حاجة محتاج توضيح فيها.<br>
+            إزاي أقدر أساعدك النهاردة؟
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input -->
+      <form class="nh-chat-form" id="nhChatForm">
+        <input
+          type="text"
+          id="nhChatInput"
+          placeholder="اكتب سؤالك هنا..."
+          maxlength="4000"
+          autocomplete="off"
+          aria-label="اكتب سؤالك"
+          required
+        >
+        <button type="submit" id="nhChatSend" aria-label="إرسال الرسالة">➤</button>
+      </form>
+
+      <footer class="nh-chat-footer">
+        المساعد للتعلم فقط، وليس بديلًا عن الطبيب.
+      </footer>
+
+    </section>
+  </div>
+
   <script type="module" src="guard.js"></script>
   <script type="module" src="main.js"></script>
+  <script src="chat.js" defer></script>
   
   <!-- سكريبت PWA + نافذة التثبيت -->
   <script>
