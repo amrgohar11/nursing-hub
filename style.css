@@ -1,44 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
 /* =========================================
-   المتغيرات العامة (iOS Style - Light Mode)
+   المتغيرات العامة (الوضع الفاتح)
    ========================================= */
 :root {
-  --primary: #007aff;         /* iOS Blue */
-  --primary-dark: #0051d5;    
-  --primary-light: #e5f1ff;   
-  --bg: #f2f2f7;              /* iOS Light Gray */
-  --text: #1c1c1e;            
-  --text-muted: #8e8e93;      
+  --primary: #0284c7;         
+  --primary-dark: #0c4a6e;    
+  --primary-light: #e0f2fe;   
+  --bg: #f8fafc;              
+  --text: #0f172a;            
+  --text-muted: #64748b;      
   --white: #ffffff;
-  --border: #e5e5ea;
-  --success: #34c759;         /* iOS Green */
-  --warning: #ff9500;         /* iOS Orange */
-  --danger: #ff3b30;          /* iOS Red */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --glass-border: rgba(255, 255, 255, 0.5);
 }
 
 /* =========================================
-   الوضع الليلي (iOS Style - Dark Mode)
+   الوضع الليلي (Dark Mode)
    ========================================= */
 [data-theme="dark"] {
-  --primary: #0a84ff;         
-  --primary-dark: #409cff;    
-  --primary-light: #1c1c1e;   
-  --bg: #000000;              
-  --text: #ffffff;            
-  --text-muted: #8e8e93;      
-  --white: #1c1c1e;           
-  --border: #38383a;          
-  --glass-bg: rgba(28, 28, 30, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --primary: #38bdf8;         
+  --primary-dark: #7dd3fc;    
+  --primary-light: #1e293b;   
+  --bg: #0f172a;              
+  --text: #f8fafc;            
+  --text-muted: #94a3b8;      
+  --white: #1e293b;           
+  --border: #334155;          
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 /* =========================================
@@ -49,7 +46,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Cairo', sans-serif;
-  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
@@ -60,326 +57,436 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
 }
 
 a { text-decoration: none; color: inherit; }
 
 /* =========================================
-   الأنيميشن (خفيف)
+   الأنيميشن (Animations)
    ========================================= */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(15px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes shine {
+  100% { left: 125%; }
+}
+
 .animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0; 
 }
 
 /* =========================================
-   الهيدر (iOS Glass Nav)
+   الهيدر (Header)
    ========================================= */
 .glass-nav {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--glass-border);
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .nav-logo {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--primary-dark);
   display: flex;
   align-items: center;
-  gap: 6px;
-  letter-spacing: -0.5px;
+  gap: 8px;
+  transition: 0.3s;
 }
+.nav-logo:hover { transform: scale(1.02); }
 
 .nav-links {
   display: flex;
-  gap: 20px;
-  font-weight: 600;
+  gap: 25px;
+  font-weight: 700;
   align-items: center;
 }
 .nav-links a {
   color: var(--text-muted);
-  transition: 0.2s;
-  font-size: 15px;
+  transition: 0.3s;
+  position: relative;
 }
 .nav-links a:hover { color: var(--primary); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -5px; right: 0;
+  width: 0%; height: 2px; background: var(--primary); transition: 0.3s;
+}
+.nav-links a:hover::after { width: 100%; }
 
 /* زرار الوضع الليلي */
 .theme-toggle-btn {
   background: var(--primary-light);
-  color: var(--primary);
+  color: var(--primary-dark);
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 18px;
-  transition: 0.2s;
+  font-size: 20px;
+  transition: 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+.theme-toggle-btn:hover {
+  transform: scale(1.1) rotate(15deg);
 }
 
 /* =========================================
-   قسم الترحيب (iOS Hero)
+   قسم الترحيب (Hero Section)
    ========================================= */
 .hero {
-  background: var(--white);
-  color: var(--text);
-  padding: 60px 20px;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #0e7490 50%, var(--primary) 100%);
+  color: white;
+  padding: 100px 20px;
   text-align: center;
-  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .hero {
+  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #0c4a6e 100%);
 }
 
 .hero-content {
-  max-width: 700px;
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .badge {
   display: inline-block;
-  background: var(--primary-light);
-  color: var(--primary);
-  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 20px;
   border-radius: 50px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  color: #e0f2fe;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .hero h1 {
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 900;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   letter-spacing: -1px;
   line-height: 1.2;
 }
-.hero h1 span { color: var(--primary); }
+.hero h1 span { color: #7dd3fc; }
 
 .hero p {
-  font-size: 16px;
-  color: var(--text-muted);
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.6;
+  font-size: 18px;
+  color: #bae6fd;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
 }
 
 /* =========================================
    الحاوية العامة (Container)
    ========================================= */
 .container {
-  max-width: 1100px;
-  margin: 30px auto;
+  max-width: 1200px;
+  margin: 60px auto;
   padding: 0 20px;
   flex-grow: 1;
   width: 100%;
 }
 
 .section-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--primary-dark);
+  margin-bottom: 35px;
+  position: relative;
+  display: inline-block;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: -10px; right: 0;
+  width: 60%; height: 5px; background: var(--primary); border-radius: 5px;
 }
 
 /* =========================================
-   كروت المواد (iOS Cards)
+   كروت المواد (Subject Cards)
    ========================================= */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
 }
 
 .subject-card {
   background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  border-radius: 24px;
+  padding: 35px 30px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: fadeInUp 0.4s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
 }
 
-.subject-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.subject-card::after {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg);
+  transition: 0.7s;
 }
+
+.subject-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary);
+}
+.subject-card:hover::after { animation: shine 0.7s; }
 
 .subject-icon {
-  font-size: 32px;
-  width: 60px; height: 60px;
+  font-size: 45px;
+  width: 85px; height: 85px;
   background: var(--primary-light);
-  border-radius: var(--radius-md);
+  border-radius: 20px;
   display: flex; justify-content: center; align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
+  transition: 0.4s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+.subject-card:hover .subject-icon {
+  background: var(--primary);
+  color: white;
+  transform: rotate(-5deg) scale(1.05);
 }
 
-.subject-name-ar { font-size: 19px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
-.subject-name-en { font-size: 13px; font-weight: 600; color: var(--text-muted); font-family: monospace; margin-bottom: 10px; }
-.subject-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; flex-grow: 1; }
+.subject-name-ar { font-size: 24px; font-weight: 900; color: var(--primary-dark); margin-bottom: 5px; }
+.subject-name-en { font-size: 14px; font-weight: 700; color: var(--text-muted); font-family: monospace; margin-bottom: 15px; letter-spacing: 1px; }
+.subject-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 25px; flex-grow: 1; }
 
 .subject-footer {
-  padding-top: 15px;
+  padding-top: 20px;
   border-top: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center;
 }
-.subject-count { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.subject-count { font-size: 13px; color: var(--text-muted); font-weight: 700; }
 .subject-btn {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px; font-weight: 800;
+  transition: 0.3s;
+}
+.subject-card:hover .subject-btn {
   background: var(--primary);
   color: white;
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 13px; font-weight: 700;
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
 }
 
 /* =========================================
-   صفحة المادة (iOS Subject Page)
+   صفحة المادة (Subject Page)
    ========================================= */
 .subject-header-card {
   background: var(--white);
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  margin-bottom: 24px;
-  display: flex; align-items: center; gap: 20px;
-  border: 1px solid var(--border);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 40px;
+  display: flex; align-items: center; gap: 30px;
+  border-right: 8px solid var(--primary);
+  position: relative; overflow: hidden;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+.subject-header-card::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px;
+  background: var(--primary-light); border-radius: 0 0 0 100%; z-index: 0; opacity: 0.5;
 }
 .subject-header-icon {
-  font-size: 40px; background: var(--primary-light);
-  width: 80px; height: 80px;
+  font-size: 55px; background: var(--primary-light);
+  width: 110px; height: 110px;
   display: flex; justify-content: center; align-items: center;
-  border-radius: var(--radius-md);
+  border-radius: 25px; position: relative; z-index: 1;
+  box-shadow: var(--shadow-sm);
 }
-.subject-header-info h1 { font-size: 24px; font-weight: 900; color: var(--text); }
-.subject-header-info p { color: var(--text-muted); font-weight: 600; font-size: 14px; font-family: monospace; }
+.subject-header-info { position: relative; z-index: 1; }
+.subject-header-info h1 { font-size: 36px; font-weight: 900; color: var(--primary-dark); margin-bottom: 5px; }
+.subject-header-info p { color: var(--text-muted); font-weight: 700; font-size: 16px; font-family: monospace; letter-spacing: 1px; }
 
-.lecture-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.lecture-list { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
 
 .lecture-item {
   display: flex; justify-content: space-between; align-items: center;
   background: var(--white);
-  padding: 16px 20px;
-  border-radius: var(--radius-md);
+  padding: 22px 30px;
+  border-radius: 18px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+.lecture-item::before {
+  content: ''; position: absolute; right: 0; top: 0; height: 100%; width: 5px;
+  background: var(--primary); transition: 0.3s; opacity: 0;
 }
 .lecture-item:hover {
-  transform: scale(1.01);
+  transform: translateX(-10px);
   border-color: var(--primary);
+  box-shadow: var(--shadow-md);
 }
+.lecture-item:hover::before { opacity: 1; }
 
-.lecture-title { font-size: 16px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 10px; }
+.lecture-title { font-size: 19px; font-weight: 800; color: var(--primary-dark); display: flex; align-items: center; gap: 15px; }
+.lecture-title span { font-size: 24px; }
 .lecture-action {
-  color: var(--primary); font-weight: 700; font-size: 14px;
-  background: var(--primary-light); padding: 6px 14px; border-radius: 50px;
+  color: var(--primary); font-weight: 800; font-size: 15px;
+  background: var(--primary-light); padding: 8px 16px; border-radius: 10px; transition: 0.3s;
 }
+.lecture-item:hover .lecture-action { background: var(--primary); color: white; }
 
 /* =========================================
-   صفحة الأدمن (iOS Admin Page)
+   صفحة الأدمن (Admin Page)
    ========================================= */
-.admin-container { max-width: 700px; margin: 30px auto; padding: 0 20px; width: 100%; }
+.admin-container { max-width: 700px; margin: 50px auto; padding: 0 20px; width: 100%; }
 
 .admin-card {
   background: var(--white);
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  margin-bottom: 20px;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 35px;
   border: 1px solid var(--border);
+  position: relative;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
-.admin-card h1 {
-  font-size: 20px; font-weight: 800; color: var(--text);
-  margin-bottom: 20px;
+.admin-card::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 5px;
+  background: linear-gradient(to left, var(--primary), var(--primary-dark));
+  border-radius: 24px 24px 0 0;
 }
 
-.admin-form { display: flex; flex-direction: column; gap: 14px; }
+.admin-card h1 {
+  font-size: 24px; font-weight: 900; color: var(--primary-dark);
+  margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--bg);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.admin-form { display: flex; flex-direction: column; gap: 20px; }
 
 .admin-form input, .admin-form select {
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  font-family: inherit; font-size: 15px; outline: none;
-  background: var(--bg); color: var(--text);
+  padding: 16px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  font-family: inherit; font-size: 16px; outline: none;
+  transition: 0.3s; background: var(--bg); color: var(--text);
 }
 .admin-form input:focus, .admin-form select:focus {
   border-color: var(--primary);
   background: var(--white);
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
 }
 
 .admin-form button {
-  padding: 16px;
-  background: var(--primary);
-  color: white; border: none; border-radius: var(--radius-sm);
-  font-weight: 800; font-size: 16px; cursor: pointer;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white; border: none; border-radius: 14px;
+  font-weight: 900; font-size: 18px; cursor: pointer;
+  transition: 0.3s; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+}
+.admin-form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(2, 132, 199, 0.5);
 }
 
 /* =========================================
-   الفوتر (iOS Footer)
+   الفوتر (Footer)
    ========================================= */
 .footer {
-  background: var(--white);
-  color: var(--text-muted);
-  padding: 30px 20px;
+  background: var(--primary-dark);
+  color: #94a3b8;
+  padding: 60px 20px 30px;
   text-align: center;
-  border-top: 1px solid var(--border);
+  border-top: 5px solid var(--primary);
   margin-top: auto;
 }
+[data-theme="dark"] .footer {
+  background: #020617;
+  border-top-color: var(--primary);
+}
 .footer-content {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; flex-direction: column; align-items: center; gap: 15px;
+  max-width: 1200px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
 }
 
 .whatsapp-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--success); color: white;
-  padding: 10px 24px; border-radius: 50px;
-  font-weight: 800; font-size: 15px;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25D366; color: white;
+  padding: 12px 30px; border-radius: 50px;
+  font-weight: 900; font-size: 16px;
+  transition: 0.3s; box-shadow: 0 4px 15px rgba(37,211,102,0.4);
 }
-.footer-divider { width: 100%; height: 1px; background: var(--border); margin: 10px 0; }
+.whatsapp-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(37,211,102,0.6);
+}
+
+.footer-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.1); margin: 10px 0; }
+.footer p { font-size: 16px; }
+.footer p span { color: white; font-weight: 900; }
+.footer .copyright { font-size: 14px; opacity: 0.7; }
 
 /* =========================================
-   Skeleton Loading (iOS Style)
+   Skeleton Loading
    ========================================= */
 .skeleton {
-  background: linear-gradient(90deg, #e5e5ea 25%, #f2f2f7 50%, #e5e5ea 75%);
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
   background-size: 200% 100%;
-  animation: skeleton-loading 1.2s infinite;
+  animation: skeleton-loading 1.5s infinite;
   border-radius: 8px;
+}
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
 }
 @keyframes skeleton-loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-.skeleton-icon { width: 60px; height: 60px; margin-bottom: 15px; }
-.skeleton-title { height: 24px; width: 70%; margin-bottom: 8px; }
-.skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+.skeleton-card { pointer-events: none; }
+.skeleton-icon { width: 85px; height: 85px; margin-bottom: 25px; }
+.skeleton-title { height: 28px; width: 70%; margin-bottom: 10px; }
+.skeleton-text { height: 16px; width: 100%; margin-bottom: 8px; }
 .skeleton-text.short { width: 50%; }
 
 /* =========================================
-   Bottom Navigation (iOS Tab Bar)
+   Bottom Navigation (للموبايل)
    ========================================= */
 .bottom-nav {
   display: none;
@@ -387,73 +494,111 @@ a { text-decoration: none; color: inherit; }
   bottom: 0;
   right: 0;
   left: 0;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--glass-border);
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
   z-index: 999;
   justify-content: space-around;
-  padding: 8px 0 20px 0;
+  padding: 8px 0;
 }
 .bottom-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 10px;
-  font-weight: 600;
-  transition: 0.2s;
-  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  transition: 0.3s;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 .bottom-nav-item span:first-child {
-  font-size: 22px;
+  font-size: 20px;
 }
 .bottom-nav-item.active,
 .bottom-nav-item:hover {
   color: var(--primary);
+  background: var(--primary-light);
 }
 
 /* =========================================
-   زرار المساعد العايم (iOS Floating Button)
+   التجاوب مع الموبايل (Responsive)
    ========================================= */
-.nh-floating-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 10000;
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  font-size: 26px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-.nh-floating-btn:active {
-  transform: scale(0.9);
-}
 @media (max-width: 768px) {
-  .nh-floating-btn {
-    top: 15px;
-    left: 15px;
-    width: 46px;
-    height: 46px;
-    font-size: 22px;
+  .nav-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+  .nav-logo { font-size: 20px; }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .nav-links a {
+    padding: 5px 10px;
+    background: var(--primary-light);
+    border-radius: 8px;
+  }
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .hero { padding: 40px 15px; }
+  .hero h1 { font-size: 26px; }
+  .hero p { font-size: 14px; }
+  .badge { font-size: 12px; padding: 5px 12px; }
+  .grid { grid-template-columns: 1fr; gap: 15px; }
+  .subject-card { padding: 20px 15px; }
+  .subject-icon { width: 60px; height: 60px; font-size: 30px; }
+  .subject-name-ar { font-size: 18px; }
+  .subject-header-card { flex-direction: column; text-align: center; padding: 20px; gap: 15px; }
+  .subject-header-icon { width: 70px; height: 70px; font-size: 35px; }
+  .subject-header-info h1 { font-size: 24px; }
+  .lecture-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
+  .lecture-action { width: 100%; text-align: center; }
+  .admin-card { padding: 20px; }
+  .admin-card h1 { font-size: 18px; }
+  .admin-form input, .admin-form select { padding: 12px; font-size: 14px; }
+  .admin-form button { padding: 14px; font-size: 15px; }
+  .footer { padding: 30px 15px 15px; }
+  .whatsapp-btn { padding: 10px 15px; font-size: 13px; width: 100%; justify-content: center; }
+
+  /* Bottom Nav يظهر في الموبايل */
+  .bottom-nav {
+    display: flex;
+  }
+  body {
+    padding-bottom: 70px;
   }
 }
 
+@media (max-width: 480px) {
+  .hero h1 { font-size: 22px; }
+  .hero p { font-size: 13px; }
+  .section-title { font-size: 20px; }
+  .nav-logo { font-size: 18px; }
+}
+
 /* =========================================
-   نافذة الشات (iOS Chat Modal)
+   Nursing Hub AI Assistant
    ========================================= */
+
+/* زرار المساعد في Bottom Nav */
+#nhAssistantOpen {
+  color: var(--primary) !important;
+}
+
+/* Overlay (الخلفية المعتمة) */
 .nh-chat-overlay {
   position: fixed;
   inset: 0;
@@ -462,226 +607,364 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
+
+  background: rgba(10, 15, 30, 0.65);
+  backdrop-filter: blur(6px);
+
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
+
 .nh-chat-overlay.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
+/* المودال (نافذة الشات) */
 .nh-chat-modal {
-  width: min(450px, 100%);
+  width: min(500px, 100%);
   height: 80vh;
-  max-height: 700px;
+  max-height: 750px;
+  min-height: 400px;
+
   display: flex;
   flex-direction: column;
+
   overflow: hidden;
-  border-radius: var(--radius-lg);
-  background: var(--bg);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  transform: translateY(20px) scale(0.98);
-  transition: transform 0.25s;
+  border-radius: 22px;
+
+  background: #f8fafc;
+  color: #111827;
+
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+
+  transform: translateY(25px) scale(0.97);
+  transition: transform 0.25s ease;
 }
+
 .nh-chat-overlay.active .nh-chat-modal {
   transform: translateY(0) scale(1);
 }
 
-/* هيدر الشات */
+/* الهيدر */
 .nh-chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
 }
+
 .nh-chat-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-.nh-chat-avatar {
-  width: 36px; height: 36px;
-  background: var(--primary-light);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-}
-.nh-chat-header h3 {
-  margin: 0; font-size: 16px; font-weight: 800; color: var(--text);
-}
-.nh-chat-status {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 11px; color: var(--text-muted);
-}
-.nh-status-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--success);
-}
-.nh-chat-close {
-  width: 30px; height: 30px;
-  border: none; border-radius: 50%;
-  background: var(--bg);
-  color: var(--text-muted);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* رسائل الشات */
-.nh-chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
+
+.nh-chat-avatar {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.nh-chat-header h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.nh-chat-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.nh-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+}
+
+.nh-chat-close {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nh-chat-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* الرسائل */
+.nh-chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 14px;
+  background: #f1f5f9;
+  scroll-behavior: smooth;
+}
+
 .nh-message {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  max-width: 85%;
+  max-width: 90%;
   animation: nhMessageIn 0.2s ease;
 }
-@keyframes nhMessageIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+
+.nh-message.bot {
+  align-self: flex-start;
 }
-.nh-message.bot { align-self: flex-start; }
-.nh-message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.nh-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
 
 .nh-message-avatar {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--primary-light);
-  display: grid; place-items: center;
-  font-size: 12px;
   flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  border-radius: 50%;
+  background: #e0e7ff;
 }
-.nh-message.user .nh-message-avatar { display: none; }
+
+.nh-message.user .nh-message-avatar {
+  display: none;
+}
 
 .nh-message-content {
-  padding: 10px 14px;
+  padding: 12px 15px;
   border-radius: 16px;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.8;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
+
 .nh-message.bot .nh-message-content {
-  background: var(--white);
-  color: var(--text);
+  background: white;
+  color: #1e293b;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.nh-message.user .nh-message-content {
+  background: #2563eb;
+  color: white;
   border-bottom-right-radius: 4px;
 }
-.nh-message.user .nh-message-content {
-  background: var(--primary);
+
+.nh-message-content ul {
+  margin: 8px 0;
+  padding-right: 20px;
+}
+
+.nh-message-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.nh-message.user .nh-message-content a {
   color: white;
-  border-bottom-left-radius: 4px;
 }
 
 /* جاري الكتابة */
 .nh-typing {
-  display: flex; align-items: center; gap: 4px;
-  padding: 12px 14px;
-  background: var(--white);
-  border-radius: 16px;
-  border-bottom-right-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px;
 }
+
 .nh-typing span {
-  width: 6px; height: 6px;
-  background: var(--text-muted);
+  width: 7px;
+  height: 7px;
+  background: #94a3b8;
   border-radius: 50%;
   animation: nhTyping 1s infinite ease-in-out;
 }
-.nh-typing span:nth-child(2) { animation-delay: 0.15s; }
-.nh-typing span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes nhTyping {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-3px); opacity: 1; }
+
+.nh-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.nh-typing span:nth-child(3) {
+  animation-delay: 0.3s;
 }
 
 /* الإدخال */
 .nh-chat-form {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: var(--white);
-  border-top: 1px solid var(--border);
+  gap: 10px;
+  padding: 14px;
+  background: white;
+  border-top: 1px solid #e2e8f0;
 }
+
 .nh-chat-form input {
   flex: 1;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: 50px;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
   outline: none;
   font: inherit;
   font-size: 14px;
-  background: var(--bg);
-  color: var(--text);
+  background: #f8fafc;
+  color: #0f172a;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.nh-chat-form input:focus { border-color: var(--primary); }
+
+.nh-chat-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
 
 .nh-chat-form button {
-  width: 40px; height: 40px;
-  border: none; border-radius: 50%;
-  background: var(--primary);
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: #2563eb;
   color: white;
-  font-size: 18px;
+  font-size: 21px;
   cursor: pointer;
-  display: grid; place-items: center;
+  transition: background 0.2s, transform 0.2s;
 }
 
+.nh-chat-form button:hover {
+  background: #1d4ed8;
+}
+
+.nh-chat-form button:active {
+  transform: scale(0.95);
+}
+
+.nh-chat-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* الفوتر */
 .nh-chat-footer {
-  padding: 8px;
+  padding: 9px 12px;
   text-align: center;
-  font-size: 10px;
-  color: var(--text-muted);
-  background: var(--white);
+  font-size: 11px;
+  background: white;
+  color: #64748b;
 }
 
-/* =========================================
-   الموبايل (تحسينات عشان يبقى خفيف)
-   ========================================= */
+/* الأنيميشن */
+@keyframes nhMessageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nhTyping {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* الوضع الليلي */
+[data-theme="dark"] .nh-chat-modal {
+  background: #111827;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .nh-chat-messages {
+  background: #0f172a;
+}
+
+[data-theme="dark"] .nh-message.bot .nh-message-content {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .nh-chat-form,
+[data-theme="dark"] .nh-chat-footer {
+  background: #111827;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .nh-chat-form input {
+  background: #1e293b;
+  color: white;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .nh-chat-form input::placeholder {
+  color: #94a3b8;
+}
+
+/* الموبايل - تحسينات */
 @media (max-width: 768px) {
-  .nav-links { display: none; } /* نخفي اللينكات من فوق عشان الزحمة */
-  .bottom-nav { display: flex; }
-  body { padding-bottom: 80px; }
-
-  .hero { padding: 40px 15px; }
-  .hero h1 { font-size: 26px; }
-  .hero p { font-size: 14px; }
-
-  .grid { grid-template-columns: 1fr; gap: 12px; }
-  .subject-card { padding: 16px; }
-  .subject-icon { width: 50px; height: 50px; font-size: 26px; }
-  .subject-name-ar { font-size: 17px; }
-
-  .subject-header-card { flex-direction: column; text-align: center; padding: 16px; }
-  .subject-header-icon { width: 60px; height: 60px; font-size: 30px; }
-  .subject-header-info h1 { font-size: 20px; }
-
-  .lecture-item { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; }
-  .lecture-action { width: 100%; text-align: center; }
-
-  .admin-card { padding: 16px; }
-
-  /* الشات ملء الشاشة على الموبايل */
   .nh-chat-overlay {
-    padding: 0;
-    align-items: stretch;
+    padding: 0 !important;
+    align-items: stretch !important;
   }
+
   .nh-chat-modal {
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    border-radius: 0;
-    transform: none;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    min-height: 100vh !important;
+    border-radius: 0 !important;
+    transform: none !important;
   }
-  .nh-chat-overlay.active .nh-chat-modal { transform: none; }
-  .nh-chat-header { padding: 14px; }
-  .nh-chat-form { padding: 10px; }
+
+  .nh-chat-overlay.active .nh-chat-modal {
+    transform: none !important;
+  }
+
+  .nh-chat-header {
+    padding: 16px !important;
+  }
+
+  .nh-chat-form {
+    padding: 12px !important;
+  }
+
+  .nh-chat-messages {
+    padding: 16px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-chat-overlay,
+  .nh-chat-modal,
+  .nh-message {
+    transition: none;
+    animation: none;
+  }
 }
