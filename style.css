@@ -464,34 +464,58 @@ a { text-decoration: none; color: inherit; }
    التجاوب مع الموبايل (Responsive)
    ========================================= */
 @media (max-width: 768px) {
-  .nav-container { flex-direction: column; gap: 15px; padding: 15px; }
-  .nav-logo { font-size: 22px; }
-  .hero { padding: 60px 20px; }
-  .hero h1 { font-size: 32px; }
-  .hero p { font-size: 16px; }
-  .badge { font-size: 13px; padding: 6px 15px; }
-  .grid { grid-template-columns: 1fr; gap: 20px; }
-  .subject-card { padding: 25px 20px; }
-  .subject-icon { width: 70px; height: 70px; font-size: 35px; margin-bottom: 15px; }
-  .subject-name-ar { font-size: 20px; }
-  .subject-header-card { flex-direction: column; text-align: center; padding: 25px; gap: 15px; }
-  .subject-header-icon { width: 80px; height: 80px; font-size: 40px; }
-  .subject-header-info h1 { font-size: 26px; }
-  .lecture-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
+  /* الهيدر */
+  .nav-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+  .nav-logo { font-size: 20px; }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .nav-links a {
+    padding: 5px 10px;
+    background: var(--primary-light);
+    border-radius: 8px;
+  }
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  /* باقي الصفحات */
+  .hero { padding: 40px 15px; }
+  .hero h1 { font-size: 26px; }
+  .hero p { font-size: 14px; }
+  .badge { font-size: 12px; padding: 5px 12px; }
+  .grid { grid-template-columns: 1fr; gap: 15px; }
+  .subject-card { padding: 20px 15px; }
+  .subject-icon { width: 60px; height: 60px; font-size: 30px; }
+  .subject-name-ar { font-size: 18px; }
+  .subject-header-card { flex-direction: column; text-align: center; padding: 20px; gap: 15px; }
+  .subject-header-icon { width: 70px; height: 70px; font-size: 35px; }
+  .subject-header-info h1 { font-size: 24px; }
+  .lecture-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
   .lecture-action { width: 100%; text-align: center; }
-  .admin-card { padding: 25px; }
-  .admin-card h1 { font-size: 20px; }
-  .admin-form input, .admin-form select { padding: 14px; font-size: 15px; }
-  .admin-form button { padding: 16px; font-size: 16px; }
-  .footer { padding: 40px 20px 20px; }
-  .whatsapp-btn { padding: 10px 20px; font-size: 14px; width: 100%; justify-content: center; }
+  .admin-card { padding: 20px; }
+  .admin-card h1 { font-size: 18px; }
+  .admin-form input, .admin-form select { padding: 12px; font-size: 14px; }
+  .admin-form button { padding: 14px; font-size: 15px; }
+  .footer { padding: 30px 15px 15px; }
+  .whatsapp-btn { padding: 10px 15px; font-size: 13px; width: 100%; justify-content: center; }
 }
 
 @media (max-width: 480px) {
-  .hero h1 { font-size: 26px; }
-  .hero p { font-size: 14px; }
-  .section-title { font-size: 22px; }
-  .nav-logo { font-size: 20px; }
-  .subject-card { padding: 20px 15px; }
-  .subject-name-ar { font-size: 18px; }
+  .hero h1 { font-size: 22px; }
+  .hero p { font-size: 13px; }
+  .section-title { font-size: 20px; }
+  .nav-logo { font-size: 18px; }
 }

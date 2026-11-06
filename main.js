@@ -93,6 +93,7 @@ async function loadRecentLectures() {
           const recent = completed.slice(-3).reverse();
           
           for (const lecId of recent) {
+            // بنجيب كل المواد الأول عشان نلاقي المحاضرة
             const subjectsSnap = await getDocs(collection(db, "subjects"));
             let found = false;
             
