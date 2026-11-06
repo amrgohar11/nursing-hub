@@ -225,8 +225,12 @@
       frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
     }
 
-    if (subjectId) backLink.href = `subject.html?id=${subjectId}`;
-    else backLink.href = `index.html`;
+    // === إصلاح زرار العودة للمادة ===
+    if (subjectId && subjectId !== 'null' && subjectId !== 'undefined') {
+      backLink.href = `subject.html?id=${subjectId}`;
+    } else {
+      backLink.href = 'index.html';
+    }
 
     // فتح وقفل المودال
     const modal = document.getElementById('comments-modal');
