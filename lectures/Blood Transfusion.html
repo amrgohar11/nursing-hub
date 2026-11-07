@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Bilingual ADLT 1 nursing study notes: Blood Transfusion, procedure, and complications. Created by Amr Gohar.">
+<title>ADLT 1 | Blood Transfusion — Amr Gohar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+    /* إعدادات عامة */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+        font-family: 'Cairo', sans-serif;
+        background-color: #f3f7fa;
+        color: #203344;
+        line-height: 1.8;
+        padding: 15px;
+        font-size: 16px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* الهيدر */
+    .header {
+        background: linear-gradient(135deg, #123b5d, #1677b8);
+        color: white;
+        padding: 35px 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 6px 15px rgba(22, 119, 184, 0.3);
+        margin-bottom: 25px;
+    }
+    .header h1 { font-size: 2rem; margin-bottom: 8px; font-weight: 900; }
+    .header p { font-size: 1rem; color: #e7f4ff; }
+    .header .name-badge {
+        background: rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        padding: 6px 20px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.5);
+        margin-top: 15px;
+    }
+
+    /* الفهرس */
+    .nav-links {
+        background: #fff;
+        border: 1px solid #d8e5ec;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 25px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+    .nav-links a {
+        display: inline-block;
+        margin: 5px 8px;
+        color: #1677b8;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+        background: #eaf5fb;
+        padding: 4px 12px;
+        border-radius: 20px;
+        transition: 0.3s;
+    }
+    .nav-links a:hover { background: #1677b8; color: #fff; }
+
+    /* الأقسام (الكروت) */
+    .section {
+        background: #fff;
+        border: 1px solid #d8e5ec;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 14px rgba(18, 59, 93, 0.04);
+    }
+    .section-title {
+        color: #123b5d;
+        font-size: 1.3rem;
+        border-bottom: 2px solid #eaf5fb;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-weight: 800;
+    }
+    .sub-title {
+        color: #176b91;
+        font-size: 1.1rem;
+        margin: 20px 0 10px;
+        font-weight: 700;
+    }
+
+    /* النصوص العربي والإنجليزي */
+    .en {
+        display: block;
+        font-weight: 600;
+        color: #203344;
+        direction: ltr;
+        text-align: left;
+        margin-bottom: 4px;
+    }
+    .ar {
+        display: block;
+        color: #526a79;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    /* القوائم */
+    ul, ol { padding-right: 20px; margin-bottom: 15px; }
+    li { margin-bottom: 8px; }
+
+    /* الجداول */
+    .table-responsive { overflow-x: auto; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);}
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 600px; background: white;}
+    th, td { border: 1px solid #d8e5ec; padding: 10px; text-align: right; vertical-align: top; }
+    th { background: #eaf4fa; color: #123b5d; text-align: center; font-weight: 800; }
+
+    /* بوكس ببساطة */
+    .simple-box {
+        background: #eaf8f3;
+        border-right: 5px solid #168b83;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        color: #115e59;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+    .simple-box::before {
+        content: '💡 ببساطة: ';
+        font-weight: 900;
+        color: #0f766e;
+        font-size: 1rem;
+    }
+
+    /* بوكس ركز هنا */
+    .exam-box {
+        background: #fff4df;
+        border-right: 5px solid #d99a21;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        color: #92400e;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+    .exam-box::before {
+        content: '🎯 ركز هنا في الامتحان: ';
+        font-weight: 900;
+        color: #b45309;
+        font-size: 1rem;
+    }
+
+    /* بوكس التحذير */
+    .alert-box {
+        background: #fff0ef;
+        border-right: 5px solid #d64d4d;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        color: #991b1b;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+    .alert-box::before {
+        content: '⚠️ تحذير مهم: ';
+        font-weight: 900;
+        color: #b91c1c;
+        font-size: 1rem;
+    }
+
+    /* الرسومات */
+    .visual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+    .visual-card { background: #fbfdff; border: 1px solid #d8e8f1; border-radius: 12px; padding: 15px; text-align: center; }
+    .visual-card h3 { font-size: 1rem; margin-bottom: 8px; color: #123b5d; }
+    .visual-card svg { width: 100%; height: auto; max-height: 160px; }
+    .visual-card p { font-size: 0.85rem; color: #64748b; margin-top: 10px; font-weight: 600;}
+
+    /* الفوتر */
+    .footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 2px dashed #cbd5e1; color: #64748b; font-size: 0.9rem; font-weight: 700; }
+
+    @media (min-width: 768px) {
+        .section { padding: 30px; }
+        body { font-size: 17px; }
+        .header h1 { font-size: 2.5rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- الهيدر -->
+    <div class="header">
+        <h1>ADLT 1 — Blood Transfusion</h1>
+        <p>Adult Nursing | Bilingual Study Notes (English + Arabic)</p>
+        <div class="name-badge">إعداد: Amr Gohar</div>
+    </div>
+
+    <!-- الفهرس -->
+    <div class="nav-links">
+        <a href="#definition">التعريف</a>
+        <a href="#products">مكونات الدم</a>
+        <a href="#purposes">الأهداف</a>
+        <a href="#procedure">خطوات الإجراء</a>
+        <a href="#complications">المضاعفات</a>
+        <a href="#exam">أسئلة MCQ</a>
+        <a href="#flashcards">Flashcards</a>
+        <a href="#summary">الخلاصة</a>
+    </div>
+
+    <!-- رسومات توضيحية -->
+    <div class="visual-grid">
+        <div class="visual-card">
+            <h3>Blood Components | مكونات الدم</h3>
+            <svg viewBox="0 0 300 170">
+                <defs><linearGradient id="tube" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#dceaf3"/></linearGradient></defs>
+                <g transform="translate(38 15)"><rect x="0" y="0" width="54" height="130" rx="13" fill="url(#tube)" stroke="#8aa8bb" stroke-width="2"/><rect x="5" y="48" width="44" height="76" rx="8" fill="#c83245"/><rect x="5" y="30" width="44" height="18" fill="#f4d66e"/><rect x="5" y="7" width="44" height="23" rx="6" fill="#f8e9a9"/><ellipse cx="27" cy="48" rx="22" ry="4" fill="#a92739"/></g>
+                <g transform="translate(123 15)"><rect x="0" y="0" width="54" height="130" rx="13" fill="url(#tube)" stroke="#8aa8bb" stroke-width="2"/><rect x="5" y="8" width="44" height="42" rx="7" fill="#f4d66e"/><rect x="5" y="50" width="44" height="12" fill="#f6f1df"/><rect x="5" y="62" width="44" height="62" rx="7" fill="#c83245"/></g>
+                <g transform="translate(208 15)"><rect x="0" y="0" width="54" height="130" rx="13" fill="url(#tube)" stroke="#8aa8bb" stroke-width="2"/><rect x="5" y="8" width="44" height="35" rx="7" fill="#f4d66e"/><rect x="5" y="43" width="44" height="12" fill="#f6f1df"/><rect x="5" y="55" width="44" height="69" rx="7" fill="#dceaf3"/></g>
+                <text x="65" y="160" text-anchor="middle" fill="#29465b" font-size="12" font-weight="bold">RBCs</text><text x="150" y="160" text-anchor="middle" fill="#29465b" font-size="12" font-weight="bold">Platelets</text><text x="235" y="160" text-anchor="middle" fill="#29465b" font-size="12" font-weight="bold">Plasma</text>
+            </svg>
+            <p>كل مكوّن له استخدام مختلف حسب حالة المريض.</p>
+        </div>
+        <div class="visual-card">
+            <h3>Reaction Alert | علامات الخطر</h3>
+            <svg viewBox="0 0 300 170">
+                <circle cx="150" cy="75" r="54" fill="#fff0ef" stroke="#e5a5a0" stroke-width="2"/><path d="M150 35 L184 95 H116 Z" fill="#d94b4b"/><rect x="146" y="54" width="8" height="23" rx="4" fill="white"/><circle cx="150" cy="86" r="4" fill="white"/>
+                <text x="150" y="140" text-anchor="middle" fill="#9c3434" font-size="11" font-weight="bold">Fever • Chills • Dyspnea</text>
+                <text x="150" y="155" text-anchor="middle" fill="#9c3434" font-size="11" font-weight="bold">Pain • Rash • Hypotension</text>
+            </svg>
+            <p>ظهور أي عرض جديد = أوقف النقل فورًا.</p>
+        </div>
+    </div>
+
+    <!-- 1. Definition -->
+    <div class="section" id="definition">
+        <h2 class="section-title">1. Definition | التعريف</h2>
+        <div class="en">A blood transfusion is a therapeutic procedure in which whole blood or specific blood components (such as serum, plasma, platelets, or erythrocytes) are administered intravenously to restore intravascular volume, improve oxygen-carrying capacity, or correct coagulation deficiencies.</div>
+        <div class="ar">نقل الدم هو إجراء علاجي يتم فيه إعطاء الدم الكامل أو مكونات محددة منه (مثل السيرم أو البلازما أو الصفائح الدموية أو كرات الدم الحمراء) عن طريق الوريد لاستعادة حجم الدم داخل الأوعية، وتحسين قدرة الدم على حمل الأكسجين، أو تصحيح نقص عوامل التجلط.</div>
+        <div class="simple-box">بننقل دم أو جزء منه للمريض عن طريق الوريد، حسب المشكلة: نقص حجم الدم، أنيميا، أو نقص عوامل التجلط.</div>
+    </div>
+
+    <!-- 2. Blood Products -->
+    <div class="section" id="products">
+        <h2 class="section-title">2. Blood Products | مكونات الدم</h2>
+        
+        <h3 class="sub-title">Whole blood | الدم الكامل</h3>
+        <div class="en">Not commonly used except for extreme cases of acute hemorrhage. Replaces blood volume and all blood products: RBCs, plasma, plasma proteins, fresh platelets, and other clotting factors.</div>
+        <div class="ar">لا يُستخدم غالبًا إلا في حالات النزيف الحاد الشديد جدًا. يعوض حجم الدم وجميع مكوناته: كرات الدم الحمراء، والبلازما، وبروتينات البلازما، والصفائح الدموية الحديثة، وعوامل التجلط الأخرى.</div>
+
+        <h3 class="sub-title">Red blood cells (RBCs) | كرات الدم الحمراء</h3>
+        <div class="en">Used to increase the oxygen-carrying capacity of blood in severe anemias or heart failure without causing fluid overload. One unit raises hematocrit by approximately <strong class="key">4%</strong>.</div>
+        <div class="ar">تُستخدم لزيادة قدرة الدم على حمل الأكسجين في حالات الأنيميا الشديدة أو فشل القلب دون التسبب في زيادة الحمل بالسوائل. ترتفع الوحدة الواحدة الهيماتوكريت بنسبة تقارب <strong class="key">4%</strong>.</div>
+        
+        <h3 class="sub-title">Platelets | الصفائح الدموية</h3>
+        <div class="en">Replace platelets in patients with bleeding disorders, platelet deficiency, or thrombocytopenia. Fresh platelets are most effective.</div>
+        <div class="ar">تعوض الصفائح الدموية لدى مرضى اضطرابات النزيف أو نقص الصفائح أو قلة الصفائح الدموية. الصفائح الدموية الحديثة هي الأكثر فاعلية.</div>
+
+        <h3 class="sub-title">Fresh frozen plasma (FFP) | البلازما المجمدة حديثًا</h3>
+        <div class="en">Expands blood volume and provides clotting factors. Does not need to be typed and crossmatched (contains no RBCs).</div>
+        <div class="ar">تزيد حجم الدم وتوفر عوامل التجلط. لا تحتاج إلى تحديد فصيلة الدم وإجراء اختبار التوافق (لأنها لا تحتوي على كرات دم حمراء).</div>
+        
+        <div class="simple-box">RBCs للأكسجين، Platelets لإيقاف النزيف، FFP لعوامل التجلط، والدم الكامل لتعويض الدم ومكوناته في النزيف الشديد.</div>
+        <div class="exam-box">RBC unit → Hematocrit يزيد حوالي 4%. وFFP → يعطي عوامل تجلط ولا يحتوي على كرات دم حمراء.</div>
+    </div>
+
+    <!-- 3. Purposes -->
+    <div class="section" id="purposes">
+        <h2 class="section-title">3. Purposes | أهداف نقل الدم</h2>
+        <ul>
+            <li><div class="en">Restore intravascular blood volume (acute hemorrhage, severe trauma, major surgery).</div><div class="ar">استعادة حجم الدم داخل الأوعية (النزيف الحاد، الإصابات الشديدة، الجراحات الكبرى).</div></li>
+            <li><div class="en">Restore oxygen-carrying capacity to tissues (severe anemia).</div><div class="ar">استعادة قدرة الدم على نقل الأكسجين إلى الأنسجة (الأنيميا الشديدة).</div></li>
+            <li><div class="en">Replace clotting factors and plasma proteins (hemophilia, coagulopathies, liver failure).</div><div class="ar">تعويض عوامل التجلط وبروتينات البلازما (الهيموفيليا، اضطرابات التجلط، فشل الكبد).</div></li>
+            <li><div class="en">Replace dysfunctional or depleted cellular elements (thrombocytopenia).</div><div class="ar">تعويض العناصر الخلوية غير الفعالة أو المستهلكة (قلة الصفائح الدموية).</div></li>
+        </ul>
+        <div class="exam-box">اربط الحالة بالمكوّن: severe anemia → RBCs؛ thrombocytopenia → Platelets؛ coagulation deficiency → Plasma.</div>
+    </div>
+
+    <!-- 4. Procedure -->
+    <div class="section" id="procedure">
+        <h2 class="section-title">4. Procedure | خطوات نقل الدم</h2>
+        <h3 class="sub-title">A. Pre-Transfusion | التحضير قبل النقل</h3>
+        <div class="en"><strong>1. Order & Consent:</strong> Verify doctor’s order, indications (Hgb, Hct, PLT), and ensure signed informed consent.</div>
+        <div class="ar"><strong>1. أمر الطبيب والموافقة:</strong> تحقق من أمر الطبيب ودواعي النقل وتأكد من توثيق الموافقة المستنيرة الموقعة.</div>
+
+        <div class="en"><strong>2. Venous Access:</strong> Use a large-bore catheter (<strong class="key">18-gauge or 20-gauge</strong>) to prevent mechanical hemolysis.</div>
+        <div class="ar"><strong>2. الوصول الوريدي:</strong> استخدم قسطرة واسعة (<strong class="key">18 أو 20 Gauge</strong>) لمنع تكسير كرات الدم ميكانيكيًا.</div>
+
+        <div class="en"><strong>3. Baseline Assessment:</strong> Measure and record baseline vital signs immediately before requesting blood.</div>
+        <div class="ar"><strong>3. التقييم الأساسي:</strong> قِس وسجّل العلامات الحيوية الأساسية مباشرة قبل طلب الدم.</div>
+
+        <div class="en"><strong>4. Equipment:</strong> Y-tubing with a <strong class="key">170–260 micron</strong> blood filter, 2 bags of 0.9% Normal Saline, alcohol swabs, gloves, infusion pump.</div>
+        <div class="ar"><strong>4. الأدوات:</strong> طقم Y مع فلتر دم (<strong class="key">170–260 ميكرون</strong>)، كيسان محلول ملحي 0.9%، مسحات كحول، قفازات، مضخة تسريب.</div>
+        
+        <div class="alert-box">ممنوع تمامًا تمرير محاليل تحتوي على Dextrose أو Lactated Ringer’s أو أدوية عبر أنبوب نقل الدم.</div>
+        <div class="simple-box">ليه بنستخدم إبرة كبيرة (18 أو 20)؟ عشان الدم ميتكسرش وهو بيعدي في الإبرة الضيقة. وليه بنستخدم محلول ملحي 0.9% بس؟ لأن أي محلول تاني هيكسر كرات الدم الحمراء.</div>
+
+        <div class="en"><strong>5. Bedside Two-Nurse Check (Mandatory):</strong> Two licensed nurses verify Patient’s full name, MRN, DOB, Blood unit number, ABO group, Rh type, Compatibility report, and expiration date/time.</div>
+        <div class="ar"><strong>5. مراجعة إلزامية بواسطة ممرضين:</strong> ممرضان مرخصان يتحققان من اسم المريض كاملًا، رقم الملف، تاريخ الميلاد، رقم وحدة الدم، فصيلة ABO، نوع Rh، تقرير التوافق، وتاريخ ووقت انتهاء الصلاحية.</div>
+
+        <div class="en"><strong>6. Visual Inspection:</strong> Inspect blood bag for discoloration, clots, gas bubbles, or leaks. If present, return to blood bank.</div>
+        <div class="ar"><strong>6. الفحص البصري:</strong> افحص كيس الدم بحثًا عن تغير اللون أو الجلطات أو فقاعات الغاز أو التسريب. إذا وُجد أي منها، أعده إلى بنك الدم.</div>
+
+        <h3 class="sub-title">B. Administration | الإعطاء</h3>
+        <div class="en"><strong>Timing Limits:</strong> Begin infusion within <strong class="key">30 minutes</strong> of releasing the blood. Complete infusion within <strong class="key">4 hours</strong>.</div>
+        <div class="ar"><strong>حدود الوقت:</strong> ابدأ نقل الدم خلال <strong class="key">30 دقيقة</strong> من خروجه من بنك الدم. يجب إكمال النقل خلال <strong class="key">4 ساعات</strong>.</div>
+
+        <div class="en"><strong>Initial Rate:</strong> Infuse slowly for the first <strong class="key">15 minutes</strong> (approx. <strong class="key">2 mL/min or 10–20 gtts/min</strong>).</div>
+        <div class="ar"><strong>المعدل الأولي:</strong> ابدأ ببطء خلال أول <strong class="key">15 دقيقة</strong> (حوالي <strong class="key">2 مل/دقيقة أو 10–20 نقطة/دقيقة</strong>).</div>
+
+        <div class="en"><strong>Monitoring:</strong> Stay with the patient during the first 15 minutes. Vital Signs: Baseline, every 5 minutes for 15 minutes, hourly, and upon completion.</div>
+        <div class="ar"><strong>المراقبة:</strong> ابقَ مع المريض خلال أول 15 دقيقة. العلامات الحيوية: قبل النقل، كل 5 دقائق لأول 15 دقيقة، كل ساعة، وعند الانتهاء.</div>
+
+        <div class="exam-box">أهم أرقام: تبدأ خلال 30 دقيقة، تخلص في 4 ساعات، السرعة بطيئة أول 15 دقيقة، وتقيس العلامات الحيوية كل 5 دقائق في أول ربع ساعة.</div>
+
+        <h3 class="sub-title">C. Post-Transfusion | الرعاية بعد النقل</h3>
+        <div class="en">Flush line with 0.9% Normal Saline. Dispose of blood bag and Y-tubing in a biohazard waste container. Document all details.</div>
+        <div class="ar">اغسل الخط بمحلول Normal Saline 0.9%. تخلص من كيس الدم وأنبوب Y في حاوية النفايات الخطرة بيولوجيًا. وثّق كل التفاصيل.</div>
+    </div>
+
+    <!-- 5. Complications -->
+    <div class="section" id="complications">
+        <h2 class="section-title">5. Complications | مضاعفات نقل الدم</h2>
+        
+        <div class="table-responsive">
+            <table>
+                <tr>
+                    <th width="15%">Complication | المضاعفة</th>
+                    <th width="25%">Cause & Timing | السبب والتوقيت</th>
+                    <th width="25%">Manifestations | الأعراض</th>
+                    <th width="35%">Nursing Actions | إجراءات التمريض</th>
+                </tr>
+                <!-- Hemolytic -->
+                <tr>
+                    <td><strong>1. Acute Hemolytic Reaction (Emergency)</strong><br>انحلال الدم الحاد</td>
+                    <td>
+                        <span class="en">Cause: ABO incompatibility.</span><span class="ar">السبب: عدم توافق فصائل ABO.</span>
+                        <span class="en">Timing: Immediate (5-15 mins).</span><span class="ar">التوقيت: فوري (5-15 دقيقة).</span>
+                    </td>
+                    <td>
+                        <span class="en">Lumbar/back pain, facial flushing, fever, hypotension, shock, Hematuria (dark red urine), oliguria.</span>
+                        <span class="ar">ألم أسفل الظهر، احمرار الوجه، حمى، انخفاض ضغط الدم، صدمة، دم في البول، قلة البول.</span>
+                    </td>
+                    <td>
+                        <span class="en">1. STOP immediately.<br>2. Keep line open with NEW IV tubing & 0.9% NS.<br>3. Notify physician & blood bank.<br>4. Monitor VS and urine output.<br>5. Send bag, tubing, & samples to lab.</span>
+                        <span class="ar">1. أوقف فوراً.<br>2. حافظ على الخط مفتوحاً بأنبوب جديد ومحلول 0.9%.<br>3. أبلغ الطبيب وبنك الدم.<br>4. راقب العلامات الحيوية والبول.<br>5. أرسل الكيس والأنبوب وعينات للمعمل.</span>
+                    </td>
+                </tr>
+                <!-- Febrile -->
+                <tr>
+                    <td><strong>2. Febrile Non-Hemolytic (FNHTR)</strong><br>تفاعل حموي</td>
+                    <td>
+                        <span class="en">Cause: Antibodies reacting to donor leukocytes/platelets.</span><span class="ar">السبب: أجسام مضادة لكرات الدم البيضاء/الصفائح.</span>
+                        <span class="en">Timing: 15-60 min up to 6 hrs.</span><span class="ar">التوقيت: 15-60 دقيقة وحتى 6 ساعات.</span>
+                    </td>
+                    <td>
+                        <span class="en">Sudden fever (≥1°C rise), chills, headache, flushing.</span>
+                        <span class="ar">حمى مفاجئة (زيادة ≥1 درجة)، رعشة، صداع، احمرار.</span>
+                    </td>
+                    <td>
+                        <span class="en"><strong>Mild:</strong> Stop/slow, notify, give antipyretic (Paracetamol).<br><strong>Severe:</strong> STOP permanently, keep IV open with NEW 0.9% NS, notify, give antipyretics.</span>
+                        <span class="ar"><strong>خفيف:</strong> أوقف/أبطئ، أبلغ، أعطِ خافض حرارة.<br><strong>شديد:</strong> أوقف نهائياً، حافظ على الخط بمحلول جديد، أبلغ، أعطِ خافض حرارة.</span>
+                    </td>
+                </tr>
+                <!-- Allergic -->
+                <tr>
+                    <td><strong>3. Mild Allergic Reaction</strong><br>حساسية بسيطة</td>
+                    <td>
+                        <span class="en">Cause: Hypersensitivity to plasma proteins.</span><span class="ar">السبب: حساسية لبروتينات البلازما.</span>
+                        <span class="en">Timing: During up to 1-hour post.</span><span class="ar">التوقيت: أثناء وحتى ساعة بعده.</span>
+                    </td>
+                    <td>
+                        <span class="en">Localized urticaria (hives), Pruritus (itching), Mild rash.</span>
+                        <span class="ar">أرتيكاريا موضعية، حكة، طفح جلدي بسيط.</span>
+                    </td>
+                    <td>
+                        <span class="en">1. Pause/stop temporarily.<br>2. Notify physician.<br>3. Give antihistamines (Diphenhydramine).<br>4. If symptoms subside, restart slowly.</span>
+                        <span class="ar">1. أوقف مؤقتاً.<br>2. أبلغ الطبيب.<br>3. أعطِ مضادات هيستامين.<br>4. لو اختفت الأعراض، ابدأ ببطء.</span>
+                    </td>
+                </tr>
+                <!-- Anaphylactic -->
+                <tr>
+                    <td><strong>4. Anaphylactic (Emergency)</strong><br>تحسس تأقي</td>
+                    <td>
+                        <span class="en">Cause: IgA antibodies or severe protein allergy.</span><span class="ar">السبب: حساسية شديدة لبروتين البلازما.</span>
+                        <span class="en">Timing: Immediate (minutes).</span><span class="ar">التوقيت: فوري (دقائق).</span>
+                    </td>
+                    <td>
+                        <span class="en">Angioedema (swelling), Bronchospasm, dyspnea, stridor, Hypotension, shock.</span>
+                        <span class="ar">تورم الوجه/المجرى الهوائي، تشنج قصبي، ضيق تنفس، صرير، انخفاض ضغط، صدمة.</span>
+                    </td>
+                    <td>
+                        <span class="en">1. STOP permanently.<br>2. Maintain airway & O2.<br>3. Keep IV open with NEW 0.9% NS.<br>4. Notify; give Epinephrine, steroids, antihistamines.</span>
+                        <span class="ar">1. أوقف نهائياً.<br>2. حافظ على مجرى الهواء وأعطِ أكسجين.<br>3. حافظ على الخط بمحلول جديد.<br>4. أبلغ، أعطِ إبينفرين وكورتيزون ومضادات هيستامين.</span>
+                    </td>
+                </tr>
+                <!-- Bacterial -->
+                <tr>
+                    <td><strong>5. Bacterial Contamination (Sepsis)</strong><br>تلوث بكتيري/إنتان</td>
+                    <td>
+                        <span class="en">Cause: Transfusion of contaminated blood.</span><span class="ar">السبب: نقل دم ملوث.</span>
+                        <span class="en">Timing: Rapid onset (within 2 hrs).</span><span class="ar">التوقيت: بداية سريعة (خلال ساعتين).</span>
+                    </td>
+                    <td>
+                        <span class="en">High fever, rigors, abdominal cramps, vomiting, diarrhea, septic shock.</span>
+                        <span class="ar">حمى شديدة، ارتجاف، مغص، قيء، إسهال، صدمة إنتانية.</span>
+                    </td>
+                    <td>
+                        <span class="en">1. STOP immediately.<br>2. NEW 0.9% NS line.<br>3. Notify; obtain blood cultures.<br>4. Give broad-spectrum antibiotics, fluids, vasopressors.<br>5. Send bag & tubing to lab.</span>
+                        <span class="ar">1. أوقف فوراً.<br>2. افتح خط جديد بمحلول 0.9%.<br>3. أبلغ، خد مزارع دم.<br>4. أعطِ مضادات حيوية واسعة وسوائل ورافعات ضغط.<br>5. أرسل الكيس والأنبوب للمعمل.</span>
+                    </td>
+                </tr>
+                <!-- TACO -->
+                <tr>
+                    <td><strong>6. TACO (Circulatory Overload)</strong><br>حمل زائد للدورة الدموية</td>
+                    <td>
+                        <span class="en">Cause: Too rapid infusion or excessive volume.</span><span class="ar">السبب: إعطاء دم بسرعة كبيرة أو كمية زائدة.</span>
+                        <span class="en">Timing: During or within 1-2 hrs.</span><span class="ar">التوقيت: أثناء أو خلال 1-2 ساعة.</span>
+                    </td>
+                    <td>
+                        <span class="en">Dyspnea, orthopnea, frothy pink sputum, hypertension, JVD, crackles.</span>
+                        <span class="ar">ضيق تنفس، ضيق عند الاستلقاء، بلغم رغوي وردي، ارتفاع ضغط، احتقان الوريد الوداجي، خراخر.</span>
+                    </td>
+                    <td>
+                        <span class="en">1. STOP/slow rate.<br>2. Place in High-Fowler's.<br>3. Give O2 & IV diuretics (Furosemide).<br>4. Monitor VS, SpO2, lung sounds.</span>
+                        <span class="ar">1. أوقف/أبطئ.<br>2. ضع المريض في High-Fowler's.<br>3. أعطِ أكسجين ومدرات بول.<br>4. راقب العلامات الحيوية والصدر.</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="simple-box">
+            القاعدة الذهبية في أي تفاعل: <strong>STOP</strong> ثم <strong>SALINE (New Set)</strong> ثم <strong>INFORM</strong> ثم <strong>MONITOR</strong> ثم <strong>KEEP BAG</strong> ثم <strong>DOCUMENT</strong>.
+        </div>
+    </div>
+
+    <!-- 6. MCQs -->
+    <div class="section" id="exam">
+        <h2 class="section-title">6. 🧠 أسئلة تثبيت سريعة | Mini MCQs</h2>
+        <ol style="font-weight: 600; color: #334155; line-height: 2;">
+            <li><b>Which component improves oxygen-carrying capacity?</b><br>A) FFP &nbsp; B) Platelets &nbsp; C) RBCs &nbsp; D) Albumin<br><span class="ar" style="color: #168b83;">الإجابة: C — RBCs.</span></li>
+            <li><b>Which solution is used with blood tubing?</b><br>A) Dextrose 5% &nbsp; B) Lactated Ringer’s &nbsp; C) 0.9% Normal Saline &nbsp; D) Any IV fluid<br><span class="ar" style="color: #168b83;">الإجابة: C — Normal Saline 0.9%.</span></li>
+            <li><b>Back pain and dark urine during transfusion suggest:</b><br>A) Mild allergy &nbsp; B) Acute hemolytic reaction &nbsp; C) TACO &nbsp; D) TRALI<br><span class="ar" style="color: #168b83;">الإجابة: B — Acute hemolytic reaction.</span></li>
+            <li><b>Dyspnea with JVD and hypertension is most suggestive of:</b><br>A) TACO &nbsp; B) Allergy &nbsp; C) Febrile reaction &nbsp; D) Hemolysis<br><span class="ar" style="color: #168b83;">الإجابة: A — TACO.</span></li>
+            <li><b>What is the first action if a transfusion reaction is suspected?</b><br>A) Increase rate &nbsp; B) Stop transfusion &nbsp; C) Give oral fluids &nbsp; D) Wait 10 minutes<br><span class="ar" style="color: #168b83;">الإجابة: B — Stop transfusion immediately.</span></li>
+        </ol>
+    </div>
+
+    <!-- 7. Flashcards -->
+    <div class="section" id="flashcards">
+        <h2 class="section-title">7. 🗂️ Flashcards | كروت مراجعة</h2>
+        <div class="table-responsive">
+            <table>
+                <tr><th>Question</th><th>Answer</th></tr>
+                <tr><td>RBCs وظيفتها؟</td><td>Improve oxygen-carrying capacity.</td></tr>
+                <tr><td>Platelets تُستخدم في؟</td><td>Thrombocytopenia / platelet deficiency.</td></tr>
+                <tr><td>FFP يعوض إيه؟</td><td>Clotting factors.</td></tr>
+                <tr><td>الخط يتجهز بإيه؟</td><td>0.9% Normal Saline only.</td></tr>
+                <tr><td>أول 15 دقيقة؟</td><td>Slow transfusion + close observation.</td></tr>
+                <tr><td>علامة TACO المميزة؟</td><td>Fluid overload: JVD, crackles, hypertension.</td></tr>
+                <tr><td>علامة TRALI؟</td><td>Acute respiratory distress + hypoxemia.</td></tr>
+                <tr><td>الاشتباه في reaction؟</td><td>Stop transfusion immediately.</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 8. Summary -->
+    <div class="section" id="summary">
+        <h2 class="section-title">📝 خلاصة سريعة للمذاكرة (Top 10)</h2>
+        <ol style="font-weight: 600; color: #334155; line-height: 2;">
+            <li>نقل الدم يعوض الحجم، قدرة حمل الأكسجين، أو عوامل التجلط.</li>
+            <li>كرات الدم الحمراء (RBCs) ترفع الهيماتوكريت حوالي 4% للوحدة.</li>
+            <li>البلازما (FFP) لا تحتاج لمطابقة فصائل لأنها لا تحتوي كرات دم حمراء.</li>
+            <li>استخدم 18G/20G عادة، و22G للأطفال أو الأوردة الهشة.</li>
+            <li>ممنوع تماماً استخدام الدكستروز أو الرينجر أو الأدوية مع الدم. <strong>0.9% Normal Saline فقط</strong>.</li>
+            <li>ممرضان يتحققان من هوية المريض والفصيلة وتاريخ الصلاحية قبل البدء.</li>
+            <li>ابدأ خلال 30 دقيقة من استلام الدم، وأنهِ خلال 4 ساعات.</li>
+            <li>أول 15 دقيقة: سرعة بطيئة جداً ومراقبة لصيقة للمريض.</li>
+            <li>العلامات الحيوية: قبل النقل، كل 5 دقائق أول 15 دقيقة، ثم كل ساعة.</li>
+            <li>أول إجراء عند الشك في تفاعل: <strong>أوقف النقل فوراً</strong> وافتح خط جديد بمحلول Saline.</li>
+        </ol>
+    </div>
+
+    <!-- الفوتر -->
+    <div class="footer">
+        <p>📝 إعداد: Amr Gohar</p>
+        <p>Adult Nursing I — Blood Transfusion</p>
+        <p>بالتوفيق في الميد والفاينل! 🍀</p>
+    </div>
+
+</div>
+
+</body>
+</html>
