@@ -4,7 +4,7 @@ import { getMessaging, getToken, deleteToken, isSupported } from "https://www.gs
 import { doc, setDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // من Firebase Console ← Project settings ← Cloud Messaging ← Web Push certificates
-export const VAPID_KEY = 'PUT_YOUR_VAPID_PUBLIC_KEY_HERE';
+export const VAPID_KEY = 'BP27FyiNAyl4jRg-I8d6sn1wFSaOo_ZNLiKNQu0XBx5-VPajJYrwrREzLWmvymisWL8b_KAt0ljiUgC0Vwzbrsg';
 
 export async function pushSupported() {
   try { return 'Notification' in window && 'serviceWorker' in navigator && await isSupported(); }
