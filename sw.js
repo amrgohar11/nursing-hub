@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'nursing-hub-v3';
+const CACHE_NAME = 'nursing-hub-v4';
 
 const STATIC_ASSETS = [
   '/',

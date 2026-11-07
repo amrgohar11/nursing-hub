@@ -2,23 +2,29 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>عرض المحاضرة | Nursing Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Cairo', sans-serif; background: var(--bg); overflow: hidden; }
 
+    /* FIX: style.css بيحط padding-bottom:70px على الـ body في الموبايل (للـ Bottom Nav)،
+       وده كان بيزق الشريط السفلي برا الشاشة، فنلغيه هنا لأن الصفحة دي مفيهاش Bottom Nav */
+    html, body { height: 100%; }
+    body { padding: 0; min-height: 0; display: block; }
+
     .lecture-fullscreen {
       display: flex;
       flex-direction: column;
-      height: 100dvh;
-      width: 100vw;
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
     }
 
     .top-bar {
       background: var(--white);
       padding: 10px 15px;
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -40,6 +46,7 @@
 
     .iframe-container {
       flex-grow: 1;
+      min-height: 0;
       width: 100%;
       background: #fff;
       position: relative;
@@ -56,6 +63,9 @@
     .bottom-bar {
       background: var(--white);
       padding: 10px 15px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      position: relative;
+      z-index: 10;
       display: flex;
       justify-content: space-around;
       align-items: center;
