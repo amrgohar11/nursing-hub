@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="Bilingual ADLT 1 nursing study notes: Chest Physiotherapy (CPT). Created by Amr Gohar." name="description"/>
+<title>ADLT 1 | Chest Physiotherapy (CPT) — Amr Gohar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+    /* ====== إعدادات الموبايل الأساسية ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    html {
+        font-size: 16px; /* أساس حجم الخط للموبايل */
+    }
+
+    body {
+        font-family: 'Cairo', sans-serif;
+        background-color: #f3f7fa;
+        color: #203344;
+        line-height: 1.8;
+        padding: 12px; /* مساحة مريحة حواف الشاشة */
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* ====== الهيدر ====== */
+    .header {
+        background: linear-gradient(135deg, #123b5d, #1677b8);
+        color: white;
+        padding: 25px 15px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 6px 15px rgba(22, 119, 184, 0.3);
+        margin-bottom: 20px;
+    }
+    .header h1 { font-size: 1.6rem; margin-bottom: 8px; font-weight: 900; }
+    .header p { font-size: 0.95rem; color: #e7f4ff; }
+    .header .name-badge {
+        background: rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        padding: 6px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.5);
+        margin-top: 15px;
+    }
+
+    /* ====== الفهرس (يتكيف مع الموبايل) ====== */
+    .nav-links {
+        background: #fff;
+        border: 1px solid #d8e5ec;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+    .nav-links a {
+        display: inline-block;
+        color: #1677b8;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.85rem;
+        background: #eaf5fb;
+        padding: 5px 10px;
+        border-radius: 20px;
+        transition: 0.3s;
+    }
+    .nav-links a:hover { background: #1677b8; color: #fff; }
+
+    /* ====== الأقسام (الكروت) ====== */
+    .section {
+        background: #fff;
+        border: 1px solid #d8e5ec;
+        border-radius: 16px;
+        padding: 15px; /* بادنج مريح للموبايل */
+        margin-bottom: 20px;
+        box-shadow: 0 4px 14px rgba(18, 59, 93, 0.04);
+    }
+    .section-title {
+        color: #123b5d;
+        font-size: 1.15rem;
+        border-bottom: 2px solid #eaf5fb;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-weight: 800;
+        line-height: 1.5;
+    }
+    .sub-title {
+        color: #176b91;
+        font-size: 1.05rem;
+        margin: 20px 0 10px;
+        font-weight: 700;
+    }
+
+    /* ====== النصوص ====== */
+    .en {
+        display: block;
+        font-weight: 600;
+        color: #203344;
+        direction: ltr;
+        text-align: left;
+        margin-bottom: 4px;
+        font-size: 0.95rem;
+    }
+    .ar {
+        display: block;
+        color: #526a79;
+        margin-bottom: 15px;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    /* ====== القوائم ====== */
+    ul, ol { padding-right: 20px; margin-bottom: 15px; }
+    li { margin-bottom: 8px; font-size: 0.95rem;}
+
+    /* ====== الجداول (الحل السحري للموبايل) ====== */
+    .table-responsive {
+        overflow-x: auto; /* عشان الجدول يتسحب بالعرض */
+        -webkit-overflow-scrolling: touch; /* سحب ناعم على الآيفون */
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #d8e5ec;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem; /* خط أصغر شوية للجدول عشان يبان */
+        min-width: 600px; /* عرض أدنى عشان البيانات متتزنقش */
+        background: white;
+    }
+    th, td { border: 1px solid #d8e5ec; padding: 8px; text-align: right; vertical-align: top; }
+    th { background: #eaf4fa; color: #123b5d; text-align: center; font-weight: 800; white-space: nowrap;}
+    
+    /* ظبط عناصر الجدول */
+    td .en { margin-bottom: 2px; font-size: 0.85rem; }
+    td .ar { margin-bottom: 5px; font-size: 0.85rem; }
+    td ul { padding-right: 15px; margin: 4px 0; }
+    td.num { text-align: center; font-weight: 800; color: #123b5d; }
+
+    /* ====== بوكسات التنبيه ====== */
+    .simple-box, .exam-box, .alert-box {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .simple-box { background: #eaf8f3; border-right: 5px solid #168b83; color: #115e59; }
+    .simple-box::before { content: '💡 ببساطة: '; font-weight: 900; color: #0f766e; }
+    
+    .exam-box { background: #fff4df; border-right: 5px solid #d99a21; color: #92400e; font-weight: 700; }
+    .exam-box::before { content: '🎯 ركز هنا: '; font-weight: 900; color: #b45309; }
+    
+    .alert-box { background: #fff0ef; border-right: 5px solid #d64d4d; color: #991b1b; font-weight: 700; }
+    .alert-box::before { content: '⚠️ تحذير: '; font-weight: 900; color: #b91c1c; }
+
+    /* ====== الرسومات ====== */
+    .visual-grid { 
+        display: grid; 
+        grid-template-columns: 1fr; /* عمود واحد على الموبايل عشان يبانوا كبار */
+        gap: 15px; 
+        margin: 20px 0; 
+    }
+    @media (min-width: 600px) {
+        .visual-grid { grid-template-columns: 1fr 1fr; } /* لو الشاشة كبيرة يبقوا اتنين */
+    }
+    .visual-card { background: #fbfdff; border: 1px solid #d8e8f1; border-radius: 12px; padding: 15px; text-align: center; }
+    .visual-card h3 { font-size: 1rem; margin-bottom: 8px; color: #123b5d; }
+    .visual-card svg { width: 100%; height: auto; max-height: 160px; }
+    .visual-card p { font-size: 0.85rem; color: #64748b; margin-top: 10px; font-weight: 600;}
+
+    /* ====== إضافات ====== */
+    .key { color:#b45309; background:#fff4df; padding:0 5px; border-radius:5px; font-weight:800; }
+    .note-box { background:#eef2f7; border-right:5px solid #64748b; padding:12px; border-radius:8px; margin:15px 0; color:#334155; font-weight:600; font-size:0.9rem; }
+    ol.mcq li { margin-bottom:14px; }
+    
+    /* الفوتر */
+    .footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 2px dashed #cbd5e1; color: #64748b; font-size: 0.9rem; font-weight: 700; }
+
+    /* تعديلات إضافية للشاشات الكبيرة (ديسكتوب) لو حبيت */
+    @media (min-width: 768px) {
+        .section { padding: 25px; }
+        html { font-size: 17px; }
+        .header h1 { font-size: 2.2rem; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1>ADLT 1 — Chest Physiotherapy (CPT)</h1>
+        <p>Adult Nursing | Bilingual Study Notes</p>
+        <div class="name-badge">إعداد: Amr Gohar</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="#intro">المقدمة</a>
+        <a href="#purpose">الأهداف</a>
+        <a href="#indications">الدواعي</a>
+        <a href="#contra">الموانع</a>
+        <a href="#percussion">Percussion</a>
+        <a href="#vibration">Vibration</a>
+        <a href="#pv-proc">إجراء الطرق</a>
+        <a href="#pd">Postural</a>
+        <a href="#deep">Deep Breathing</a>
+        <a href="#cough">Coughing</a>
+        <a href="#bc-proc">إجراء التنفس</a>
+        <a href="#exam">MCQ</a>
+        <a href="#flashcards">Flashcards</a>
+    </div>
+
+    <div class="visual-grid">
+        <div class="visual-card">
+            <h3>Percussion vs Vibration</h3>
+            <svg viewbox="0 0 300 170">
+                <rect fill="#eaf4fa" height="30" rx="10" stroke="#8aa8bb" stroke-width="2" width="280" x="10" y="120"></rect>
+                <path d="M50 105 Q60 70 95 70 Q130 70 135 105 Z" fill="#f6d2b8" stroke="#b9855f" stroke-width="2"></path><path d="M62 80 L50 55 M80 72 L74 45 M98 72 L98 45 M116 76 L124 50" stroke="#d99a21" stroke-linecap="round" stroke-width="3"></path>
+                <rect fill="#f6d2b8" height="24" rx="12" stroke="#b9855f" stroke-width="2" width="90" x="175" y="88"></rect><path d="M180 78 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#168b83" stroke-width="3"></path>
+                <text fill="#29465b" font-size="12" font-weight="bold" text-anchor="middle" x="92" y="165">Percussion</text><text fill="#29465b" font-size="12" font-weight="bold" text-anchor="middle" x="220" y="165">Vibration</text>
+            </svg>
+        </div>
+        <div class="visual-card">
+            <h3>Postural Drainage</h3>
+            <svg viewbox="0 0 300 170">
+                <defs><marker id="ar" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0 0 L8 4 L0 8 Z" fill="#168b83"></path></marker></defs>
+                <path d="M30 120 L270 80" stroke="#8aa8bb" stroke-linecap="round" stroke-width="10"></path>
+                <ellipse cx="150" cy="82" fill="#dceaf3" rx="85" ry="17" stroke="#176b91" stroke-width="2" transform="rotate(-9 150 82)"></ellipse>
+                <circle cx="248" cy="68" fill="#f6d2b8" r="15" stroke="#b9855f" stroke-width="2"></circle>
+                <path d="M175 80 Q150 90 120 96" fill="none" marker-end="url(#ar)" stroke="#168b83" stroke-width="3"></path>
+                <text fill="#29465b" font-size="12" font-weight="bold" text-anchor="middle" x="150" y="150">Gravity helps drain</text>
+            </svg>
+        </div>
+    </div>
+
+    <div class="section" id="intro">
+        <h2 class="section-title">1. Introduction to CPT | مقدمة</h2>
+        <div class="en">Chest physiotherapy (CPT) comprises a specialized group of clinical treatments routinely performed by physical therapists (PTs) and respiratory therapists (RTs).</div>
+        <div class="ar">العلاج الطبيعي للصدر (CPT) هو مجموعة متخصصة من العلاجات الإكلينيكية التي يقوم بها عادةً أخصائيو العلاج الطبيعي (PTs) وأخصائيو العلاج التنفسي (RTs).</div>
+        
+        <div class="en">The primary physiological mechanism involves the <span class="key">indirect removal</span> of accumulated secretions and mucus from the patient’s airways to optimize gas exchange, improve ventilation, and maintain airway patency.</div>
+        <div class="ar">الآلية الفسيولوجية الأساسية هي <span class="key">الإزالة غير المباشرة</span> للإفرازات والمخاط المتراكم من مجاري التنفس لدى المريض، وذلك لتحسين تبادل الغازات، وتحسين التهوية، والحفاظ على سلامة (انفتاح) المجرى الهوائي.</div>
+        
+        <div class="simple-box">CPT يعني مجموعة طرق بنساعد بيها المريض يخلّص صدره من البلغم والمخاط المتجمع، عشان الأكسجين يدخل ويتبادل كويس والمجرى الهوائي يفضل مفتوح.</div>
+    </div>
+
+    <div class="section" id="purpose">
+        <h2 class="section-title">2. Purpose | الأهداف</h2>
+        <ul>
+            <li><div class="en">Improves respiratory efficiency.</div><div class="ar">يحسّن كفاءة التنفس.</div></li>
+            <li><div class="en">Expands the lungs.</div><div class="ar">يوسّع (يمدد) الرئتين.</div></li>
+            <li><div class="en">Strengthens the respiratory muscles.</div><div class="ar">يقوّي عضلات التنفس.</div></li>
+            <li><div class="en">Loosens thick respiratory secretions and improves their drainage.</div><div class="ar">يفكّ الإفرازات التنفسية الكثيفة ويحسّن تصريفها.</div></li>
+            <li><div class="en">Helps treat diseases such as cystic fibrosis and COPD.</div><div class="ar">يساعد في علاج أمراض مثل التليف الكيسي والانسداد الرئوي المزمن (COPD).</div></li>
+            <li><div class="en">Helps keep the lungs clear and prevent pneumonia after surgery and during periods of immobility.</div><div class="ar">يساعد على إبقاء الرئتين نظيفتين ومنع الالتهاب الرئوي بعد الجراحة وأثناء فترات عدم الحركة.</div></li>
+        </ul>
+        <div class="simple-box">الهدف ببساطة: رئة نضيفة وواسعة وعضلات تنفس أقوى، وتفادي الالتهاب الرئوي لو المريض بعد عملية أو نايم فترة طويلة.</div>
+    </div>
+
+    <div class="section" id="indications">
+        <h2 class="section-title">3. Indications | الدواعي</h2>
+        <ul>
+            <li><div class="en">Excessive sputum production.</div><div class="ar">إنتاج مفرط للبلغم.</div></li>
+            <li><div class="en">Reduced effectiveness of coughing.</div><div class="ar">ضعف فعالية الكحة.</div></li>
+            <li><div class="en">Adventitious breath sounds suggestive of airway secretions that persist after coughing.</div><div class="ar">أصوات تنفس غير طبيعية توحي بوجود إفرازات تظل موجودة حتى بعد الكحة.</div></li>
+            <li><div class="en">Presence of a foreign body in the airway.</div><div class="ar">وجود جسم غريب في المجرى الهوائي.</div></li>
+            <li><div class="en">Abnormal chest radiograph suggesting atelectasis or mucus plugging.</div><div class="ar">أشعة صدر غير طبيعية توحي بوجود انخماص رئوي أو انسداد بالمخاط.</div></li>
+            <li><div class="en">Routine bronchial hygiene in patients with cystic fibrosis, bronchiectasis, chronic bronchitis, or spinal cord injury.</div><div class="ar">العناية الروتينية بنظافة الشُعب الهوائية لمرضى التليف الكيسي، توسع القصبات، التهاب الشعب المزمن، أو إصابة الحبل الشوكي.</div></li>
+        </ul>
+        <div class="exam-box">الدواعي الأساسية: بلغم كتير + كحة ضعيفة + أصوات تنفس غير طبيعية مستمرة بعد الكحة + أشعة بتوحي بـ Atelectasis أو Mucus plugging.</div>
+    </div>
+
+    <div class="section" id="contra">
+        <h2 class="section-title">4. Contraindications | الموانع (16 نقطة)</h2>
+        <ol>
+            <li><div class="en">Increased intracranial pressure (ICP).</div><div class="ar">زيادة الضغط داخل الجمجمة (ICP).</div></li>
+            <li><div class="en">Neurological conditions, such as head injury or recent spinal surgery.</div><div class="ar">حالات عصبية مثل إصابة الرأس أو جراحة العمود الفقري الحديثة.</div></li>
+            <li><div class="en">Hemoptysis.</div><div class="ar">سعال دموي (Hemoptysis).</div></li>
+            <li><div class="en">Cardiovascular disorders (e.g., heart failure).</div><div class="ar">اضطرابات القلب والأوعية الدموية (مثل فشل القلب).</div></li>
+            <li><div class="en">Undiagnosed chest pain.</div><div class="ar">ألم صدر غير مُشخَّص.</div></li>
+            <li><div class="en">Hypertension.</div><div class="ar">ارتفاع ضغط الدم.</div></li>
+            <li><div class="en">Distended abdomen, pregnancy, obesity, or ascites.</div><div class="ar">انتفاخ البطن، الحمل، السمنة، أو الاستسقاء.</div></li>
+            <li><div class="en">Empyema.</div><div class="ar">دبيلة (Empyema).</div></li>
+            <li><div class="en">Pulmonary embolism.</div><div class="ar">جلطة / انسداد رئوي (PE).</div></li>
+            <li><div class="en">Confused or anxious patients.</div><div class="ar">المرضى المشوشون أو القلقون.</div></li>
+            <li><div class="en">Rib fracture.</div><div class="ar">كسر في الضلوع.</div></li>
+            <li><div class="en">Surgical wounds or burns.</div><div class="ar">جروح جراحية أو حروق.</div></li>
+            <li><div class="en">Unconscious patients with an unprotected airway.</div><div class="ar">مرضى فاقدو الوعي مع مجرى هوائي غير محمي.</div></li>
+            <li><div class="en">Untreated tension pneumothorax.</div><div class="ar">استرواح صدري ضاغط غير معالَج.</div></li>
+            <li><div class="en">Osteoporosis.</div><div class="ar">هشاشة العظام.</div></li>
+            <li><div class="en"><strong>Use with caution</strong> in elderly patients unable to tolerate the required position.</div><div class="ar"><strong>يُستخدم بحذر</strong> مع كبار السن غير القادرين على تحمّل الوضع المطلوب.</div></li>
+        </ol>
+        <div class="alert-box">النقطة 16 (كبار السن) «بحذر» مش منع مطلق. لازم تحفظهم لأنهم سؤال امتحان متكرر.</div>
+        <div class="simple-box">ممكن تحفظهم في مجموعات: (مخ/أعصاب: ICP، إصابة رأس، جراحة عمود فقري) – (قلب/ضغط: heart failure، hypertension، PE) – (صدر: hemoptysis، empyema، tension pneumothorax، كسر ضلوع) – (بطن/جسم: distended abdomen، حمل، سمنة، ascites، جروح/حروق، هشاشة عظام).</div>
+    </div>
+
+    <div class="section" id="percussion">
+        <h2 class="section-title">5. Percussion | الطرق على الصدر</h2>
+        <div class="en"><strong>Definition:</strong> Manual or mechanical application of light blows to the chest wall; transmitted through tissue to loosen secretions in the lung segment below & dislodge mucus adhering to bronchioles and bronchi.</div>
+        <div class="ar"><strong>التعريف:</strong> تطبيق يدوي أو ميكانيكي لضربات خفيفة على جدار الصدر؛ تنتقل عبر الأنسجة لتفكيك الإفرازات في الجزء الرئوي أسفل المنطقة وتفكّ المخاط الملتصق بالشُعيبات والشُعب.</div>
+        <div class="simple-box">Percussion = ضربات خفيفة بإيد مقعّرة على الصدر، والاهتزاز بينتقل للرئة فيفكّ البلغم الملزّق في الشعب الهوائية.</div>
+    </div>
+
+    <div class="section" id="vibration">
+        <h2 class="section-title">6. Vibration | الاهتزاز</h2>
+        <div class="en"><strong>Definition:</strong> Application of manual or mechanical compression and tremor to the chest wall during <span class="key">exhalation</span>.</div>
+        <div class="ar"><strong>التعريف:</strong> تطبيق ضغط ورعشة يدويًا أو ميكانيكيًا على جدار الصدر أثناء <span class="key">الزفير</span>.</div>
+        <ul>
+            <li><div class="en">Used after percussion or alternately with it to increase turbulence of exhaled air and loosen secretions.</div><div class="ar">يُستخدم بعد الطرق أو بالتبادل معه لزيادة اضطراب الهواء المزفور وتفكيك الإفرازات.</div></li>
+            <li><div class="en">Mild vibration is tolerated better than percussion and can be used where percussion is contraindicated.</div><div class="ar">الاهتزاز الخفيف يتحمله المريض أفضل من الطرق، ويمكن استخدامه حيث يكون الطرق ممنوعًا.</div></li>
+        </ul>
+        <div class="exam-box">Vibration يتعمل وقت الزفير (Exhalation). وهو أخف وأحسن تحمّلًا من Percussion.</div>
+    </div>
+
+    <div class="section" id="pd">
+        <h2 class="section-title">7. Postural Drainage | التصريف الوضعي</h2>
+        <div class="en"><strong>Definition:</strong> Use of specific positions so gravity assists in removing secretions from affected bronchioles into bronchi and trachea, removed by coughing or suctioning.</div>
+        <div class="ar"><strong>التعريف:</strong> استخدام أوضاع محددة بحيث تساعد الجاذبية في إزالة الإفرازات من الشُعيبات المصابة إلى الشُعب والقصبة، ثم تُزال بالكحة أو الشفط.</div>
+        
+        <h3 class="sub-title">N.B. | ملاحظات مهمة</h3>
+        <ul>
+            <li><div class="en">Performed <span class="key">two to four times daily before meals</span> to prevent nausea/vomiting/aspiration, and at bedtime.</div><div class="ar">يُجرى <span class="key">من مرتين إلى 4 مرات يوميًا قبل الوجبات</span> لمنع الغثيان/القيء/الاستنشاق، وعند النوم.</div></li>
+            <li><div class="en">If prescribed, bronchodilators/saline nebulized before to dilate bronchioles and reduce sputum thickness.</div><div class="ar">إذا تم وصفها، يمكن إعطاء موسّعات الشُعب أو محلول ملحي بالنيبولايزر قبل التصريف لتوسيع الشُعيبات وتقليل كثافة البلغم.</div></li>
+            <li><div class="en">It is necessary to do percussion and vibration <u>before</u> postural drainage to help loosen secretions.</div><div class="ar">من الضروري عمل الطرق والاهتزاز <u>قبل</u> التصريف الوضعي للمساعدة في تفكيك الإفرازات.</div></li>
+        </ul>
+
+        <h3 class="sub-title">Complications | المضاعفات</h3>
+        <ul>
+            <li><div class="en">Position-related hypoxia.</div><div class="ar">نقص أكسجين مرتبط بالوضع.</div></li>
+            <li><div class="en">Aspiration of secretions in other lung regions.</div><div class="ar">استنشاق الإفرازات إلى مناطق رئوية أخرى.</div></li>
+            <li><div class="en">Hypotension (orthostatic).</div><div class="ar">هبوط ضغط انتصابي.</div></li>
+        </ul>
+        <div class="exam-box">التصريف الوضعي: 2–4 مرات يوميًا قبل الوجبات. وكل وضع 10–15 دقيقة. وراقب لون وش المريض لو بقى غامق (Duskiness) أوقف فوراً.</div>
+    </div>
+
+    <div class="section" id="deep">
+        <h2 class="section-title">8. Deep Breathing Exercises | تمارين التنفس العميق</h2>
+        <div class="en">Breathing done by contracting the diaphragm, a muscle located horizontally between thoracic and abdominal cavities. Air enters lungs as diaphragm contracts.</div>
+        <div class="ar">التنفس الذي يتم بانقباض الحجاب الحاجز، وهو عضلة تقع أفقيًا بين التجويف الصدري والبطنى. يدخل الهواء للرئتين عندما ينقبض الحجاب الحاجز بقوة.</div>
+        
+        <h3 class="sub-title">Purposes | الأهداف</h3>
+        <ol>
+            <li><div class="en">Hyperventilate alveoli and prevent collapse.</div><div class="ar">زيادة تهوية الحويصلات ومنعها من الانهيار.</div></li>
+            <li><div class="en">Improve lung expansion and volume.</div><div class="ar">تحسين تمدد الرئة وحجمها.</div></li>
+            <li><div class="en">Help expel anesthetic gases and mucus.</div><div class="ar">المساعدة على طرد غازات التخدير والمخاط.</div></li>
+            <li><div class="en">Facilitate tissue oxygenation.</div><div class="ar">تسهيل أكسجة الأنسجة.</div></li>
+        </ol>
+        <div class="simple-box">التنفس العميق بيشتغل بالحجاب الحاجز، وبيمنع الحويصلات من الانهيار ويطلّع غازات البنج والمخاط ويحسّن وصول الأكسجين للأنسجة.</div>
+    </div>
+
+    <div class="section" id="cough">
+        <h2 class="section-title">9. Coughing Exercise | تمرين الكحة</h2>
+        <div class="en">A chest exercise in which the patient makes a good controlled cough. Especially helpful when first getting up in the morning and about an hour before bed, to remove mucus.</div>
+        <div class="ar">تمرين صدر يقوم فيه المريض بكحة جيدة ومتحكَّم فيها. مفيد خصوصًا عند الاستيقاظ أول الصباح وقبل النوم بحوالي ساعة، لإزالة المخاط.</div>
+        
+        <h3 class="sub-title">N.B. | ملاحظة</h3>
+        <div class="en">Usually taught in conjunction with deep breathing, because coughing is often painful for the patient with a thoracic or abdominal incision.</div>
+        <div class="ar">يُعلَّم عادةً بالتزامن مع التنفس العميق، لأن الكحة غالبًا تكون مؤلمة للمريض الذي لديه شق جراحي في الصدر أو البطن.</div>
+        <div class="exam-box">أنسب أوقات تمرين الكحة: أول ما يصحى الصبح + قبل النوم بساعة. وبيتعلّم مع Deep breathing. وبنستخدم Splinting (مخدة) عشان نقلل الألم.</div>
+    </div>
+
+    <div class="section" id="exam">
+        <h2 class="section-title">10. 🧠 MCQ | أسئلة تثبيت</h2>
+        <ol class="mcq">
+            <li><b>Which is a component of CPT?</b><br>A) Turning &nbsp; B) Blood transfusion &nbsp; C) Intubation<br><span class="ar" style="color: #168b83;">الإجابة: A — Turning</span></li>
+            <li><b>Vibration is applied during:</b><br>A) Inhalation &nbsp; B) Exhalation &nbsp; C) Breath holding<br><span class="ar" style="color: #168b83;">الإجابة: B — Exhalation.</span></li>
+            <li><b>Percussion duration for CF?</b><br>A) 1 min &nbsp; B) 2 mins &nbsp; C) 5 mins<br><span class="ar" style="color: #168b83;">الإجابة: C — 5 minutes.</span></li>
+            <li><b>Which area should NOT be percussed?</b><br>A) Lower ribs &nbsp; B) Spine &nbsp; C) Upper back<br><span class="ar" style="color: #168b83;">الإجابة: B — Spine.</span></li>
+            <li><b>The hollow sound produced by correct percussion resembles:</b><br>A) Bells &nbsp; B) Whistling &nbsp; C) Horses trotting<br><span class="ar" style="color: #168b83;">الإجابة: C — Horses trotting.</span></li>
+            <li><b>Postural drainage is done:</b><br>A) After meals &nbsp; B) Before meals &nbsp; C) Once weekly<br><span class="ar" style="color: #168b83;">الإجابة: B — Before meals.</span></li>
+            <li><b>Time to hold breath in deep breathing?</b><br>A) 1 sec &nbsp; B) 3-5 secs &nbsp; C) 10 secs<br><span class="ar" style="color: #168b83;">الإجابة: B — 3 to 5 seconds.</span></li>
+            <li><b>After surgery, deep breathing is performed every:</b><br>A) 1-2 hours &nbsp; B) 6 hours &nbsp; C) 12 hours<br><span class="ar" style="color: #168b83;">الإجابة: A — Every 1 to 2 hours.</span></li>
+        </ol>
+    </div>
+
+    <div class="section" id="flashcards">
+        <h2 class="section-title">11. 🗂️ Flashcards | كروت مراجعة</h2>
+        <div class="table-responsive">
+            <table>
+                <tr><th>Question</th><th>Answer</th></tr>
+                <tr><td>CPT بيستخدم لإيه؟</td><td>Indirect removal of accumulated secretions to optimize gas exchange.</td></tr>
+                <tr><td>Vibration بيتعمل في أنهي وقت؟</td><td>During exhalation.</td></tr>
+                <tr><td>صوت الـ Percussion الصحيح؟</td><td>Hollow sound resembling horses trotting.</td></tr>
+                <tr><td>أماكن ممنوع الطرق عليها؟</td><td>Spine, liver, spleen, breast, scapula, clavicle, sternum.</td></tr>
+                <tr><td>كل وضع Postural drainage كام دقيقة؟</td><td>10 to 15 minutes.</td></tr>
+                <tr><td>ليه قبل الوجبات؟</td><td>To prevent nausea, vomiting, and aspiration.</td></tr>
+                <tr><td>Deep breathing بيشتغل بإيه؟</td><td>Contraction of the diaphragm.</td></tr>
+                <tr><td>Splinting يعني إيه؟</td><td>Supporting the incision area to minimize pain while coughing.</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>📝 إعداد: Amr Gohar</p>
+        <p>Adult Nursing I — Chest Physiotherapy</p>
+        <p>بالتوفيق في الميد والفاينل! 🍀</p>
+    </div>
+
+</div>
+</body>
+</html>
