@@ -1,6 +1,7 @@
 // main.js
 import { db, auth } from './firebase-config.js';
 import { collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { daysUntil } from './lib.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const subjectsGrid = document.getElementById('subjects-grid');
@@ -58,6 +59,10 @@ async function loadSubjects() {
       const card = document.createElement('a');
       card.href = `subject.html?id=${doc.id}`;
       card.className = 'subject-card';
+      card.dataset.year = subject.year || '';
+      card.dataset.term = subject.term || '';
+      const d = daysUntil(subject.examDate);
+      const examHTML = (d !== null && d >= 0) ? `<p style="font-size:12px; font-weight:800; color: var(--primary-dark);">⏳ ${d === 0 ? 'الامتحان النهاردة' : 'فاضل ' + d + ' يوم على الامتحان'}</p>` : '';
       
       card.style.opacity = '0';
       card.style.transform = 'translateY(20px)';
@@ -68,6 +73,7 @@ async function loadSubjects() {
         <h2 class="subject-name-ar">${subject.nameAr}</h2>
         <p class="subject-name-en">${subject.name}</p>
         <p class="subject-desc">${subject.description || 'لا يوجد وصف لهذه المادة.'}</p>
+        ${examHTML}
         <div class="subject-footer">
           <span class="subject-count">عرض المحاضرات</span>
           <span class="subject-btn">دخول &larr;</span>
@@ -83,6 +89,7 @@ async function loadSubjects() {
 
       index++;
     });
+    buildFilters();
   } catch (error) {
     console.error("Error loading subjects: ", error);
     showError("حدث خطأ في تحميل المواد. تأكد من اتصالك بالإنترنت.");
@@ -103,20 +110,41 @@ if (searchToggle) {
   });
 }
 
-if (searchInput) {
-  searchInput.addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const cards = document.querySelectorAll('#subjects-grid .subject-card');
-    
-    cards.forEach(card => {
-      const text = card.textContent.toLowerCase();
-      if (text.includes(searchTerm)) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
+const filterState = {
+  year: localStorage.getItem('filterYear') || '',
+  term: localStorage.getItem('filterTerm') || ''
+};
+
+function applyFilters() {
+  const q = (searchInput?.value || '').toLowerCase();
+  document.querySelectorAll('#subjects-grid .subject-card').forEach(card => {
+    const ok = card.textContent.toLowerCase().includes(q)
+      && (!filterState.year || card.dataset.year === filterState.year)
+      && (!filterState.term || card.dataset.term === filterState.term);
+    card.style.display = ok ? 'flex' : 'none';
   });
+}
+
+if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+function buildFilters() {
+  if (document.getElementById('filters-bar')) return;
+  const cards = [...document.querySelectorAll('#subjects-grid .subject-card')];
+  const years = [...new Set(cards.map(c => c.dataset.year).filter(Boolean))].sort();
+  if (!years.length) return; // مفيش مواد متحدد ليها فرقة
+  const bar = document.createElement('div');
+  bar.id = 'filters-bar';
+  bar.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;';
+  const sel = 'padding:10px 14px; border-radius:12px; border:1px solid var(--border); background: var(--white); color: var(--text); font-family: inherit; font-weight:700;';
+  bar.innerHTML = `
+    <select id="filter-year" style="${sel}"><option value="">كل الفرق</option>${years.map(y => `<option value="${y}">الفرقة ${y}</option>`).join('')}</select>
+    <select id="filter-term" style="${sel}"><option value="">كل الترمات</option><option value="1">الترم الأول</option><option value="2">الترم الثاني</option></select>`;
+  subjectsGrid.before(bar);
+  const ys = bar.querySelector('#filter-year'), ts = bar.querySelector('#filter-term');
+  ys.value = filterState.year; ts.value = filterState.term;
+  ys.addEventListener('change', () => { filterState.year = ys.value; localStorage.setItem('filterYear', ys.value); applyFilters(); });
+  ts.addEventListener('change', () => { filterState.term = ts.value; localStorage.setItem('filterTerm', ts.value); applyFilters(); });
+  applyFilters();
 }
 
 // === 5. تحميل الإعلان ===

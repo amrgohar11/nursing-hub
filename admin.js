@@ -1,7 +1,8 @@
 // admin.js
 import { db, auth } from './firebase-config.js';
-import { doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, increment, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { esc, callNotify } from './lib.js';
 
 // === 0. الحماية (التحقق من الأدمن) ===
 onAuthStateChanged(auth, async (user) => {
@@ -34,13 +35,16 @@ formSubject.addEventListener('submit', async (e) => {
   const nameAr = document.getElementById('sub-name-ar').value.trim();
   const description = document.getElementById('sub-desc').value.trim();
   const icon = document.getElementById('sub-icon').value.trim();
+  const year = parseInt(document.getElementById('sub-year').value) || null;
+  const term = parseInt(document.getElementById('sub-term').value) || null;
+  const examDate = document.getElementById('sub-exam').value || null;
 
   msgSub.textContent = 'جاري الإضافة...';
   msgSub.style.color = '#0077b6';
 
   try {
     await setDoc(doc(db, "subjects", id), {
-      name, nameAr, description, icon: icon || '📚', createdAt: new Date()
+      name, nameAr, description, icon: icon || '📚', year, term, examDate, createdAt: new Date()
     });
     msgSub.textContent = 'تم إضافة المادة بنجاح! ✅';
     msgSub.style.color = 'green';
@@ -92,6 +96,7 @@ formLecture.addEventListener('submit', async (e) => {
       createdAt: new Date()
     });
     msgLec.textContent = 'تم إضافة المحاضرة! ✅';
+    if (confirm('تبعت إشعار للطلاب بالمحاضرة الجديدة؟')) notifyPush({ type: 'lecture', subjectId, lectureId: lecId, fileName, title });
     msgLec.style.color = 'green';
     formLecture.reset();
     loadDashboardData();
@@ -290,6 +295,7 @@ announcementForm?.addEventListener('submit', async (e) => {
   try {
     await setDoc(doc(db, "settings", "announcement"), { text: text });
     announcementMsg.textContent = 'تم حفظ الإعلان! ✅';
+    if (text && confirm('تبعت إشعار للطلاب بالإعلان؟')) notifyPush({ type: 'announcement', text });
     announcementMsg.style.color = 'green';
   } catch (error) {
     announcementMsg.textContent = 'حدث خطأ! ❌';
@@ -302,14 +308,14 @@ async function loadSubjectsTable() {
   const tableBody = document.getElementById('subjects-table-body');
   if (!tableBody) return;
 
-  tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">جاري تحميل المواد...</td></tr>';
+  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">جاري تحميل المواد...</td></tr>';
 
   try {
     const subjectsSnap = await getDocs(collection(db, "subjects"));
     tableBody.innerHTML = '';
 
     if (subjectsSnap.empty) {
-      tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">لا توجد مواد حتى الآن.</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">لا توجد مواد حتى الآن.</td></tr>';
       return;
     }
 
@@ -321,14 +327,20 @@ async function loadSubjectsTable() {
       tr.innerHTML = `
         <td><strong>${subject.icon || ''} ${subject.nameAr}</strong></td>
         <td>${subject.name}</td>
+        <td>${subject.year ? 'ف' + subject.year : '-'} / ${subject.term ? 'ت' + subject.term : '-'}</td>
+        <td>${subject.examDate || '-'}</td>
         <td>${lecturesSnap.size}</td>
-        <td><button class="btn-delete" onclick="deleteSubject('${subjectDoc.id}')">حذف</button></td>
+        <td style="display:flex; gap:5px;">
+          <button class="btn-delete" style="background:#0284c7; color:white;" onclick="editSubjectMeta('${subjectDoc.id}')">الفرقة/الترم</button>
+          <button class="btn-delete" style="background:#f59e0b; color:white;" onclick="editExam('${subjectDoc.id}')">الامتحان</button>
+          <button class="btn-delete" onclick="deleteSubject('${subjectDoc.id}')">حذف</button>
+        </td>
       `;
       tableBody.appendChild(tr);
     }
   } catch (error) {
     console.error("Error loading subjects table:", error);
-    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">حدث خطأ.</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">حدث خطأ.</td></tr>';
   }
 }
 
@@ -373,3 +385,55 @@ if (themeToggleBtn) {
     themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   });
 }
+
+// === 12. إشعارات Push ===
+function notifyPush(payload) { return callNotify(auth.currentUser, payload); }
+
+// === 13. فرقة/ترم وموعد الامتحان ===
+window.editSubjectMeta = async (subjectId) => {
+  const y = prompt('رقم الفرقة (1-4) — اتركه فاضي للمسح:');
+  if (y === null) return;
+  const t = prompt('رقم الترم (1 أو 2) — اتركه فاضي للمسح:');
+  if (t === null) return;
+  const year = parseInt(y) || null, term = parseInt(t) || null;
+  if ((year && (year < 1 || year > 4)) || (term && (term < 1 || term > 2))) return alert('قيم غير صحيحة!');
+  try { await updateDoc(doc(db, "subjects", subjectId), { year, term }); loadSubjectsTable(); }
+  catch (e) { alert('حدث خطأ!'); }
+};
+
+window.editExam = async (subjectId) => {
+  const d = prompt('موعد الامتحان بصيغة YYYY-MM-DD (مثال 2027-01-15) — فاضي للمسح:');
+  if (d === null) return;
+  if (d && !/^\d{4}-\d{2}-\d{2}$/.test(d.trim())) return alert('الصيغة غلط!');
+  try { await updateDoc(doc(db, "subjects", subjectId), { examDate: d.trim() || null }); loadSubjectsTable(); }
+  catch (e) { alert('حدث خطأ!'); }
+};
+
+// === 14. بلاغات الأخطاء ===
+async function loadReports() {
+  const body = document.getElementById('reports-table-body');
+  if (!body) return;
+  try {
+    const snap = await getDocs(query(collection(db, "reports"), orderBy("createdAt", "desc")));
+    const open = snap.docs.filter(d => d.data().status !== 'done').length;
+    document.getElementById('reports-count').textContent = open;
+    if (snap.empty) { body.innerHTML = '<tr><td colspan="5" style="text-align:center;">لا توجد بلاغات.</td></tr>'; return; }
+    body.innerHTML = snap.docs.map(d => {
+      const r = d.data();
+      const href = `lecture.html?subjectId=${encodeURIComponent(r.subjectId)}&file=${encodeURIComponent(r.fileName)}&id=${encodeURIComponent(r.lectureId)}`;
+      const done = r.status === 'done';
+      return `<tr>
+        <td><a href="${href}" target="_blank">${esc(r.lectureTitle)}</a></td>
+        <td style="max-width:300px;">${esc(r.text)}</td>
+        <td>${esc(r.userName)}</td>
+        <td><span class="badge" style="background:${done ? '#d1fae5' : '#fee2e2'}; color:${done ? '#065f46' : '#991b1b'};">${done ? 'تم الحل' : 'مفتوح'}</span></td>
+        <td style="display:flex; gap:5px;">
+          ${done ? '' : `<button class="btn-delete" style="background:#10b981; color:white;" onclick="resolveReport('${d.id}')">تم</button>`}
+          <button class="btn-delete" onclick="deleteReport('${d.id}')">حذف</button>
+        </td></tr>`;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+window.resolveReport = async (id) => { await updateDoc(doc(db, "reports", id), { status: 'done' }); loadReports(); };
+window.deleteReport = async (id) => { if (confirm('حذف البلاغ؟')) { await deleteDoc(doc(db, "reports", id)); loadReports(); } };
+loadReports();

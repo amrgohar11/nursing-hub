@@ -89,6 +89,10 @@
           <input type="text" id="sub-name-ar" placeholder="اسم المادة بالعربي - التشريح" required>
           <input type="text" id="sub-desc" placeholder="وصف المادة (اختياري)">
           <input type="text" id="sub-icon" placeholder="أيقونة (مثال: 🦴)">
+          <select id="sub-year"><option value="">-- الفرقة --</option><option value="1">الفرقة الأولى</option><option value="2">الفرقة الثانية</option><option value="3">الفرقة الثالثة</option><option value="4">الفرقة الرابعة</option></select>
+          <select id="sub-term"><option value="">-- الترم --</option><option value="1">الترم الأول</option><option value="2">الترم الثاني</option></select>
+          <label style="font-size:13px; color:var(--text-muted);">موعد الامتحان (اختياري)</label>
+          <input type="date" id="sub-exam">
           <button type="submit">إضافة المادة</button>
         </form>
         <p id="msg" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
@@ -126,6 +130,16 @@
       </div>
     </div>
 
+    <div class="admin-card" style="margin-bottom: 40px; border-right: 5px solid #ef4444;">
+      <h2>🚩 بلاغات الأخطاء <span id="reports-count" class="badge badge-subject">0</span></h2>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead><tr><th>المحاضرة</th><th>البلاغ</th><th>الطالب</th><th>الحالة</th><th>إجراء</th></tr></thead>
+          <tbody id="reports-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- جدول المواد الجديد -->
     <div class="admin-card" style="margin-bottom: 40px;">
       <h2>📚 إدارة المواد</h2>
@@ -135,6 +149,8 @@
             <tr>
               <th>المادة</th>
               <th>الاسم بالإنجليزي</th>
+              <th>الفرقة/الترم</th>
+              <th>الامتحان</th>
               <th>عدد المحاضرات</th>
               <th>إجراء</th>
             </tr>

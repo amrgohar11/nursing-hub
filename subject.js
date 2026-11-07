@@ -1,5 +1,6 @@
 // subject.js
 import { db } from './firebase-config.js';
+import { daysUntil } from './lib.js';
 import { doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -25,6 +26,14 @@ async function loadSubjectData() {
     document.getElementById('subject-name-ar').innerText = subject.nameAr;
     document.getElementById('subject-name-en').innerText = subject.name;
     if(subject.icon) document.getElementById('subject-icon').innerText = subject.icon;
+
+    const days = daysUntil(subject.examDate);
+    if (days !== null && days >= 0) {
+      const box = document.createElement('div');
+      box.style.cssText = 'background: var(--primary-light); color: var(--primary-dark); padding: 14px; border-radius: 14px; text-align: center; font-weight: 800; margin-bottom: 16px;';
+      box.textContent = days === 0 ? '🔥 الامتحان النهاردة — بالتوفيق!' : `⏳ فاضل ${days} يوم على امتحان المادة (${subject.examDate})`;
+      document.getElementById('lectures-list').before(box);
+    }
 
     const lecturesRef = collection(db, "subjects", subjectId, "lectures");
     const lecturesSnapshot = await getDocs(lecturesRef);

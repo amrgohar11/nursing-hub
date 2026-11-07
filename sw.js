@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'nursing-hub-v4';
+const CACHE_NAME = 'nursing-hub-v5';
 
 const STATIC_ASSETS = [
   '/',
@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   '/terms.html',
   '/mcq.html',
   '/portfolio.html',
+  '/my-space.html',
   '/manifest.json'
 ];
 
@@ -140,4 +141,35 @@ self.addEventListener('fetch', (event) => {
       return response;
     })
   );
+});
+
+// Push (FCM) — الرسائل data-only بنعرضها إحنا
+self.addEventListener('push', (event) => {
+  let p = {};
+  try { p = event.data ? event.data.json() : {}; } catch (_) {}
+  const d = p.data || p.notification || p;
+  event.waitUntil(
+    self.registration.showNotification(d.title || 'Nursing Hub', {
+      body: d.body || '',
+      icon: 'https://cdn-icons-png.flaticon.com/512/2966/2966486.png',
+      dir: 'rtl',
+      lang: 'ar',
+      data: { url: d.url || '/index.html' }
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url || '/index.html';
+  event.waitUntil((async () => {
+    const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of list) {
+      if ('focus' in c) {
+        try { await c.navigate(url); } catch (_) {}
+        return c.focus();
+      }
+    }
+    return self.clients.openWindow(url);
+  })());
 });

@@ -134,6 +134,15 @@
     .comment-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: bold; color: var(--primary-dark); }
     .comment-text { font-size: 14px; color: var(--text); }
     .hidden { display: none; }
+    .top-bar .icon-btn { font-size: 18px; padding: 0 4px; }
+    .admin-tag { background: var(--primary); color: #fff; font-size: 11px; padding: 1px 8px; border-radius: 10px; margin-right: 4px; }
+    .reply-card { background: var(--white); border-right: 3px solid var(--border); padding: 8px 12px; margin: 8px 15px 0 0; border-radius: 8px; }
+    .reply-btn { background: none; border: none; color: var(--primary-dark); font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 6px; padding: 0; }
+    .reply-form { display: flex; gap: 6px; margin-top: 8px; }
+    .reply-form input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; background: var(--white); color: var(--text); }
+    .reply-form button { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0 14px; font-weight: 700; cursor: pointer; }
+    .modal-content textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; font-family: inherit; min-height: 140px; background: var(--bg); color: var(--text); }
+    .modal-content .primary-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -144,6 +153,9 @@
       <a href="index.html">🩺 Nursing Hub</a>
       <div style="display: flex; gap: 15px;">
         <a id="back-link" href="#">&rarr; العودة للمادة</a>
+        <button id="bookmark-btn" class="icon-btn" title="مفضلة">☆</button>
+        <button id="notes-btn" class="icon-btn" title="ملاحظاتي">📝</button>
+        <button id="report-btn" class="icon-btn" title="بلّغ عن خطأ في الملخص">🚩</button>
         <button id="theme-toggle">🌙</button>
       </div>
     </div>
@@ -161,7 +173,7 @@
 
   <div class="modal-overlay" id="comments-modal">
     <div class="modal-content">
-      <button class="close-modal" id="close-modal-btn">✕</button>
+      <button class="close-modal">✕</button>
       <h3 style="margin-bottom: 15px; color: var(--primary-dark);">التقييم والتعليقات</h3>
       
       <div id="add-comment-form">
@@ -181,209 +193,232 @@
     </div>
   </div>
 
+    <div class="modal-overlay" id="notes-modal">
+    <div class="modal-content">
+      <button class="close-modal">✕</button>
+      <h3 style="margin-bottom: 15px; color: var(--primary-dark);">📝 ملاحظاتي الخاصة</h3>
+      <textarea id="note-text" maxlength="5000" placeholder="اكتب ملاحظاتك على المحاضرة دي (محدش غيرك بيشوفها)..."></textarea>
+      <button class="primary-btn" id="save-note">حفظ</button>
+      <p id="note-msg" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-content">
+      <button class="close-modal">✕</button>
+      <h3 style="margin-bottom: 15px; color: var(--primary-dark);">🚩 بلّغ عن خطأ في الملخص</h3>
+      <textarea id="report-text" maxlength="1000" placeholder="إيه الغلط اللي لقيته؟ (مكانه + الصح من وجهة نظرك)"></textarea>
+      <button class="primary-btn" id="send-report">إرسال البلاغ</button>
+      <p id="report-msg" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+    </div>
+  </div>
+
   <script type="module" src="guard.js"></script>
   
   <script type="module">
     import { auth, db } from './firebase-config.js';
-    import { doc, getDoc, updateDoc, increment, arrayUnion, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { doc, getDoc, setDoc, deleteDoc, updateDoc, increment, arrayUnion, collection, addDoc, query, orderBy, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { esc, recordStudy, callNotify } from './lib.js';
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const fileName = urlParams.get('file');
-    const subjectId = urlParams.get('subjectId');
-    const lectureId = urlParams.get('id');
-    
-    // حل مشكلة الـ id لو مش موجود
-    const safeLectureId = lectureId || (fileName ? fileName.replace('.html', '') : 'unknown');
-    
-    let currentUser = null;
-    let currentRating = 5;
+    const $ = (id) => document.getElementById(id);
+    const params = new URLSearchParams(window.location.search);
+    const fileName = params.get('file');
+    const subjectId = params.get('subjectId');
+    const lectureId = params.get('id');
+    const hasIds = !!(subjectId && lectureId);
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) currentUser = user;
+    let currentUser = null, isAdmin = false, lectureTitle = '', currentRating = 5, bookmarked = false, initDone = false;
+
+    const frame = $('lecture-frame');
+    if (fileName) frame.src = `lectures/${fileName}`;
+    else frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
+
+    $('back-link').href = (subjectId && subjectId !== 'null' && subjectId !== 'undefined') ? `subject.html?id=${subjectId}` : 'index.html';
+
+    // === الدخول والتهيئة ===
+    onAuthStateChanged(auth, async (user) => {
+      if (!user || initDone) return;
+      initDone = true; currentUser = user;
+      try { isAdmin = (await user.getIdTokenResult()).claims.admin === true; } catch (_) {}
+      init();
     });
 
-    const frame = document.getElementById('lecture-frame');
-    const backLink = document.getElementById('back-link');
-
-    // تحميل المحاضرة وزيادة العداد
-    if (fileName) {
-      frame.src = `lectures/${fileName}`;
-      
-      if (subjectId && lectureId) {
-        const lectureRef = doc(db, "subjects", subjectId, "lectures", lectureId);
-        
-        getDoc(lectureRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.data();
-            if (data.views === undefined) {
-              updateDoc(lectureRef, { views: 0 }).then(() => {
-                updateDoc(lectureRef, { views: increment(1) });
-              });
-            } else {
-              updateDoc(lectureRef, { views: increment(1) });
-            }
-          }
-        }).catch(e => console.log("Error updating views:", e));
-        
-        loadComments(subjectId, lectureId);
-        checkCompletion(subjectId, lectureId);
-      }
-    } else {
-      frame.src = 'data:text/html;charset=utf-8,<h1 style="text-align:center; margin-top:50px;">لم يتم العثور على الملف</h1>';
+    async function init() {
+      if (!hasIds) return;
+      const lectureRef = doc(db, 'subjects', subjectId, 'lectures', lectureId);
+      try {
+        const snap = await getDoc(lectureRef);
+        if (snap.exists()) {
+          lectureTitle = snap.data().title || '';
+          updateDoc(lectureRef, { views: increment(1) }).catch(() => {});
+        }
+      } catch (e) { console.log('Error updating views:', e); }
+      loadComments(); checkCompletion(); loadBookmark(); loadNote();
     }
 
-    // === إصلاح زرار العودة للمادة ===
-    if (subjectId && subjectId !== 'null' && subjectId !== 'undefined') {
-      backLink.href = `subject.html?id=${subjectId}`;
-    } else {
-      backLink.href = 'index.html';
-    }
+    // === المودالات ===
+    const openModal = (id) => $(id).classList.add('active');
+    document.querySelectorAll('.modal-overlay').forEach((m) => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); }));
+    document.querySelectorAll('.close-modal').forEach((b) => b.addEventListener('click', () => b.closest('.modal-overlay').classList.remove('active')));
+    $('open-comments-btn').addEventListener('click', () => openModal('comments-modal'));
 
-    // فتح وقفل المودال
-    const modal = document.getElementById('comments-modal');
-    document.getElementById('open-comments-btn').addEventListener('click', () => modal.classList.add('active'));
-    document.getElementById('close-modal-btn').addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+    // === المفضلة ===
+    const bmRef = () => doc(db, 'students', currentUser.uid, 'bookmarks', lectureId);
+    const paintBm = () => { $('bookmark-btn').textContent = bookmarked ? '⭐' : '☆'; };
+    async function loadBookmark() { try { bookmarked = (await getDoc(bmRef())).exists(); paintBm(); } catch (_) {} }
+    $('bookmark-btn').addEventListener('click', async () => {
+      if (!currentUser || !hasIds) return alert('بيانات المحاضرة غير مكتملة.');
+      try {
+        if (bookmarked) await deleteDoc(bmRef());
+        else await setDoc(bmRef(), { subjectId, fileName, title: lectureTitle, createdAt: serverTimestamp() });
+        bookmarked = !bookmarked; paintBm();
+      } catch (e) { alert('حدث خطأ!'); }
+    });
 
-    // نظام النجوم
-    document.querySelectorAll('.star-rating').forEach(star => {
+    // === الملاحظات الخاصة ===
+    const noteRef = () => doc(db, 'students', currentUser.uid, 'notes', lectureId);
+    async function loadNote() { try { const s = await getDoc(noteRef()); if (s.exists()) $('note-text').value = s.data().text || ''; } catch (_) {} }
+    $('notes-btn').addEventListener('click', () => { if (!currentUser || !hasIds) return alert('بيانات المحاضرة غير مكتملة.'); $('note-msg').textContent = ''; openModal('notes-modal'); });
+    $('save-note').addEventListener('click', async () => {
+      const text = $('note-text').value.trim();
+      try {
+        if (!text) await deleteDoc(noteRef());
+        else await setDoc(noteRef(), { text, title: lectureTitle, subjectId, fileName, updatedAt: serverTimestamp() });
+        $('note-msg').textContent = 'تم الحفظ ✅';
+      } catch (e) { $('note-msg').textContent = 'حدث خطأ!'; }
+    });
+
+    // === الإبلاغ عن خطأ ===
+    $('report-btn').addEventListener('click', () => { if (!currentUser || !hasIds) return alert('بيانات المحاضرة غير مكتملة.'); $('report-msg').textContent = ''; openModal('report-modal'); });
+    $('send-report').addEventListener('click', async () => {
+      const text = $('report-text').value.trim();
+      if (!text) return;
+      try {
+        await addDoc(collection(db, 'reports'), {
+          subjectId, lectureId, fileName, lectureTitle, text,
+          userId: currentUser.uid, userName: currentUser.email.split('@')[0],
+          status: 'open', createdAt: new Date()
+        });
+        callNotify(currentUser, { type: 'report', lectureTitle });
+        $('report-text').value = '';
+        $('report-msg').textContent = 'وصل البلاغ، شكرًا ليك 🙏';
+      } catch (e) { $('report-msg').textContent = 'حدث خطأ!'; }
+    });
+
+    // === النجوم ===
+    document.querySelectorAll('.star-rating').forEach((star) => {
       star.addEventListener('click', (e) => {
         currentRating = parseInt(e.target.getAttribute('data-value'));
-        document.querySelectorAll('.star-rating').forEach(s => s.style.color = '#ccc');
-        for (let i = 1; i <= currentRating; i++) {
-          document.querySelector(`.star-rating[data-value="${i}"]`).style.color = '#f59e0b';
-        }
+        document.querySelectorAll('.star-rating').forEach((s) => s.style.color = '#ccc');
+        for (let i = 1; i <= currentRating; i++) document.querySelector(`.star-rating[data-value="${i}"]`).style.color = '#f59e0b';
       });
       star.style.color = '#f59e0b';
     });
 
-    // إضافة تعليق
-    document.getElementById('submit-comment').addEventListener('click', async () => {
-      const text = document.getElementById('comment-text').value.trim();
+    // === التعليقات والردود ===
+    const commentsCol = () => collection(db, 'subjects', subjectId, 'lectures', lectureId, 'comments');
+    const author = () => ({ userId: currentUser.uid, userName: currentUser.email.split('@')[0], isAdmin });
+
+    $('submit-comment').addEventListener('click', async () => {
+      const text = $('comment-text').value.trim();
       if (!text || !currentUser) return alert('اكتب تعليقك أولاً!');
-
-      if (!subjectId || !lectureId) {
-        return alert('لا يمكن إضافة تعليق: بيانات المحاضرة غير مكتملة.');
-      }
-
+      if (!hasIds) return alert('لا يمكن إضافة تعليق: بيانات المحاضرة غير مكتملة.');
       try {
-        const commentsRef = collection(db, "subjects", subjectId, "lectures", lectureId, "comments");
-        await addDoc(commentsRef, {
-          userId: currentUser.uid,
-          userName: currentUser.email.split('@')[0],
-          text: text,
-          rating: currentRating,
-          createdAt: new Date()
-        });
-        document.getElementById('comment-text').value = '';
-        loadComments(subjectId, lectureId);
-      } catch (error) {
-        alert('حدث خطأ أثناء إضافة التعليق');
-      }
+        await addDoc(commentsCol(), { ...author(), text, rating: currentRating, createdAt: new Date() });
+        $('comment-text').value = '';
+        loadComments();
+      } catch (e) { alert('حدث خطأ أثناء إضافة التعليق'); }
     });
 
-    // تحميل التعليقات
-    async function loadComments(subId, lecId) {
-      const list = document.getElementById('comments-list');
+    const adminTag = (c) => c.isAdmin ? ' <span class="admin-tag">المطور</span>' : '';
+
+    async function loadComments() {
+      const list = $('comments-list');
       list.innerHTML = '<p>جاري التحميل...</p>';
-      
       try {
-        const q = query(collection(db, "subjects", subId, "lectures", lecId, "comments"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
-        list.innerHTML = '';
-        
-        if (snapshot.empty) {
-          list.innerHTML = '<p style="color:#666; font-size:14px; text-align:center;">لا توجد تعليقات بعد. كن أول من يعلق!</p>';
-          return;
-        }
-
-        snapshot.forEach(docSnap => {
-          const data = docSnap.data();
-          const div = document.createElement('div');
-          div.className = 'comment-card';
-          div.innerHTML = `
-            <div class="comment-header">
-              <span>👤 ${data.userName}</span>
-              <span style="color:#f59e0b;">${'★'.repeat(data.rating)}</span>
-            </div>
-            <div class="comment-text">${data.text}</div>
-          `;
-          list.appendChild(div);
-        });
-      } catch (e) {
-        list.innerHTML = '<p style="color:red; text-align:center;">حدث خطأ في تحميل التعليقات</p>';
-      }
+        const snap = await getDocs(query(commentsCol(), orderBy('createdAt', 'desc')));
+        const all = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const parents = all.filter((c) => !c.parentId);
+        if (!parents.length) { list.innerHTML = '<p style="color:#666; font-size:14px; text-align:center;">لا توجد تعليقات بعد. كن أول من يعلق!</p>'; return; }
+        list.innerHTML = parents.map((c) => {
+          const reps = all.filter((r) => r.parentId === c.id).reverse();
+          const stars = '★'.repeat(Math.min(5, Math.max(0, c.rating | 0)));
+          return `<div class="comment-card" data-id="${esc(c.id)}">
+            <div class="comment-header"><span>👤 ${esc(c.userName)}${adminTag(c)}</span><span style="color:#f59e0b;">${stars}</span></div>
+            <div class="comment-text">${esc(c.text)}</div>
+            ${reps.map((r) => `<div class="reply-card"><div class="comment-header"><span>↩️ ${esc(r.userName)}${adminTag(r)}</span></div><div class="comment-text">${esc(r.text)}</div></div>`).join('')}
+            <button class="reply-btn">↩️ رد</button>
+          </div>`;
+        }).join('');
+      } catch (e) { list.innerHTML = '<p style="color:red; text-align:center;">حدث خطأ في تحميل التعليقات</p>'; }
     }
 
-    // زرار خلصت المذاكرة
-    document.getElementById('complete-btn').addEventListener('click', async () => {
-      if (!currentUser) return;
-      if (!lectureId) {
-        return alert('لا يمكن تسجيل الإنجاز: بيانات المحاضرة غير مكتملة.');
+    $('comments-list').addEventListener('click', async (e) => {
+      const card = e.target.closest('.comment-card');
+      if (!card) return;
+      if (e.target.classList.contains('reply-btn')) {
+        const old = card.querySelector('.reply-form');
+        if (old) return old.remove();
+        e.target.insertAdjacentHTML('afterend', '<div class="reply-form"><input maxlength="300" placeholder="اكتب ردك..."><button class="send-reply">إرسال</button></div>');
+        card.querySelector('.reply-form input').focus();
       }
-      try {
-        const studentRef = doc(db, "students", currentUser.uid);
-        const studentDoc = await getDoc(studentRef);
-        
-        if (studentDoc.exists() && !studentDoc.data().completedLectures) {
-          await updateDoc(studentRef, { completedLectures: [] });
-        }
-        
-        await updateDoc(studentRef, {
-          completedLectures: arrayUnion(lectureId)
-        });
-        alert('تم تسجيل الإنجاز! 🎉');
-        await checkAndAwardBadges(currentUser.uid);
-      } catch (error) {
-        console.error(error);
-        alert('حدث خطأ!');
+      if (e.target.classList.contains('send-reply')) {
+        const input = card.querySelector('.reply-form input');
+        const text = input.value.trim();
+        if (!text || !currentUser) return;
+        e.target.disabled = true;
+        try {
+          await addDoc(commentsCol(), { ...author(), text, parentId: card.dataset.id, createdAt: new Date() });
+          callNotify(currentUser, { type: 'reply', subjectId, lectureId, commentId: card.dataset.id, preview: text });
+          loadComments();
+        } catch (err) { alert('حدث خطأ أثناء الرد'); e.target.disabled = false; }
       }
     });
 
-    async function checkCompletion(subId, lecId) {
+    // === خلصت المذاكرة (ستريك + هدف + شارات) ===
+    function markDone() {
+      const b = $('complete-btn');
+      b.textContent = '✅ تم'; b.style.background = '#d1fae5'; b.style.color = '#065f46'; b.disabled = true;
+    }
+    $('complete-btn').addEventListener('click', async () => {
       if (!currentUser) return;
-      const studentDoc = await getDoc(doc(db, "students", currentUser.uid));
-      if (studentDoc.exists()) {
-        const completed = studentDoc.data().completedLectures || [];
-        if (completed.includes(lecId)) {
-          document.getElementById('complete-btn').textContent = '✅ تم';
-          document.getElementById('complete-btn').style.background = '#d1fae5';
-          document.getElementById('complete-btn').style.color = '#065f46';
-          document.getElementById('complete-btn').disabled = true;
+      if (!lectureId) return alert('لا يمكن تسجيل الإنجاز: بيانات المحاضرة غير مكتملة.');
+      const btn = $('complete-btn'); btn.disabled = true;
+      try {
+        await updateDoc(doc(db, 'students', currentUser.uid), { completedLectures: arrayUnion(lectureId) });
+        const r = await recordStudy(currentUser.uid);
+        markDone();
+        let msg = 'تم تسجيل الإنجاز! 🎉';
+        if (r) {
+          msg += `\n🔥 الستريك: ${r.current} يوم`;
+          if (r.goal) msg += `\n🎯 هدف النهاردة: ${Math.min(r.count, r.goal)}/${r.goal}`;
+          if (r.newBadges.length) msg += `\n🏅 شارات جديدة: ${r.newBadges.join('، ')}`;
         }
-      }
+        alert(msg);
+      } catch (error) { console.error(error); btn.disabled = false; alert('حدث خطأ!'); }
+    });
+
+    async function checkCompletion() {
+      if (!currentUser || !lectureId) return;
+      const s = await getDoc(doc(db, 'students', currentUser.uid));
+      if (s.exists() && (s.data().completedLectures || []).includes(lectureId)) markDone();
     }
 
-    async function checkAndAwardBadges(uid) {
-      const studentDoc = await getDoc(doc(db, "students", uid));
-      if (studentDoc.exists()) {
-        const completed = studentDoc.data().completedLectures || [];
-        let newBadges = [];
-        if (completed.length >= 1) newBadges.push('🌱 مبتدئ');
-        if (completed.length >= 3) newBadges.push('📚 مذاكر');
-        if (completed.length >= 5) newBadges.push('🏆 متفوق');
-        
-        if (newBadges.length > 0) {
-          await updateDoc(doc(db, "students", uid), { badges: newBadges });
-        }
-      }
-    }
-
-    // الوضع الليلي
-    const themeToggleBtn = document.getElementById('theme-toggle');
+    // === الوضع الليلي ===
+    const themeToggleBtn = $('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
     if (themeToggleBtn) {
       themeToggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
       themeToggleBtn.addEventListener('click', () => {
-        const theme = document.documentElement.getAttribute('data-theme');
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
       });
     }
+
   </script>
 </body>
 </html>
