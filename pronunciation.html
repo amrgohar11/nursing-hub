@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d9488">
+  <title>مدرب النطق الطبي | Nursing Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pronunciation.css">
+</head>
+<body>
+  <header class="ph-header">
+    <a class="ph-brand" href="index.html">🩺 Nursing Hub</a>
+    <nav>
+      <a href="terms.html">العودة إلى القاموس</a>
+      <button type="button" id="ph-theme-toggle" class="ph-theme-btn" aria-label="تغيير المظهر">🌙</button>
+    </nav>
+  </header>
+
+  <main class="ph-container">
+    <section class="ph-intro">
+      <span class="ph-kicker">MEDICAL ENGLISH</span>
+      <h1>مدرب النطق الطبي 🎙️</h1>
+      <p>اختار مصطلحًا من قاموس Nursing Hub، اسمع نطقه، وسجّل محاولتك وقارن النتيجة.</p>
+    </section>
+
+    <section class="ph-panel">
+      <label for="ph-term-select">اختر المصطلح</label>
+      <select id="ph-term-select">
+        <option value="">جاري تحميل مصطلحات القاموس...</option>
+      </select>
+      <div id="ph-term-card" class="ph-term-card" aria-live="polite">
+        <p class="ph-muted">سيظهر المصطلح ومعناه هنا بعد تحميل القاموس.</p>
+      </div>
+      <div class="ph-actions">
+        <button type="button" id="ph-speak" class="ph-btn ph-primary" disabled>🔊 اسمع النطق</button>
+        <button type="button" id="ph-next" class="ph-btn ph-secondary" disabled>مصطلح عشوائي ↻</button>
+      </div>
+    </section>
+
+    <section class="ph-panel">
+      <h2>🎧 سجّل نطقك</h2>
+      <p class="ph-muted">اضغط بدء، انطق المصطلح بالإنجليزية، ثم اضغط إنهاء. التسجيل يبقى داخل الصفحة ولا يتم رفعه إلى خادم.</p>
+      <div class="ph-actions">
+        <button type="button" id="ph-start" class="ph-btn ph-record">● بدء التسجيل والتقييم</button>
+        <button type="button" id="ph-stop" class="ph-btn ph-secondary" disabled>إيقاف</button>
+      </div>
+      <p id="ph-status" class="ph-status" role="status">جاهز للتدريب.</p>
+      <audio id="ph-playback" controls hidden></audio>
+    </section>
+
+    <section class="ph-panel" id="ph-result" aria-live="polite">
+      <h2>📊 نتيجة المحاولة</h2>
+      <p class="ph-muted">بعد التسجيل ستظهر هنا الكلمات التي تعرّف عليها المتصفح ومقارنة تقريبية بالمصطلح المطلوب.</p>
+      <div id="ph-transcript" class="ph-transcript">لم يتم تسجيل محاولة بعد.</div>
+      <div id="ph-score" class="ph-score" hidden></div>
+      <p class="ph-note">تنبيه: النتيجة تقديرية وتعتمد على خاصية التعرف على الكلام في المتصفح والميكروفون واللكنة. ليست اختبارًا صوتيًا طبيًا أو تقييمًا دقيقًا للفونيمات.</p>
+    </section>
+
+    <p class="ph-footnote">إذا لم يعمل التعرف الصوتي، جرّب Chrome أو Edge بإصدار حديث، وتأكد من السماح باستخدام الميكروفون.</p>
+  </main>
+
+  <script type="module" src="pronunciation.js"></script>
+</body>
+</html>

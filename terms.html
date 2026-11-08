@@ -3,86 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>المصطلحات الطبية | Nursing Hub</title>
+  <meta name="description" content="قاموس شامل للمصطلحات الطبية والتمريضية باللغة الإنجليزية مع الترجمة العربية">
+  <title>قاموس المصطلحات الطبية والتمريضية | Nursing Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .terms-section {
-      margin-bottom: 40px;
-    }
-    .terms-section .section-title {
-      font-size: 22px;
-      margin-bottom: 20px;
-      color: var(--primary-dark);
-    }
-    .terms-section .section-title::after {
-      width: 40%;
-    }
-    .search-box {
-      max-width: 600px;
-      margin: 0 auto 30px;
-      position: relative;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 15px 45px 15px 20px;
-      border-radius: 50px;
-      border: 2px solid var(--border);
-      font-family: inherit;
-      font-size: 16px;
-      outline: none;
-      transition: 0.3s;
-      background: var(--white);
-      color: var(--text);
-    }
-    .search-box input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(2,132,199,0.1);
-    }
-    .search-box .search-icon {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-      color: var(--text-muted);
-    }
-    .no-results {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-muted);
-      font-weight: bold;
-      display: none;
-    }
+    .terms-section{margin-bottom:40px}
+    .terms-section .section-title{font-size:22px;margin-bottom:20px;color:var(--primary-dark)}
+    .terms-section .section-title::after{width:40%}
+    .search-box{max-width:650px;margin:0 auto 18px;position:relative}
+    .search-box input{width:100%;box-sizing:border-box;padding:15px 45px 15px 20px;border-radius:50px;border:2px solid var(--border);font-family:inherit;font-size:16px;outline:none;transition:.3s;background:var(--white);color:var(--text)}
+    .search-box input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(2,132,199,.1)}
+    .search-box .search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--text-muted)}
+    .terms-tools{text-align:center;color:var(--text-muted);margin-bottom:28px;font-size:14px}
+    .no-results{text-align:center;padding:40px;color:var(--text-muted);font-weight:bold;display:none}
+    .terms-section .grid{align-items:stretch}
+    .subject-card{min-height:85px}
+    .subject-name-ar{direction:ltr;text-align:left;overflow-wrap:anywhere}
+    .subject-desc{text-align:right}
+    .term-count{font-size:13px;color:var(--text-muted);margin-inline-start:8px}
+    .trainer-link{display:inline-flex;align-items:center;gap:8px;margin:0 auto 25px;padding:11px 20px;border-radius:30px;background:var(--primary);color:#fff;text-decoration:none;font-weight:700}
+    .trainer-wrap{text-align:center}
+    @media(max-width:600px){.terms-section .section-title{font-size:19px}.subject-card{min-height:75px}}
   </style>
 </head>
 <body>
-
   <header class="glass-nav">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">🩺 Nursing Hub</a>
-      <a href="index.html" style="font-weight: 700; color: var(--primary);">&rarr; الرئيسية</a>
+      <a href="index.html" style="font-weight:700;color:var(--primary);">الرئيسية ←</a>
     </div>
   </header>
 
   <main class="container">
-    <h1 class="section-title" style="font-size: 32px;">📚 المصطلحات الطبية</h1>
-    
-    <!-- خانة البحث -->
+    <h1 class="section-title" style="font-size:32px;">📚 قاموس المصطلحات الطبية والتمريضية</h1>
+    <p style="text-align:center;color:var(--text-muted);margin:-8px 0 24px;">مرجع للمذاكرة والتدريب على اللغة الطبية والتمريضية</p>
+
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" id="term-search" placeholder="ابحث عن مصطلح (بالإنجليزي أو العربي)...">
+      <input type="search" id="term-search" placeholder="ابحث بالإنجليزي أو العربي..." autocomplete="off" aria-label="البحث في المصطلحات">
     </div>
+    <div class="terms-tools"><span id="visible-count">0</span> مصطلح ظاهر</div>
+    <div class="trainer-wrap">
+      <a class="trainer-link" href="pronunciation.html">🎙️ انتقل إلى مدرب النطق الطبي</a>
+    </div>
+    <div class="no-results" id="no-results">مفيش نتائج مطابقة للبحث. جرّب كلمة تانية.</div>
 
-    <div class="no-results" id="no-results">مفيش نتائج مطابقة للبحث.</div>
-
-    <!-- 1. المصطلحات الأساسية -->
     <section class="terms-section">
-      <h2 class="section-title">المصطلحات الطبية الأساسية</h2>
+      <h2 class="section-title">1. المصطلحات الطبية الأساسية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Diagnosis</h3><p class="subject-desc">التشخيص</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Prognosis</h3><p class="subject-desc">توقع سير المرض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Symptom</h3><p class="subject-desc">العَرَض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sign</h3><p class="subject-desc">علامة مرضية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Symptom</h3><p class="subject-desc">العَرَض الذي يشعر به المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sign</h3><p class="subject-desc">علامة مرضية يمكن ملاحظتها</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Disease</h3><p class="subject-desc">مرض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Disorder</h3><p class="subject-desc">اضطراب</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Infection</h3><p class="subject-desc">عدوى</p></div>
@@ -94,21 +66,25 @@
         <div class="subject-card"><h3 class="subject-name-ar">Complication</h3><p class="subject-desc">مضاعفات</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Treatment</h3><p class="subject-desc">علاج</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Prevention</h3><p class="subject-desc">وقاية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Recovery</h3><p class="subject-desc">تعافي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Recovery</h3><p class="subject-desc">تعافٍ</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Relapse</h3><p class="subject-desc">انتكاسة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Remission</h3><p class="subject-desc">هدأة المرض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Etiology</h3><p class="subject-desc">سبب المرض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Pathogenesis</h3><p class="subject-desc">آلية حدوث المرض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Assessment</h3><p class="subject-desc">التقييم الصحي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intervention</h3><p class="subject-desc">تدخل علاجي أو تمريضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Evaluation</h3><p class="subject-desc">التقييم بعد التدخل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient</h3><p class="subject-desc">مريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Healthcare Provider</h3><p class="subject-desc">مقدم الرعاية الصحية</p></div>
       </div>
     </section>
 
-    <!-- 2. مصطلحات التشريح -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات التشريح Anatomy</h2>
+      <h2 class="section-title">2. التشريح وأجهزة الجسم Anatomy</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Anatomy</h3><p class="subject-desc">علم التشريح</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Physiology</h3><p class="subject-desc">علم وظائف الأعضاء</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Cardiovascular System</h3><p class="subject-desc">الجهاز الدوري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cardiovascular System</h3><p class="subject-desc">الجهاز القلبي الوعائي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Respiratory System</h3><p class="subject-desc">الجهاز التنفسي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Digestive System</h3><p class="subject-desc">الجهاز الهضمي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Nervous System</h3><p class="subject-desc">الجهاز العصبي</p></div>
@@ -117,7 +93,7 @@
         <div class="subject-card"><h3 class="subject-name-ar">Musculoskeletal System</h3><p class="subject-desc">الجهاز العضلي الهيكلي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Endocrine System</h3><p class="subject-desc">جهاز الغدد الصماء</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Immune System</h3><p class="subject-desc">الجهاز المناعي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Integumentary System</h3><p class="subject-desc">الجهاز اللحافي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Integumentary System</h3><p class="subject-desc">الجهاز اللحافي (الجلد وملحقاته)</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Heart</h3><p class="subject-desc">القلب</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Lung</h3><p class="subject-desc">الرئة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Brain</h3><p class="subject-desc">المخ</p></div>
@@ -134,535 +110,587 @@
         <div class="subject-card"><h3 class="subject-name-ar">Artery</h3><p class="subject-desc">شريان</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Vein</h3><p class="subject-desc">وريد</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Capillary</h3><p class="subject-desc">شعيرة دموية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Neuron</h3><p class="subject-desc">خلية عصبية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Alveoli</h3><p class="subject-desc">الحويصلات الهوائية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bone</h3><p class="subject-desc">عظمة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Joint</h3><p class="subject-desc">مفصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Muscle</h3><p class="subject-desc">عضلة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Skin</h3><p class="subject-desc">الجلد</p></div>
       </div>
     </section>
 
-    <!-- 3. الاتجاهات التشريحية -->
     <section class="terms-section">
-      <h2 class="section-title">الاتجاهات التشريحية</h2>
+      <h2 class="section-title">3. الاتجاهات والوضعيات التشريحية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Anterior</h3><p class="subject-desc">أمامي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Posterior</h3><p class="subject-desc">خلفي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Superior</h3><p class="subject-desc">علوي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Inferior</h3><p class="subject-desc">سفلي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Medial</h3><p class="subject-desc">إنسي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Lateral</h3><p class="subject-desc">وحشي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Medial</h3><p class="subject-desc">إنسي، باتجاه خط المنتصف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lateral</h3><p class="subject-desc">وحشي، بعيد عن خط المنتصف</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Proximal</h3><p class="subject-desc">قريب من منشأ الطرف</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Distal</h3><p class="subject-desc">بعيد عن منشأ الطرف</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Superficial</h3><p class="subject-desc">سطحي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Deep</h3><p class="subject-desc">عميق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bilateral</h3><p class="subject-desc">ثنائي الجانب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Unilateral</h3><p class="subject-desc">أحادي الجانب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Ipsilateral</h3><p class="subject-desc">على نفس الجانب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Contralateral</h3><p class="subject-desc">على الجانب المقابل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Supine Position</h3><p class="subject-desc">الاستلقاء على الظهر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Prone Position</h3><p class="subject-desc">الاستلقاء على البطن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fowler's Position</h3><p class="subject-desc">وضعية فاولر، رفع الرأس والجذع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lateral Position</h3><p class="subject-desc">وضعية الاستلقاء الجانبي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Trendelenburg Position</h3><p class="subject-desc">وضعية ترندلينبرغ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lithotomy Position</h3><p class="subject-desc">وضعية الولادة/الفحص النسائي</p></div>
       </div>
     </section>
 
-    <!-- 4. مصطلحات الفسيولوجي -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الفسيولوجي Physiology</h2>
-      <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Homeostasis</h3><p class="subject-desc">الاتزان الداخلي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Metabolism</h3><p class="subject-desc">الأيض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Respiration</h3><p class="subject-desc">التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Circulation</h3><p class="subject-desc">الدورة الدموية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Oxygenation</h3><p class="subject-desc">الأكسجة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Perfusion</h3><p class="subject-desc">التروية الدموية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Diffusion</h3><p class="subject-desc">الانتشار</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Osmosis</h3><p class="subject-desc">التناضح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Filtration</h3><p class="subject-desc">الترشيح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Absorption</h3><p class="subject-desc">الامتصاص</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Secretion</h3><p class="subject-desc">الإفراز</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Excretion</h3><p class="subject-desc">الإخراج</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Contraction</h3><p class="subject-desc">انقباض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Relaxation</h3><p class="subject-desc">ارتخاء</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Stimulus</h3><p class="subject-desc">مُحفِّز</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Response</h3><p class="subject-desc">استجابة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hormone</h3><p class="subject-desc">هرمون</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Enzyme</h3><p class="subject-desc">إنزيم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Neurotransmitter</h3><p class="subject-desc">ناقل عصبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Electrolyte</h3><p class="subject-desc">إلكتروليت / كهرل</p></div>
-      </div>
-    </section>
-
-    <!-- 5. مصطلحات التمريض -->
-    <section class="terms-section">
-      <h2 class="section-title">مصطلحات التمريض Nursing</h2>
+      <h2 class="section-title">4. أساسيات التمريض والعملية التمريضية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Nursing</h3><p class="subject-desc">التمريض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Nurse</h3><p class="subject-desc">ممرض / ممرضة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Patient</h3><p class="subject-desc">مريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Care</h3><p class="subject-desc">رعاية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Nursing Care</h3><p class="subject-desc">الرعاية التمريضية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Assessment</h3><p class="subject-desc">التقييم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Nursing Diagnosis</h3><p class="subject-desc">التشخيص التمريضي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Planning</h3><p class="subject-desc">التخطيط</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Implementation</h3><p class="subject-desc">التنفيذ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Evaluation</h3><p class="subject-desc">التقييم النهائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient Care</h3><p class="subject-desc">رعاية المريض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Nursing Process</h3><p class="subject-desc">العملية التمريضية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Assessment</h3><p class="subject-desc">جمع البيانات والتقييم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nursing Diagnosis</h3><p class="subject-desc">التشخيص التمريضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Planning</h3><p class="subject-desc">التخطيط للرعاية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Implementation</h3><p class="subject-desc">تنفيذ التدخلات التمريضية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Evaluation</h3><p class="subject-desc">تقييم النتائج</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Care Plan</h3><p class="subject-desc">خطة الرعاية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Intervention</h3><p class="subject-desc">تدخل تمريضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nursing Intervention</h3><p class="subject-desc">تدخل تمريضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nursing Outcome</h3><p class="subject-desc">نتيجة تمريضية متوقعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient History</h3><p class="subject-desc">التاريخ المرضي للمريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chief Complaint</h3><p class="subject-desc">الشكوى الرئيسية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Medical Record</h3><p class="subject-desc">السجل الطبي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Documentation</h3><p class="subject-desc">التوثيق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Handover</h3><p class="subject-desc">تسليم الحالة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Admission</h3><p class="subject-desc">دخول المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Discharge</h3><p class="subject-desc">خروج المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Referral</h3><p class="subject-desc">تحويل المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Consent</h3><p class="subject-desc">موافقة المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Confidentiality</h3><p class="subject-desc">سرية المعلومات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Patient Safety</h3><p class="subject-desc">سلامة المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Infection Control</h3><p class="subject-desc">مكافحة العدوى</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sterilization</h3><p class="subject-desc">التعقيم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Disinfection</h3><p class="subject-desc">التطهير</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hand Hygiene</h3><p class="subject-desc">نظافة اليدين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Aseptic Technique</h3><p class="subject-desc">تقنية منع التلوث</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Standard Precautions</h3><p class="subject-desc">الاحتياطات القياسية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Isolation</h3><p class="subject-desc">العزل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bedside Care</h3><p class="subject-desc">رعاية المريض بجانب السرير</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Comfort</h3><p class="subject-desc">الراحة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Handover</h3><p class="subject-desc">تسليم واستلام حالة المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vital Signs</h3><p class="subject-desc">العلامات الحيوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient Identification</h3><p class="subject-desc">التحقق من هوية المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Informed Consent</h3><p class="subject-desc">الموافقة المستنيرة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Confidentiality</h3><p class="subject-desc">سرية معلومات المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Advocacy</h3><p class="subject-desc">الدفاع عن حقوق المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Evidence-Based Practice</h3><p class="subject-desc">الممارسة المبنية على الدليل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Scope of Practice</h3><p class="subject-desc">نطاق الممارسة المهنية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Delegation</h3><p class="subject-desc">تفويض المهام</p></div>
       </div>
     </section>
 
-    <!-- 6. العلامات الحيوية -->
     <section class="terms-section">
-      <h2 class="section-title">العلامات الحيوية Vital Signs</h2>
+      <h2 class="section-title">5. العلامات الحيوية والتقييم السريري</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Vital Signs</h3><p class="subject-desc">العلامات الحيوية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Temperature</h3><p class="subject-desc">درجة الحرارة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Pulse</h3><p class="subject-desc">النبض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Respiratory Rate</h3><p class="subject-desc">معدل التنفس</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Blood Pressure</h3><p class="subject-desc">ضغط الدم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Oxygen Saturation</h3><p class="subject-desc">تشبع الأكسجين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Heart Rate</h3><p class="subject-desc">معدل ضربات القلب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fever</h3><p class="subject-desc">حمى</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hypothermia</h3><p class="subject-desc">انخفاض حرارة الجسم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pain Scale</h3><p class="subject-desc">مقياس الألم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pulse Oximeter</h3><p class="subject-desc">مقياس التأكسج النبضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Thermometer</h3><p class="subject-desc">مقياس الحرارة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Stethoscope</h3><p class="subject-desc">سماعة الطبيب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sphygmomanometer</h3><p class="subject-desc">جهاز قياس ضغط الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Auscultation</h3><p class="subject-desc">التسمع بالسماعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Palpation</h3><p class="subject-desc">الجس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Percussion</h3><p class="subject-desc">القرع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Inspection</h3><p class="subject-desc">المعاينة بالنظر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Edema</h3><p class="subject-desc">وذمة / تورم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cyanosis</h3><p class="subject-desc">ازرقاق الجلد أو الأغشية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pallor</h3><p class="subject-desc">شحوب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Jaundice</h3><p class="subject-desc">يرقان / اصفرار</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dyspnea</h3><p class="subject-desc">ضيق التنفس</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Tachycardia</h3><p class="subject-desc">تسرع ضربات القلب</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Bradycardia</h3><p class="subject-desc">بطء ضربات القلب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Tachypnea</h3><p class="subject-desc">تسرع التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bradypnea</h3><p class="subject-desc">بطء التنفس</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Hypertension</h3><p class="subject-desc">ارتفاع ضغط الدم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Hypotension</h3><p class="subject-desc">انخفاض ضغط الدم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hypoxia</h3><p class="subject-desc">نقص الأكسجين بالأنسجة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dyspnea</h3><p class="subject-desc">ضيق التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Apnea</h3><p class="subject-desc">انقطاع التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Orthostatic Hypotension</h3><p class="subject-desc">هبوط ضغط الدم عند الوقوف</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Pulse Oximeter</h3><p class="subject-desc">جهاز قياس تشبع الأكسجين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fever</h3><p class="subject-desc">حمى</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypothermia</h3><p class="subject-desc">انخفاض حرارة الجسم</p></div>
       </div>
     </section>
 
-    <!-- 7. مصطلحات الأدوية -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الأدوية Pharmacology</h2>
+      <h2 class="section-title">6. مكافحة العدوى وسلامة المريض</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Pharmacology</h3><p class="subject-desc">علم الأدوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Infection Control</h3><p class="subject-desc">مكافحة العدوى</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hand Hygiene</h3><p class="subject-desc">نظافة اليدين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hand Washing</h3><p class="subject-desc">غسل اليدين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hand Rub</h3><p class="subject-desc">فرك اليدين بمطهر كحولي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sterilization</h3><p class="subject-desc">التعقيم الكامل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Disinfection</h3><p class="subject-desc">التطهير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Aseptic Technique</h3><p class="subject-desc">تقنية منع التلوث</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Medical Asepsis</h3><p class="subject-desc">النظافة الطبية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Surgical Asepsis</h3><p class="subject-desc">التقنية المعقمة الجراحية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Personal Protective Equipment (PPE)</h3><p class="subject-desc">معدات الوقاية الشخصية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gloves</h3><p class="subject-desc">قفازات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gown</h3><p class="subject-desc">رداء واقٍ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Face Shield</h3><p class="subject-desc">واقي الوجه</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mask</h3><p class="subject-desc">كمامة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Isolation Precautions</h3><p class="subject-desc">احتياطات العزل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Contact Precautions</h3><p class="subject-desc">احتياطات التلامس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Droplet Precautions</h3><p class="subject-desc">احتياطات الرذاذ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Airborne Precautions</h3><p class="subject-desc">احتياطات الانتقال الهوائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Needlestick Injury</h3><p class="subject-desc">إصابة وخز الإبرة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sharps Container</h3><p class="subject-desc">حاوية الأدوات الحادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nosocomial Infection</h3><p class="subject-desc">عدوى مكتسبة من المستشفى</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Healthcare-Associated Infection</h3><p class="subject-desc">عدوى مرتبطة بالرعاية الصحية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fall Prevention</h3><p class="subject-desc">الوقاية من السقوط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient Safety</h3><p class="subject-desc">سلامة المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pressure Injury</h3><p class="subject-desc">إصابة ضغط / قرحة فراش</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section">
+      <h2 class="section-title">7. الأدوية وعلم الأدوية Pharmacology</h2>
+      <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Medication</h3><p class="subject-desc">دواء</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Drug</h3><p class="subject-desc">عقار</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dose</h3><p class="subject-desc">جرعة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dosage</h3><p class="subject-desc">نظام الجرعات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Side Effect</h3><p class="subject-desc">أثر جانبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Adverse Effect</h3><p class="subject-desc">تأثير ضار</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Contraindication</h3><p class="subject-desc">مانع استعمال</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Drug Interaction</h3><p class="subject-desc">تفاعل دوائي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Allergy</h3><p class="subject-desc">حساسية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Antibiotic</h3><p class="subject-desc">مضاد حيوي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Analgesic</h3><p class="subject-desc">مسكن للألم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Antipyretic</h3><p class="subject-desc">خافض للحرارة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Antihypertensive</h3><p class="subject-desc">خافض ضغط الدم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Anticoagulant</h3><p class="subject-desc">مضاد للتجلط</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Diuretic</h3><p class="subject-desc">مدر للبول</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Insulin</h3><p class="subject-desc">الإنسولين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sedative</h3><p class="subject-desc">مهدئ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Antiseptic</h3><p class="subject-desc">مطهر</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Vaccine</h3><p class="subject-desc">لقاح</p></div>
-      </div>
-    </section>
-
-    <!-- 8. طرق إعطاء الدواء -->
-    <section class="terms-section">
-      <h2 class="section-title">طرق إعطاء الدواء</h2>
-      <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Oral</h3><p class="subject-desc">عن طريق الفم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Intravenous (IV)</h3><p class="subject-desc">داخل الوريد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pharmacology</h3><p class="subject-desc">علم الأدوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dosage</h3><p class="subject-desc">الجرعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dose</h3><p class="subject-desc">مقدار الجرعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Route of Administration</h3><p class="subject-desc">طريقة إعطاء الدواء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Oral (PO)</h3><p class="subject-desc">عن طريق الفم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intravenous (IV)</h3><p class="subject-desc">عن طريق الوريد</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Intramuscular (IM)</h3><p class="subject-desc">داخل العضلة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Subcutaneous (SC)</h3><p class="subject-desc">تحت الجلد</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Intradermal (ID)</h3><p class="subject-desc">داخل الأدمة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Topical</h3><p class="subject-desc">موضعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sublingual</h3><p class="subject-desc">تحت اللسان</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Rectal</h3><p class="subject-desc">عن طريق المستقيم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Inhalation</h3><p class="subject-desc">عن طريق الاستنشاق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sublingual</h3><p class="subject-desc">تحت اللسان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Transdermal</h3><p class="subject-desc">عبر الجلد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Side Effect</h3><p class="subject-desc">أثر جانبي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Adverse Reaction</h3><p class="subject-desc">تفاعل دوائي ضار</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Allergic Reaction</h3><p class="subject-desc">تفاعل تحسسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Contraindication</h3><p class="subject-desc">مانع استعمال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Indication</h3><p class="subject-desc">دواعي الاستعمال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Drug Interaction</h3><p class="subject-desc">تفاعل بين الأدوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Half-Life</h3><p class="subject-desc">عمر النصف للدواء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antibiotic</h3><p class="subject-desc">مضاد حيوي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Analgesic</h3><p class="subject-desc">مسكن ألم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antipyretic</h3><p class="subject-desc">خافض حرارة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anticoagulant</h3><p class="subject-desc">مضاد للتجلط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diuretic</h3><p class="subject-desc">مدر للبول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Insulin</h3><p class="subject-desc">الإنسولين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Prescription</h3><p class="subject-desc">روشتة / وصفة طبية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Medication Administration Record (MAR)</h3><p class="subject-desc">سجل إعطاء الأدوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Medication Error</h3><p class="subject-desc">خطأ دوائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Five Rights of Medication Administration</h3><p class="subject-desc">الحقوق الخمسة لإعطاء الدواء</p></div>
       </div>
     </section>
 
-    <!-- 9. مصطلحات التحاليل الطبية -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات التحاليل Laboratory</h2>
+      <h2 class="section-title">8. الإجراءات والمهارات التمريضية</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Laboratory</h3><p class="subject-desc">المعمل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Blood Sample</h3><p class="subject-desc">عينة دم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Urine Sample</h3><p class="subject-desc">عينة بول</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CBC</h3><p class="subject-desc">صورة دم كاملة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hemoglobin</h3><p class="subject-desc">الهيموجلوبين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hematocrit</h3><p class="subject-desc">الهيماتوكريت</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">RBC</h3><p class="subject-desc">كريات الدم الحمراء</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">WBC</h3><p class="subject-desc">كريات الدم البيضاء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bed Making</h3><p class="subject-desc">تجهيز سرير المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient Bath</h3><p class="subject-desc">حمام المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bed Bath</h3><p class="subject-desc">حمام المريض في السرير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Oral Care</h3><p class="subject-desc">العناية بالفم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Perineal Care</h3><p class="subject-desc">العناية بمنطقة العجان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Wound Care</h3><p class="subject-desc">العناية بالجروح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dressing</h3><p class="subject-desc">تضميد الجرح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Wound Dressing</h3><p class="subject-desc">تغيير غيار الجرح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Suture</h3><p class="subject-desc">خياطة جراحية / غرزة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Suture Removal</h3><p class="subject-desc">إزالة الغرز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urinary Catheterization</h3><p class="subject-desc">تركيب قسطرة بولية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Indwelling Catheter</h3><p class="subject-desc">قسطرة بولية ثابتة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nasogastric Tube (NGT)</h3><p class="subject-desc">أنبوب أنفي معدي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Oxygen Therapy</h3><p class="subject-desc">العلاج بالأكسجين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nebulization</h3><p class="subject-desc">جلسة استنشاق بالبخار الدوائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Suctioning</h3><p class="subject-desc">شفط الإفرازات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intravenous Cannula</h3><p class="subject-desc">كانيولا وريدية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">IV Infusion</h3><p class="subject-desc">تسريب وريدي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Blood Transfusion</h3><p class="subject-desc">نقل الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Injection</h3><p class="subject-desc">حقن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Venipuncture</h3><p class="subject-desc">وخز الوريد لسحب عينة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Specimen Collection</h3><p class="subject-desc">جمع العينات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Enema</h3><p class="subject-desc">حقنة شرجية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ostomy Care</h3><p class="subject-desc">العناية بالفغرة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Range of Motion (ROM)</h3><p class="subject-desc">تمارين مدى حركة المفاصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Turning</h3><p class="subject-desc">تغيير وضعية المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ambulation</h3><p class="subject-desc">مساعدة المريض على المشي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intake and Output (I&O)</h3><p class="subject-desc">قياس الداخل والخارج من السوائل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fluid Balance</h3><p class="subject-desc">توازن السوائل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Glucose Monitoring</h3><p class="subject-desc">قياس ومتابعة سكر الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Capillary Blood Glucose</h3><p class="subject-desc">قياس السكر من عينة شعيرية</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section">
+      <h2 class="section-title">9. التحاليل والفحوصات الطبية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Complete Blood Count (CBC)</h3><p class="subject-desc">صورة دم كاملة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hemoglobin (Hb)</h3><p class="subject-desc">الهيموجلوبين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hematocrit (HCT)</h3><p class="subject-desc">الهيماتوكريت / حجم الخلايا المرصوصة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">White Blood Cells (WBCs)</h3><p class="subject-desc">خلايا الدم البيضاء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Red Blood Cells (RBCs)</h3><p class="subject-desc">خلايا الدم الحمراء</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Platelets</h3><p class="subject-desc">الصفائح الدموية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Blood Glucose</h3><p class="subject-desc">سكر الدم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fasting Blood Sugar (FBS)</h3><p class="subject-desc">سكر الدم الصائم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fasting Blood Sugar (FBS)</h3><p class="subject-desc">سكر صائم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Random Blood Sugar (RBS)</h3><p class="subject-desc">سكر عشوائي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">HbA1c</h3><p class="subject-desc">السكر التراكمي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Liver Function Tests (LFTs)</h3><p class="subject-desc">وظائف الكبد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Kidney Function Tests (KFTs)</h3><p class="subject-desc">وظائف الكلى</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Creatinine</h3><p class="subject-desc">كرياتينين</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Urea</h3><p class="subject-desc">يوريا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bilirubin</h3><p class="subject-desc">بيليروبين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Albumin</h3><p class="subject-desc">ألبومين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Culture</h3><p class="subject-desc">مزرعة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sensitivity Test</h3><p class="subject-desc">اختبار الحساسية للمضادات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Electrolytes</h3><p class="subject-desc">الأملاح والمعادن</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ESR</h3><p class="subject-desc">سرعة ترسيب الدم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CRP</h3><p class="subject-desc">البروتين المتفاعل C</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Coagulation Profile</h3><p class="subject-desc">تحاليل التجلط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Electrolytes</h3><p class="subject-desc">الأملاح والمعادن في الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sodium (Na)</h3><p class="subject-desc">صوديوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Potassium (K)</h3><p class="subject-desc">بوتاسيوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Calcium (Ca)</h3><p class="subject-desc">كالسيوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Arterial Blood Gas (ABG)</h3><p class="subject-desc">غازات الدم الشرياني</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urinalysis</h3><p class="subject-desc">تحليل البول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urine Culture</h3><p class="subject-desc">مزرعة بول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Blood Culture</h3><p class="subject-desc">مزرعة دم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Culture and Sensitivity</h3><p class="subject-desc">مزرعة واختبار حساسية المضادات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Coagulation Profile</h3><p class="subject-desc">اختبارات التجلط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Prothrombin Time (PT)</h3><p class="subject-desc">زمن البروثرومبين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">INR</h3><p class="subject-desc">النسبة المعيارية الدولية للتجلط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Electrocardiogram (ECG)</h3><p class="subject-desc">رسم القلب الكهربائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Echocardiography</h3><p class="subject-desc">موجات صوتية على القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">X-ray</h3><p class="subject-desc">أشعة سينية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Computed Tomography (CT)</h3><p class="subject-desc">أشعة مقطعية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Magnetic Resonance Imaging (MRI)</h3><p class="subject-desc">تصوير بالرنين المغناطيسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ultrasound</h3><p class="subject-desc">موجات فوق صوتية</p></div>
       </div>
     </section>
 
-    <!-- 10. مصطلحات الأمراض -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الأمراض Pathology</h2>
+      <h2 class="section-title">10. الأمراض والحالات الشائعة</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Anemia</h3><p class="subject-desc">فقر الدم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Diabetes Mellitus</h3><p class="subject-desc">داء السكري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypoglycemia</h3><p class="subject-desc">انخفاض سكر الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hyperglycemia</h3><p class="subject-desc">ارتفاع سكر الدم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Asthma</h3><p class="subject-desc">الربو</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Pneumonia</h3><p class="subject-desc">التهاب رئوي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Tuberculosis</h3><p class="subject-desc">السل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Myocardial Infarction</h3><p class="subject-desc">احتشاء عضلة القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chronic Obstructive Pulmonary Disease (COPD)</h3><p class="subject-desc">مرض الانسداد الرئوي المزمن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Myocardial Infarction (MI)</h3><p class="subject-desc">احتشاء عضلة القلب / جلطة قلبية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Heart Failure</h3><p class="subject-desc">فشل القلب</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Stroke</h3><p class="subject-desc">سكتة دماغية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Renal Failure</h3><p class="subject-desc">فشل كلوي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hepatitis</h3><p class="subject-desc">التهاب الكبد</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Gastritis</h3><p class="subject-desc">التهاب المعدة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Peptic Ulcer</h3><p class="subject-desc">قرحة هضمية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Appendicitis</h3><p class="subject-desc">التهاب الزائدة الدودية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Osteoporosis</h3><p class="subject-desc">هشاشة العظام</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Arthritis</h3><p class="subject-desc">التهاب المفاصل</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Epilepsy</h3><p class="subject-desc">الصرع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Depression</h3><p class="subject-desc">الاكتئاب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sepsis</h3><p class="subject-desc">الإنتان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Renal Failure</h3><p class="subject-desc">فشل كلوي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urinary Tract Infection (UTI)</h3><p class="subject-desc">عدوى المسالك البولية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anemia</h3><p class="subject-desc">فقر الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dehydration</h3><p class="subject-desc">الجفاف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sepsis</h3><p class="subject-desc">الإنتان / تعفن الدم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Shock</h3><p class="subject-desc">الصدمة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Edema</h3><p class="subject-desc">وذمة / تورم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dehydration</h3><p class="subject-desc">جفاف</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Hemorrhage</h3><p class="subject-desc">نزيف</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Thrombosis</h3><p class="subject-desc">تجلط</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Embolism</h3><p class="subject-desc">انسداد وعائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Deep Vein Thrombosis (DVT)</h3><p class="subject-desc">جلطة الأوردة العميقة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pulmonary Embolism (PE)</h3><p class="subject-desc">انصمام رئوي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gastroenteritis</h3><p class="subject-desc">التهاب المعدة والأمعاء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Peptic Ulcer</h3><p class="subject-desc">قرحة هضمية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Fracture</h3><p class="subject-desc">كسر</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Burn</h3><p class="subject-desc">حرق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Wound</h3><p class="subject-desc">جرح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Ulcer</h3><p class="subject-desc">قرحة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Osteoporosis</h3><p class="subject-desc">هشاشة العظام</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Cancer</h3><p class="subject-desc">سرطان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Tumor</h3><p class="subject-desc">ورم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Depression</h3><p class="subject-desc">اكتئاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anxiety</h3><p class="subject-desc">قلق</p></div>
       </div>
     </section>
 
-    <!-- 11. مصطلحات الفحص السريري -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الفحص السريري</h2>
+      <h2 class="section-title">11. التمريض العملي ومهارات التواصل</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Physical Examination</h3><p class="subject-desc">الفحص البدني</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Inspection</h3><p class="subject-desc">المعاينة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Palpation</h3><p class="subject-desc">الجس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Percussion</h3><p class="subject-desc">القرع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Auscultation</h3><p class="subject-desc">التسمع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Tenderness</h3><p class="subject-desc">إيلام عند اللمس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Swelling</h3><p class="subject-desc">تورم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Redness</h3><p class="subject-desc">احمرار</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Pallor</h3><p class="subject-desc">شحوب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Cyanosis</h3><p class="subject-desc">زرقة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Jaundice</h3><p class="subject-desc">يرقان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Clubbing</h3><p class="subject-desc">تضخم نهايات الأصابع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Lymphadenopathy</h3><p class="subject-desc">تضخم العقد الليمفاوية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Consciousness</h3><p class="subject-desc">الوعي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Alert</h3><p class="subject-desc">يقظ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Confusion</h3><p class="subject-desc">تشوش ذهني</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Coma</h3><p class="subject-desc">غيبوبة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Pupil</h3><p class="subject-desc">حدقة العين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Reflex</h3><p class="subject-desc">منعكس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Gait</h3><p class="subject-desc">المشية</p></div>
-      </div>
-    </section>
-
-    <!-- 12. مصطلحات التمريض العملي -->
-    <section class="terms-section">
-      <h2 class="section-title">مصطلحات التمريض العملي</h2>
-      <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Bed Making</h3><p class="subject-desc">تجهيز السرير</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Patient Positioning</h3><p class="subject-desc">وضع المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Supine Position</h3><p class="subject-desc">وضع الاستلقاء على الظهر</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Prone Position</h3><p class="subject-desc">وضع الاستلقاء على البطن</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Lateral Position</h3><p class="subject-desc">وضع الاستلقاء الجانبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fowler's Position</h3><p class="subject-desc">وضع فاولر نصف الجالس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sims' Position</h3><p class="subject-desc">وضع سيمز الجانبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Ambulation</h3><p class="subject-desc">المشي والحركة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Transfer</h3><p class="subject-desc">نقل المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Range of Motion</h3><p class="subject-desc">مدى حركة المفاصل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Passive Exercise</h3><p class="subject-desc">تمرين سلبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Active Exercise</h3><p class="subject-desc">تمرين نشط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Therapeutic Communication</h3><p class="subject-desc">التواصل العلاجي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Active Listening</h3><p class="subject-desc">الإنصات الفعّال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Empathy</h3><p class="subject-desc">التعاطف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient Education</h3><p class="subject-desc">تثقيف المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Discharge Planning</h3><p class="subject-desc">التخطيط لخروج المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Referral</h3><p class="subject-desc">إحالة إلى جهة أو تخصص آخر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Triage</h3><p class="subject-desc">فرز الحالات حسب الأولوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Admission</h3><p class="subject-desc">دخول المريض للمستشفى</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Discharge</h3><p class="subject-desc">خروج المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bedside Care</h3><p class="subject-desc">الرعاية بجانب السرير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Call Bell</h3><p class="subject-desc">جرس استدعاء التمريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bed Rails</h3><p class="subject-desc">حواجز السرير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Restraints</h3><p class="subject-desc">وسائل تقييد الحركة وفق الضوابط</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Pressure Ulcer</h3><p class="subject-desc">قرحة ضغط</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dressing</h3><p class="subject-desc">تضميد الجروح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bandage</h3><p class="subject-desc">ضمادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Catheterization</h3><p class="subject-desc">قسطرة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Enema</h3><p class="subject-desc">حقنة شرجية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Suctioning</h3><p class="subject-desc">شفط الإفرازات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Oxygen Therapy</h3><p class="subject-desc">العلاج بالأكسجين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Nebulization</h3><p class="subject-desc">جلسة استنشاق رذاذ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Intake</h3><p class="subject-desc">السوائل الداخلة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Output</h3><p class="subject-desc">السوائل الخارجة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fluid Balance</h3><p class="subject-desc">توازن السوائل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Urinary Catheter</h3><p class="subject-desc">قسطرة بولية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Nasogastric Tube</h3><p class="subject-desc">أنبوب أنفي معدي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Feeding</h3><p class="subject-desc">تغذية المريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Oral Care</h3><p class="subject-desc">العناية بالفم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Bed Bath</h3><p class="subject-desc">حمام المريض بالسرير</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Perineal Care</h3><p class="subject-desc">العناية بمنطقة العجان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fall Prevention</h3><p class="subject-desc">الوقاية من السقوط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Braden Scale</h3><p class="subject-desc">مقياس تقييم خطر قرح الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Glasgow Coma Scale (GCS)</h3><p class="subject-desc">مقياس غلاسكو للغيبوبة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Level of Consciousness (LOC)</h3><p class="subject-desc">مستوى الوعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pupil Reaction</h3><p class="subject-desc">استجابة حدقة العين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Neurological Assessment</h3><p class="subject-desc">التقييم العصبي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fall Risk Assessment</h3><p class="subject-desc">تقييم خطر السقوط</p></div>
       </div>
     </section>
 
-    <!-- 13. مصطلحات الطوارئ -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الطوارئ Emergency</h2>
+      <h2 class="section-title">12. الطوارئ والإنعاش</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Emergency</h3><p class="subject-desc">حالة طوارئ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">First Aid</h3><p class="subject-desc">إسعافات أولية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CPR</h3><p class="subject-desc">الإنعاش القلبي الرئوي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">BLS</h3><p class="subject-desc">دعم الحياة الأساسي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ACLS</h3><p class="subject-desc">دعم الحياة المتقدم للقلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Emergency</h3><p class="subject-desc">حالة طارئة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">First Aid</h3><p class="subject-desc">الإسعافات الأولية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Basic Life Support (BLS)</h3><p class="subject-desc">دعم الحياة الأساسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Advanced Cardiovascular Life Support (ACLS)</h3><p class="subject-desc">دعم الحياة القلبي الوعائي المتقدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cardiopulmonary Resuscitation (CPR)</h3><p class="subject-desc">الإنعاش القلبي الرئوي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Automated External Defibrillator (AED)</h3><p class="subject-desc">مزيل الرجفان الخارجي الآلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Defibrillation</h3><p class="subject-desc">إزالة الرجفان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Airway</h3><p class="subject-desc">مجرى الهواء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Airway Obstruction</h3><p class="subject-desc">انسداد مجرى الهواء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Choking</h3><p class="subject-desc">اختناق بسبب انسداد مجرى الهواء</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Cardiac Arrest</h3><p class="subject-desc">توقف القلب</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Respiratory Arrest</h3><p class="subject-desc">توقف التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Airway</h3><p class="subject-desc">مجرى الهواء</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Resuscitation</h3><p class="subject-desc">إنعاش</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Defibrillator</h3><p class="subject-desc">جهاز إزالة الرجفان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Triage</h3><p class="subject-desc">فرز الحالات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Trauma</h3><p class="subject-desc">إصابة / رض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Burn Injury</h3><p class="subject-desc">إصابة حروق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Poisoning</h3><p class="subject-desc">تسمم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Overdose</h3><p class="subject-desc">جرعة زائدة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Anaphylaxis</h3><p class="subject-desc">تأق / حساسية مفرطة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Airway Obstruction</h3><p class="subject-desc">انسداد مجرى الهواء</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fracture</h3><p class="subject-desc">كسر</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Splint</h3><p class="subject-desc">جبيرة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Ambulance</h3><p class="subject-desc">سيارة إسعاف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hemorrhage</h3><p class="subject-desc">نزيف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">External Bleeding</h3><p class="subject-desc">نزيف خارجي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Internal Bleeding</h3><p class="subject-desc">نزيف داخلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Burn</h3><p class="subject-desc">حرق</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Trauma</h3><p class="subject-desc">إصابة / رضّ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypovolemic Shock</h3><p class="subject-desc">صدمة نقص حجم الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Septic Shock</h3><p class="subject-desc">صدمة إنتانية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Emergency Department (ED)</h3><p class="subject-desc">قسم الطوارئ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Code Blue</h3><p class="subject-desc">نداء طوارئ لتوقف القلب أو التنفس</p></div>
       </div>
     </section>
 
-    <!-- 14. مصطلحات الأمومة والتوليد -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الأمومة والتوليد</h2>
+      <h2 class="section-title">13. الأمومة والتوليد والتمريض النسائي</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Obstetrics</h3><p class="subject-desc">طب التوليد</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Gynecology</h3><p class="subject-desc">طب أمراض النساء</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Pregnancy</h3><p class="subject-desc">الحمل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Gestation</h3><p class="subject-desc">فترة الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Prenatal Care</h3><p class="subject-desc">رعاية ما قبل الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antenatal</h3><p class="subject-desc">ما قبل الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postnatal</h3><p class="subject-desc">ما بعد الولادة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Labor</h3><p class="subject-desc">المخاض</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Delivery</h3><p class="subject-desc">الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Vaginal Delivery</h3><p class="subject-desc">ولادة طبيعية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Cesarean Section</h3><p class="subject-desc">ولادة قيصرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Contraction</h3><p class="subject-desc">انقباض رحمي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cervix</h3><p class="subject-desc">عنق الرحم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Placenta</h3><p class="subject-desc">المشيمة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Umbilical Cord</h3><p class="subject-desc">الحبل السري</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Amniotic Fluid</h3><p class="subject-desc">السائل الأمنيوسي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Fetus</h3><p class="subject-desc">الجنين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Newborn</h3><p class="subject-desc">حديث الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Postpartum</h3><p class="subject-desc">ما بعد الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Prenatal Care</h3><p class="subject-desc">رعاية ما قبل الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Antenatal</h3><p class="subject-desc">قبل الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Postnatal</h3><p class="subject-desc">بعد الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fetal Heart Rate (FHR)</h3><p class="subject-desc">معدل نبض قلب الجنين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gestational Age</h3><p class="subject-desc">عمر الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Trimester</h3><p class="subject-desc">ثلث الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cesarean Section (C-section)</h3><p class="subject-desc">ولادة قيصرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vaginal Delivery</h3><p class="subject-desc">ولادة مهبلية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postpartum Hemorrhage (PPH)</h3><p class="subject-desc">نزيف ما بعد الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Preeclampsia</h3><p class="subject-desc">ما قبل تسمم الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Eclampsia</h3><p class="subject-desc">الإرجاج</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Miscarriage</h3><p class="subject-desc">إجهاض تلقائي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Ectopic Pregnancy</h3><p class="subject-desc">حمل خارج الرحم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Preeclampsia</h3><p class="subject-desc">مقدمات تسمم الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Breastfeeding</h3><p class="subject-desc">الرضاعة الطبيعية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lactation</h3><p class="subject-desc">إدرار الحليب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Newborn</h3><p class="subject-desc">حديث الولادة</p></div>
       </div>
     </section>
 
-    <!-- 15. مصطلحات تمريض الأطفال -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات تمريض الأطفال Pediatrics</h2>
+      <h2 class="section-title">14. تمريض الأطفال وحديثي الولادة</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Pediatrics</h3><p class="subject-desc">طب الأطفال</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Infant</h3><p class="subject-desc">رضيع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Toddler</h3><p class="subject-desc">طفل في مرحلة المشي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Child</h3><p class="subject-desc">طفل</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Growth</h3><p class="subject-desc">النمو</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Development</h3><p class="subject-desc">التطور</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Immunization</h3><p class="subject-desc">التطعيم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Vaccination</h3><p class="subject-desc">التلقيح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Breastfeeding</h3><p class="subject-desc">الرضاعة الطبيعية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Formula Feeding</h3><p class="subject-desc">الرضاعة الصناعية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Neonatal</h3><p class="subject-desc">حديث الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Premature</h3><p class="subject-desc">مبتسر / خديج</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Jaundice</h3><p class="subject-desc">اليرقان</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Colic</h3><p class="subject-desc">مغص الرضع</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Dehydration</h3><p class="subject-desc">الجفاف</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Congenital</h3><p class="subject-desc">خلقي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pediatric Nursing</h3><p class="subject-desc">تمريض الأطفال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Neonatology</h3><p class="subject-desc">طب حديثي الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Neonate</h3><p class="subject-desc">حديث الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Premature Infant</h3><p class="subject-desc">طفل خديج</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Incubator</h3><p class="subject-desc">حضانة الأطفال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Birth Weight</h3><p class="subject-desc">وزن الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Growth and Development</h3><p class="subject-desc">النمو والتطور</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Immunization</h3><p class="subject-desc">التحصين / التطعيم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vaccination</h3><p class="subject-desc">التطعيم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dehydration in Children</h3><p class="subject-desc">الجفاف لدى الأطفال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Febrile Seizure</h3><p class="subject-desc">تشنج حراري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Croup</h3><p class="subject-desc">الخناق الفيروسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bronchiolitis</h3><p class="subject-desc">التهاب القصيبات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pediatric Dose</h3><p class="subject-desc">جرعة دوائية للأطفال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Apgar Score</h3><p class="subject-desc">مقياس أبغار لتقييم حديث الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Phototherapy</h3><p class="subject-desc">العلاج الضوئي لحديثي الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Neonatal Jaundice</h3><p class="subject-desc">يرقان حديثي الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Kangaroo Mother Care</h3><p class="subject-desc">رعاية الأم بطريقة الكنغر</p></div>
       </div>
     </section>
 
-    <!-- 16. مصطلحات الصحة النفسية -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات الصحة النفسية</h2>
+      <h2 class="section-title">15. الصحة النفسية والتمريض النفسي</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Psychiatry</h3><p class="subject-desc">الطب النفسي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Psychology</h3><p class="subject-desc">علم النفس</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Mental Health</h3><p class="subject-desc">الصحة النفسية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Anxiety</h3><p class="subject-desc">القلق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Stress</h3><p class="subject-desc">الضغط النفسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Psychiatric Nursing</h3><p class="subject-desc">التمريض النفسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mental Status Examination (MSE)</h3><p class="subject-desc">فحص الحالة العقلية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mood</h3><p class="subject-desc">المزاج</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Affect</h3><p class="subject-desc">التعبير الوجداني</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Hallucination</h3><p class="subject-desc">هلوسة</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Delusion</h3><p class="subject-desc">ضلالة / اعتقاد وهامي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Phobia</h3><p class="subject-desc">رهاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Psychosis</h3><p class="subject-desc">ذهان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Schizophrenia</h3><p class="subject-desc">فصام</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Bipolar Disorder</h3><p class="subject-desc">اضطراب ثنائي القطب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Schizophrenia</h3><p class="subject-desc">الفصام</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Obsessive Compulsive Disorder</h3><p class="subject-desc">الوسواس القهري</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Counseling</h3><p class="subject-desc">الإرشاد النفسي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Therapy</h3><p class="subject-desc">العلاج</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Coping</h3><p class="subject-desc">التكيف مع الضغوط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Panic Attack</h3><p class="subject-desc">نوبة هلع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Phobia</h3><p class="subject-desc">رهاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Obsessive-Compulsive Disorder (OCD)</h3><p class="subject-desc">اضطراب الوسواس القهري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Post-Traumatic Stress Disorder (PTSD)</h3><p class="subject-desc">اضطراب ما بعد الصدمة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Suicidal Ideation</h3><p class="subject-desc">أفكار انتحارية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Therapeutic Relationship</h3><p class="subject-desc">العلاقة العلاجية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">De-escalation</h3><p class="subject-desc">تهدئة التصعيد والانفعال</p></div>
       </div>
     </section>
 
-    <!-- 17. مصطلحات التغذية -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات التغذية Nutrition</h2>
+      <h2 class="section-title">16. التغذية والسوائل والإخراج</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Nutrition</h3><p class="subject-desc">التغذية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Nutrient</h3><p class="subject-desc">عنصر غذائي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Carbohydrate</h3><p class="subject-desc">كربوهيدرات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Protein</h3><p class="subject-desc">بروتين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Fat</h3><p class="subject-desc">دهون</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Vitamin</h3><p class="subject-desc">فيتامين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Mineral</h3><p class="subject-desc">معدن</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Calorie</h3><p class="subject-desc">سعر حراري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nutritional Assessment</h3><p class="subject-desc">التقييم الغذائي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Malnutrition</h3><p class="subject-desc">سوء التغذية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Obesity</h3><p class="subject-desc">السمنة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">BMI</h3><p class="subject-desc">مؤشر كتلة الجسم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Body Mass Index (BMI)</h3><p class="subject-desc">مؤشر كتلة الجسم</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Diet</h3><p class="subject-desc">نظام غذائي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Balanced Diet</h3><p class="subject-desc">نظام غذائي متوازن</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Supplement</h3><p class="subject-desc">مكمل غذائي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Deficiency</h3><p class="subject-desc">نقص</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">NPO (Nil Per Os)</h3><p class="subject-desc">ممنوع تناول شيء عن طريق الفم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Enteral Feeding</h3><p class="subject-desc">تغذية معوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Parenteral Nutrition</h3><p class="subject-desc">تغذية وريدية / خارج الجهاز الهضمي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Aspiration</h3><p class="subject-desc">دخول الطعام أو السوائل إلى مجرى التنفس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dysphagia</h3><p class="subject-desc">صعوبة البلع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nausea</h3><p class="subject-desc">غثيان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vomiting</h3><p class="subject-desc">قيء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diarrhea</h3><p class="subject-desc">إسهال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Constipation</h3><p class="subject-desc">إمساك</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urinary Retention</h3><p class="subject-desc">احتباس البول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Incontinence</h3><p class="subject-desc">سلس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Oliguria</h3><p class="subject-desc">قلة البول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anuria</h3><p class="subject-desc">انقطاع البول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Polyuria</h3><p class="subject-desc">كثرة التبول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hematuria</h3><p class="subject-desc">دم في البول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bowel Movement</h3><p class="subject-desc">حركة الأمعاء / التبرز</p></div>
       </div>
     </section>
 
-    <!-- 18. الاختصارات الطبية -->
     <section class="terms-section">
-      <h2 class="section-title">الاختصارات الطبية Medical Abbreviations</h2>
+      <h2 class="section-title">17. الاختصارات الطبية والتمريضية الشائعة</h2>
       <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">BP</h3><p class="subject-desc">Blood Pressure - ضغط الدم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">HR</h3><p class="subject-desc">Heart Rate - معدل ضربات القلب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">RR</h3><p class="subject-desc">Respiratory Rate - معدل التنفس</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">T</h3><p class="subject-desc">Temperature - درجة الحرارة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">SpO2</h3><p class="subject-desc">Oxygen Saturation - تشبع الأكسجين</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">PR</h3><p class="subject-desc">Pulse Rate - معدل النبض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">IV</h3><p class="subject-desc">Intravenous - داخل الوريد</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">IM</h3><p class="subject-desc">Intramuscular - داخل العضلة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">SC</h3><p class="subject-desc">Subcutaneous - تحت الجلد</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">PO</h3><p class="subject-desc">By Mouth - عن طريق الفم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">NPO</h3><p class="subject-desc">Nothing by Mouth - ممنوع الأكل والشرب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">PRN</h3><p class="subject-desc">As Needed - عند الحاجة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">STAT</h3><p class="subject-desc">Immediately - فورًا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">BID</h3><p class="subject-desc">Twice Daily - مرتين يوميًا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">TID</h3><p class="subject-desc">Three Times Daily - ثلاث مرات يوميًا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">QID</h3><p class="subject-desc">Four Times Daily - أربع مرات يوميًا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">OD</h3><p class="subject-desc">Once Daily - مرة يوميًا</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CBC</h3><p class="subject-desc">Complete Blood Count - صورة دم كاملة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ECG</h3><p class="subject-desc">Electrocardiogram - رسم القلب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CXR</h3><p class="subject-desc">Chest X-Ray - أشعة الصدر</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">MRI</h3><p class="subject-desc">Magnetic Resonance Imaging - رنين مغناطيسي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">CT</h3><p class="subject-desc">Computed Tomography - أشعة مقطعية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ER</h3><p class="subject-desc">Emergency Room - قسم الطوارئ</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ICU</h3><p class="subject-desc">Intensive Care Unit - العناية المركزة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">OPD</h3><p class="subject-desc">Outpatient Department - العيادات الخارجية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">OR</h3><p class="subject-desc">Operating Room - غرفة العمليات</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">NICU</h3><p class="subject-desc">Neonatal Intensive Care Unit - عناية حديثي الولادة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">GCS</h3><p class="subject-desc">Glasgow Coma Scale - مقياس غلاسكو للوعي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">ADL</h3><p class="subject-desc">Activities of Daily Living - أنشطة الحياة اليومية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">I&O</h3><p class="subject-desc">Intake and Output - السوائل الداخلة والخارجة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">BP</h3><p class="subject-desc">Blood Pressure — ضغط الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">HR</h3><p class="subject-desc">Heart Rate — معدل ضربات القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">RR</h3><p class="subject-desc">Respiratory Rate — معدل التنفس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">T</h3><p class="subject-desc">Temperature — درجة الحرارة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">SpO2</h3><p class="subject-desc">Peripheral Oxygen Saturation — تشبع الأكسجين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">PRN</h3><p class="subject-desc">As Needed — عند اللزوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">STAT</h3><p class="subject-desc">Immediately — فورًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">BID</h3><p class="subject-desc">Twice Daily — مرتين يوميًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">TID</h3><p class="subject-desc">Three Times Daily — ثلاث مرات يوميًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">QID</h3><p class="subject-desc">Four Times Daily — أربع مرات يوميًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">OD</h3><p class="subject-desc">Once Daily — مرة يوميًا (قد يختلف المعنى حسب السياق)</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">PO</h3><p class="subject-desc">By Mouth — عن طريق الفم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">IV</h3><p class="subject-desc">Intravenous — وريدي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">IM</h3><p class="subject-desc">Intramuscular — عضلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">SC / SQ</h3><p class="subject-desc">Subcutaneous — تحت الجلد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">NPO</h3><p class="subject-desc">Nothing by Mouth — ممنوع الأكل والشرب بالفم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">I&O</h3><p class="subject-desc">Intake and Output — الداخل والخارج من السوائل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ADL</h3><p class="subject-desc">Activities of Daily Living — أنشطة الحياة اليومية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ROM</h3><p class="subject-desc">Range of Motion — مدى حركة المفصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">NGT</h3><p class="subject-desc">Nasogastric Tube — أنبوب أنفي معدي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Foley</h3><p class="subject-desc">Foley Catheter — قسطرة فولي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ECG / EKG</h3><p class="subject-desc">Electrocardiogram — رسم القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">CBC</h3><p class="subject-desc">Complete Blood Count — صورة دم كاملة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ABG</h3><p class="subject-desc">Arterial Blood Gas — غازات الدم الشرياني</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">GCS</h3><p class="subject-desc">Glasgow Coma Scale — مقياس غلاسكو للغيبوبة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">DNR</h3><p class="subject-desc">Do Not Resuscitate — عدم إجراء الإنعاش وفق أمر طبي موثق</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ICU</h3><p class="subject-desc">Intensive Care Unit — وحدة العناية المركزة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">CCU</h3><p class="subject-desc">Coronary Care Unit — وحدة رعاية القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ER / ED</h3><p class="subject-desc">Emergency Room / Department — قسم الطوارئ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">OR</h3><p class="subject-desc">Operating Room — غرفة العمليات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">PACU</h3><p class="subject-desc">Post-Anesthesia Care Unit — وحدة الإفاقة بعد التخدير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">NICU</h3><p class="subject-desc">Neonatal Intensive Care Unit — عناية حديثي الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">PICU</h3><p class="subject-desc">Pediatric Intensive Care Unit — عناية الأطفال المركزة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">OPD</h3><p class="subject-desc">Outpatient Department — العيادات الخارجية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dx</h3><p class="subject-desc">Diagnosis — التشخيص</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Tx</h3><p class="subject-desc">Treatment — العلاج</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hx</h3><p class="subject-desc">History — التاريخ المرضي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fx</h3><p class="subject-desc">Fracture — كسر</p></div>
       </div>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:12px;">تنبيه: الاختصارات الطبية قد يختلف معناها حسب المؤسسة والسياق. تجنب الاختصارات الملتبسة في أوامر الأدوية، واتبع سياسة مكان التدريب.</p>
     </section>
 
-    <!-- 19. مصطلحات التواصل مع المريض -->
     <section class="terms-section">
-      <h2 class="section-title">مصطلحات التواصل مع المريض</h2>
-      <div class="grid">
-        <div class="subject-card"><h3 class="subject-name-ar">Chief Complaint</h3><p class="subject-desc">الشكوى الرئيسية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">History of Present Illness</h3><p class="subject-desc">تاريخ المرض الحالي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Past Medical History</h3><p class="subject-desc">التاريخ المرضي السابق</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Family History</h3><p class="subject-desc">التاريخ المرضي العائلي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Medical History</h3><p class="subject-desc">التاريخ الطبي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Pain</h3><p class="subject-desc">ألم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Pain Assessment</h3><p class="subject-desc">تقييم الألم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Location</h3><p class="subject-desc">مكان الألم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Duration</h3><p class="subject-desc">مدة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Severity</h3><p class="subject-desc">شدة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Frequency</h3><p class="subject-desc">تكرار</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Radiation</h3><p class="subject-desc">امتداد الألم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Allergy History</h3><p class="subject-desc">تاريخ الحساسية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Medication History</h3><p class="subject-desc">تاريخ الأدوية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Chief Nurse</h3><p class="subject-desc">رئيس التمريض</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Physician</h3><p class="subject-desc">طبيب</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Consultant</h3><p class="subject-desc">استشاري</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Resident</h3><p class="subject-desc">طبيب مقيم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Caregiver</h3><p class="subject-desc">مقدم الرعاية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Family Care</h3><p class="subject-desc">رعاية الأسرة</p></div>
-      </div>
-    </section>
-
-    <!-- 20. مصطلحات الجراحة -->
-    <section class="terms-section">
-      <h2 class="section-title">مصطلحات الجراحة Surgery</h2>
+      <h2 class="section-title">18. الجراحة والتخدير والرعاية المحيطة بالعملية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Surgery</h3><p class="subject-desc">جراحة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Surgeon</h3><p class="subject-desc">جراح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Preoperative</h3><p class="subject-desc">قبل العملية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Intraoperative</h3><p class="subject-desc">أثناء العملية</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Postoperative</h3><p class="subject-desc">بعد العملية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Surgeon</h3><p class="subject-desc">جرّاح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Operating Room (OR)</h3><p class="subject-desc">غرفة العمليات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Preoperative Care</h3><p class="subject-desc">رعاية ما قبل العملية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intraoperative Care</h3><p class="subject-desc">الرعاية أثناء العملية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postoperative Care</h3><p class="subject-desc">رعاية ما بعد العملية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Anesthesia</h3><p class="subject-desc">تخدير</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">General Anesthesia</h3><p class="subject-desc">تخدير عام</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Local Anesthesia</h3><p class="subject-desc">تخدير موضعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Spinal Anesthesia</h3><p class="subject-desc">تخدير نصفي شوكي</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Incision</h3><p class="subject-desc">شق جراحي</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Suture</h3><p class="subject-desc">خياطة جراحية</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Drain</h3><p class="subject-desc">أنبوب تصريف</p></div>
         <div class="subject-card"><h3 class="subject-name-ar">Hemostasis</h3><p class="subject-desc">إيقاف النزيف</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Sterile Field</h3><p class="subject-desc">مجال معقم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Scrub Nurse</h3><p class="subject-desc">ممرض العمليات المعقم</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Circulating Nurse</h3><p class="subject-desc">ممرض العمليات المتحرك</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Recovery Room</h3><p class="subject-desc">غرفة الإفاقة</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Wound Healing</h3><p class="subject-desc">التئام الجروح</p></div>
-        <div class="subject-card"><h3 class="subject-name-ar">Postoperative Care</h3><p class="subject-desc">رعاية ما بعد العملية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Aseptic Field</h3><p class="subject-desc">حقل معقم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Surgical Instrument</h3><p class="subject-desc">أداة جراحية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Specimen</h3><p class="subject-desc">عينة للفحص</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Biopsy</h3><p class="subject-desc">خزعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Debridement</h3><p class="subject-desc">إزالة الأنسجة الميتة من الجرح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Post-Anesthesia Care Unit (PACU)</h3><p class="subject-desc">وحدة الإفاقة بعد التخدير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Surgical Site Infection (SSI)</h3><p class="subject-desc">عدوى موضع الجراحة</p></div>
       </div>
     </section>
 
+    <section class="terms-section">
+      <h2 class="section-title">19. التغذية العلاجية وإعادة التأهيل والرعاية طويلة الأمد</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Rehabilitation</h3><p class="subject-desc">إعادة التأهيل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Physical Therapy</h3><p class="subject-desc">العلاج الطبيعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Occupational Therapy</h3><p class="subject-desc">العلاج الوظيفي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mobility</h3><p class="subject-desc">القدرة على الحركة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Immobility</h3><p class="subject-desc">عدم الحركة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Assistive Device</h3><p class="subject-desc">وسيلة مساعدة للحركة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Walker</h3><p class="subject-desc">مشاية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Crutches</h3><p class="subject-desc">عكازات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Wheelchair</h3><p class="subject-desc">كرسي متحرك</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Palliative Care</h3><p class="subject-desc">الرعاية التلطيفية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hospice Care</h3><p class="subject-desc">رعاية نهاية الحياة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">End-of-Life Care</h3><p class="subject-desc">رعاية نهاية العمر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chronic Care</h3><p class="subject-desc">رعاية الأمراض المزمنة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Long-Term Care</h3><p class="subject-desc">رعاية طويلة الأمد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Caregiver</h3><p class="subject-desc">مقدم الرعاية</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section">
+      <h2 class="section-title">20. مصطلحات إضافية مهمة في بيئة المستشفى</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Ward</h3><p class="subject-desc">عنبر / قسم داخلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Shift</h3><p class="subject-desc">وردية عمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Staff Nurse</h3><p class="subject-desc">ممرض بالقسم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Head Nurse</h3><p class="subject-desc">رئيس التمريض بالقسم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nursing Supervisor</h3><p class="subject-desc">مشرف التمريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Physician</h3><p class="subject-desc">طبيب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Resident</h3><p class="subject-desc">طبيب مقيم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Consultant</h3><p class="subject-desc">استشاري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Multidisciplinary Team</h3><p class="subject-desc">فريق متعدد التخصصات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Referral Note</h3><p class="subject-desc">خطاب إحالة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Incident Report</h3><p class="subject-desc">تقرير واقعة أو حادث</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Near Miss</h3><p class="subject-desc">واقعة كادت أن تسبب ضررًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Quality Improvement</h3><p class="subject-desc">تحسين الجودة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Clinical Audit</h3><p class="subject-desc">مراجعة سريرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient-Centered Care</h3><p class="subject-desc">رعاية تتمحور حول المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Discharge Summary</h3><p class="subject-desc">ملخص خروج المريض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Follow-up</h3><p class="subject-desc">متابعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Referral Hospital</h3><p class="subject-desc">مستشفى إحالة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Outpatient</h3><p class="subject-desc">مريض خارجي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Inpatient</h3><p class="subject-desc">مريض داخلي</p></div>
+      </div>
+    </section>
+
+    <footer style="text-align:center;padding:25px 10px;color:var(--text-muted);">
+      <p>© Nursing Hub — قاموس تعليمي للمصطلحات الطبية والتمريضية</p>
+      <p style="font-size:12px;">المحتوى للمذاكرة والتعليم، ولا يُستخدم بديلًا عن السياسات والإرشادات السريرية المعتمدة.</p>
+    </footer>
   </main>
 
   <script>
-    // === فلترة البحث ===
     const searchInput = document.getElementById('term-search');
-    const allCards = document.querySelectorAll('.subject-card');
+    const allCards = [...document.querySelectorAll('.subject-card')];
     const noResults = document.getElementById('no-results');
+    const visibleCount = document.getElementById('visible-count');
 
-    searchInput?.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      let visibleCount = 0;
+    function filterTerms() {
+      const term = (searchInput.value || '').toLocaleLowerCase('ar').trim();
+      let visible = 0;
 
       allCards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        if (text.includes(term)) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
+        const text = card.textContent.toLocaleLowerCase('ar');
+        const match = text.includes(term);
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
       });
 
-      // إظهار/إخفاء رسالة "لا توجد نتائج"
-      if (visibleCount === 0 && term !== '') {
-        noResults.style.display = 'block';
-      } else {
-        noResults.style.display = 'none';
-      }
-    });
+      document.querySelectorAll('.terms-section').forEach(section => {
+        const sectionHasVisibleCard = [...section.querySelectorAll('.subject-card')]
+          .some(card => card.style.display !== 'none');
+        section.style.display = sectionHasVisibleCard ? '' : 'none';
+      });
+
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+      visibleCount.textContent = visible;
+    }
+
+    searchInput.addEventListener('input', filterTerms);
+    visibleCount.textContent = allCards.length;
   </script>
 </body>
 </html>
