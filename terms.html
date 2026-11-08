@@ -33,6 +33,14 @@
     .terms-section{scroll-margin-top:80px}
     .speak-btn{border:1px solid var(--border);background:var(--white);color:var(--primary);border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:14px;line-height:1;margin-top:6px;float:left}
     .speak-btn:hover,.speak-btn.playing{background:var(--primary);color:#fff}
+    .fab-wrap{position:fixed;left:16px;bottom:16px;z-index:999;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+    .fab{border:none;cursor:pointer;background:var(--primary);color:#fff;border-radius:50px;min-width:46px;height:46px;padding:0 16px;font-family:inherit;font-size:15px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+    .fab.up{width:46px;padding:0;font-size:20px;opacity:0;pointer-events:none;transition:.25s}
+    .fab.up.show{opacity:1;pointer-events:auto}
+    .cat-panel{display:none;position:fixed;left:16px;bottom:78px;z-index:998;width:min(340px,calc(100vw - 32px));max-height:60vh;overflow-y:auto;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:10px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+    .cat-panel.open{display:block}
+    .cat-panel a{display:block;padding:9px 12px;border-radius:10px;color:var(--text);text-decoration:none;font-size:14px}
+    .cat-panel a:hover{background:var(--primary);color:#fff}
   </style>
 </head>
 <body>
@@ -55,7 +63,6 @@
     <div class="trainer-wrap">
       <a class="trainer-link" href="pronunciation.html">🎙️ انتقل إلى مدرب النطق الطبي</a>
     </div>
-    <nav class="cat-nav" aria-label="أقسام القاموس"><a href="#sec1">1. المصطلحات الطبية الأساسية</a><a href="#sec2">2. التشريح وأجهزة الجسم Anatomy</a><a href="#sec3">3. الاتجاهات والوضعيات التشريحية</a><a href="#sec4">4. أساسيات التمريض والعملية التمريضية</a><a href="#sec5">5. العلامات الحيوية والتقييم السريري</a><a href="#sec6">6. مكافحة العدوى وسلامة المريض</a><a href="#sec7">7. الأدوية وعلم الأدوية Pharmacology</a><a href="#sec8">8. الإجراءات والمهارات التمريضية</a><a href="#sec9">9. التحاليل والفحوصات الطبية</a><a href="#sec10">10. الأمراض والحالات الشائعة</a><a href="#sec11">11. التمريض العملي ومهارات التواصل</a><a href="#sec12">12. الطوارئ والإنعاش</a><a href="#sec13">13. الأمومة والتوليد والتمريض النسائي</a><a href="#sec14">14. تمريض الأطفال وحديثي الولادة</a><a href="#sec15">15. الصحة النفسية والتمريض النفسي</a><a href="#sec16">16. التغذية والسوائل والإخراج</a><a href="#sec17">17. الاختصارات الطبية والتمريضية الشائعة</a><a href="#sec18">18. الجراحة والتخدير والرعاية المحيطة بالعملية</a><a href="#sec19">19. التغذية العلاجية وإعادة التأهيل والرعاية طويلة الأمد</a><a href="#sec20">20. مصطلحات إضافية مهمة في بيئة المستشفى</a><a href="#cardio">21. القلب والأوعية الدموية (موسّع)</a><a href="#resp">22. الجهاز التنفسي (موسّع)</a><a href="#gi">23. الجهاز الهضمي والكبد (موسّع)</a><a href="#renal">24. الكلى والمسالك البولية والغدد الصماء</a><a href="#neuro">25. الأعصاب والنفسية والدم والأورام</a><a href="#inf">26. الأمراض المعدية والتحاليل والأشعة</a><a href="#proc">27. الإجراءات والأجهزة والرعاية المتقدمة</a><a href="#abbr">28. الاختصارات الإضافية</a><a href="#drug">29. الأدوية: الأسماء العلمية والمجموعات الدوائية</a><a href="#surg">30. الجراحة والعظام والجلدية والحروق</a><a href="#peds">31. طب الأطفال والتطعيمات والنمو</a><a href="#ob">32. النساء والتوليد (موسّع)</a><a href="#anes">33. التخدير وإدارة الألم والرعاية التلطيفية</a><a href="#pgroups">34. المجموعات الدوائية</a><a href="#drugs2">35. أدوية إضافية بأسمائها العلمية</a></nav>
     <div class="no-results" id="no-results">مفيش نتائج مطابقة للبحث. جرّب كلمة تانية.</div>
 
     <section class="terms-section" id="sec1">
@@ -1051,6 +1058,12 @@
       </div>
     </section>
   </main>
+  <div class="cat-panel" id="cat-panel" role="navigation" aria-label="أقسام القاموس"><a href="#sec1">1. المصطلحات الطبية الأساسية</a><a href="#sec2">2. التشريح وأجهزة الجسم Anatomy</a><a href="#sec3">3. الاتجاهات والوضعيات التشريحية</a><a href="#sec4">4. أساسيات التمريض والعملية التمريضية</a><a href="#sec5">5. العلامات الحيوية والتقييم السريري</a><a href="#sec6">6. مكافحة العدوى وسلامة المريض</a><a href="#sec7">7. الأدوية وعلم الأدوية Pharmacology</a><a href="#sec8">8. الإجراءات والمهارات التمريضية</a><a href="#sec9">9. التحاليل والفحوصات الطبية</a><a href="#sec10">10. الأمراض والحالات الشائعة</a><a href="#sec11">11. التمريض العملي ومهارات التواصل</a><a href="#sec12">12. الطوارئ والإنعاش</a><a href="#sec13">13. الأمومة والتوليد والتمريض النسائي</a><a href="#sec14">14. تمريض الأطفال وحديثي الولادة</a><a href="#sec15">15. الصحة النفسية والتمريض النفسي</a><a href="#sec16">16. التغذية والسوائل والإخراج</a><a href="#sec17">17. الاختصارات الطبية والتمريضية الشائعة</a><a href="#sec18">18. الجراحة والتخدير والرعاية المحيطة بالعملية</a><a href="#sec19">19. التغذية العلاجية وإعادة التأهيل والرعاية طويلة الأمد</a><a href="#sec20">20. مصطلحات إضافية مهمة في بيئة المستشفى</a><a href="#cardio">21. القلب والأوعية الدموية (موسّع)</a><a href="#resp">22. الجهاز التنفسي (موسّع)</a><a href="#gi">23. الجهاز الهضمي والكبد (موسّع)</a><a href="#renal">24. الكلى والمسالك البولية والغدد الصماء</a><a href="#neuro">25. الأعصاب والنفسية والدم والأورام</a><a href="#inf">26. الأمراض المعدية والتحاليل والأشعة</a><a href="#proc">27. الإجراءات والأجهزة والرعاية المتقدمة</a><a href="#abbr">28. الاختصارات الإضافية</a><a href="#drug">29. الأدوية: الأسماء العلمية والمجموعات الدوائية</a><a href="#surg">30. الجراحة والعظام والجلدية والحروق</a><a href="#peds">31. طب الأطفال والتطعيمات والنمو</a><a href="#ob">32. النساء والتوليد (موسّع)</a><a href="#anes">33. التخدير وإدارة الألم والرعاية التلطيفية</a><a href="#pgroups">34. المجموعات الدوائية</a><a href="#drugs2">35. أدوية إضافية بأسمائها العلمية</a></div>
+  <div class="fab-wrap">
+    <button type="button" class="fab" id="cat-toggle" aria-expanded="false" aria-controls="cat-panel">📂 الأقسام</button>
+    <button type="button" class="fab up" id="to-top" aria-label="الرجوع لأعلى الصفحة" title="لأعلى">↑</button>
+  </div>
+
 
   <script>
     const searchInput = document.getElementById('term-search');
@@ -1083,6 +1096,18 @@
 
     searchInput.addEventListener('input', filterTerms);
     visibleCount.textContent = allCards.length;
+
+    /* قائمة الأقسام + زر الرجوع لأعلى */
+    (function(){
+      const panel=document.getElementById('cat-panel'),tg=document.getElementById('cat-toggle'),up=document.getElementById('to-top');
+      function setOpen(o){panel.classList.toggle('open',o);tg.setAttribute('aria-expanded',o)}
+      tg.addEventListener('click',()=>setOpen(!panel.classList.contains('open')));
+      panel.addEventListener('click',e=>{if(e.target.closest('a'))setOpen(false)});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});
+      window.addEventListener('scroll',()=>up.classList.toggle('show',window.scrollY>400),{passive:true});
+      up.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    })();
+
 
     /* نطق إنجليزي لكل مصطلح عبر محرك الصوت في المتصفح (بدون مكتبات) */
     (function(){
