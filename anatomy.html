@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0284c7">
+  <meta name="description" content="Anatomy Explorer - مستكشف تشريح تفاعلي تعليمي لطلاب التمريض">
+  <title>Anatomy Explorer | Nursing Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="anatomy.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+  </script>
+  <script type="module" src="guard.js"></script>
+  <script type="module" src="anatomy.js"></script>
+</head>
+<body class="anatomy-page">
+  <header class="glass-nav">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">🩺 Nursing Hub</a>
+      <div class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="my-space.html">مساحتي</a>
+        <a href="terms.html">المصطلحات</a>
+      </div>
+      <button class="theme-toggle-btn" id="anatomy-theme-toggle" type="button" aria-label="تغيير الوضع">🌙</button>
+    </nav>
+  </header>
+
+  <main class="anatomy-container">
+    <section class="anatomy-hero">
+      <span class="anatomy-eyebrow">NURSING HUB • LEARNING LAB</span>
+      <h1>🧬 Anatomy <span>Explorer</span></h1>
+      <p>استكشف أجهزة الجسم وأعضاءه، واربط التشريح بالتقييم التمريضي والممارسة الإكلينيكية.</p>
+      <div class="anatomy-hero-tags"><span>3D تفاعلي</span><span>معلومات تمريضية</span><span>مراجعة سريعة</span></div>
+    </section>
+
+    <section class="anatomy-layout" aria-label="مستكشف التشريح">
+      <aside class="anatomy-sidebar panel">
+        <div class="panel-heading"><div><small>EXPLORE</small><h2>أجهزة الجسم</h2></div><span>🧠</span></div>
+        <div id="system-list" class="system-list">
+          <button class="system-button active" data-system="circulatory"><span>❤️</span><span><b>الجهاز الدوري</b><small>القلب والأوعية</small></span><i>←</i></button>
+          <button class="system-button" data-system="respiratory"><span>🫁</span><span><b>الجهاز التنفسي</b><small>الرئتان والممرات الهوائية</small></span><i>←</i></button>
+          <button class="system-button" data-system="digestive"><span>🥼</span><span><b>الجهاز الهضمي</b><small>المعدة والكبد والأمعاء</small></span><i>←</i></button>
+          <button class="system-button" data-system="urinary"><span>💧</span><span><b>الجهاز البولي</b><small>الكليتان والمثانة</small></span><i>←</i></button>
+          <button class="system-button" data-system="nervous"><span>🧠</span><span><b>الجهاز العصبي</b><small>المخ والحبل الشوكي</small></span><i>←</i></button>
+          <button class="system-button" data-system="skeletal"><span>🦴</span><span><b>الجهاز الهيكلي</b><small>العظام والمفاصل</small></span><i>←</i></button>
+        </div>
+        <div class="sidebar-tip"><b>💡 نصيحة مذاكرة</b><p>اربط كل عضو بوظيفته، ثم اسأل نفسك: ما العلامات التي سأقيّمها كممرض؟</p></div>
+      </aside>
+
+      <section class="anatomy-view-column">
+        <div class="viewer-card panel">
+          <div class="viewer-top"><div><small id="viewer-kicker">CIRCULATORY SYSTEM</small><h2 id="viewer-title">الجهاز الدوري</h2></div><span class="live-indicator">● نموذج تفاعلي</span></div>
+          <div id="anatomy-stage" class="anatomy-stage">
+            <div class="stage-loading" id="stage-loading">جاري تجهيز النموذج ثلاثي الأبعاد...</div>
+            <div class="stage-hint">اسحب للدوران • عجلة الماوس للتقريب • اضغط على عضو لتحديده</div>
+          </div>
+          <div class="viewer-controls"><button id="rotate-toggle" type="button">⏸ إيقاف الدوران</button><button id="reset-view" type="button">↻ إعادة العرض</button><button id="zoom-in" type="button">＋ تكبير</button><button id="zoom-out" type="button">－ تصغير</button></div>
+          <div id="organ-picker" class="organ-picker" aria-label="اختيار العضو"></div>
+          <p class="viewer-disclaimer">النماذج ثلاثية الأبعاد مبسطة لأغراض التعليم والمراجعة، ولا تمثل مرجعًا تشخيصيًا أو بديلًا للأطالس الطبية المعتمدة.</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="organ-details panel" id="organ-details" aria-live="polite">
+      <div class="details-heading"><div><small>ORGAN PROFILE</small><h2 id="organ-name">القلب (Heart)</h2><p id="organ-subtitle">المضخة العضلية الرئيسية للدورة الدموية</p></div><span id="organ-icon">❤️</span></div>
+      <div class="details-grid">
+        <article class="detail-card"><span>📍</span><h3>الموقع والتركيب</h3><p id="organ-structure"></p></article>
+        <article class="detail-card"><span>⚙️</span><h3>الوظيفة</h3><p id="organ-function"></p></article>
+        <article class="detail-card clinical-card"><span>🩺</span><h3>Nursing Assessment</h3><ul id="organ-assessment"></ul></article>
+        <article class="detail-card"><span>🔎</span><h3>Clinical Notes</h3><ul id="organ-notes"></ul></article>
+      </div>
+      <div class="nursing-alert"><b>تنبيه تمريضي:</b> <span id="organ-alert"></span></div>
+    </section>
+
+    <section class="quick-review panel">
+      <div class="review-heading"><div><small>CHECK YOUR KNOWLEDGE</small><h2>اختبر فهمك</h2></div><span>🎯</span></div>
+      <div id="quiz-question" class="quiz-question"></div>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+      <button id="next-question" class="next-question" type="button">السؤال التالي ←</button>
+    </section>
+  </main>
+
+  <footer class="footer anatomy-footer"><div class="footer-content"><b>🩺 Nursing Hub</b><p>تعلم التشريح خطوة بخطوة، وطبّق المعرفة في الرعاية التمريضية.</p><div class="footer-divider"></div><p class="copyright">© Nursing Hub — محتوى تعليمي</p></div></footer>
+</body>
+</html>
