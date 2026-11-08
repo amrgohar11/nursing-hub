@@ -1,76 +1,854 @@
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// Anatomy Explorer: simplified educational shapes, not diagnostic anatomy.
+import {
+  loadAnatomyLayer,
+  toggleAnatomyLayer,
+  getAnatomyLayer,
+  removeAnatomyLayer,
+  removeAllAnatomyLayers
+} from './anatomy-model-loader.js';
+
+/* =========================================
+   NURSING HUB - ANATOMY EXPLORER
+   ========================================= */
+
 const $ = (id) => document.getElementById(id);
-const systems = {
-  circulatory:{title:'الجهاز الدوري',en:'CIRCULATORY SYSTEM',organs:[
-    organ('heart','❤️','القلب','Heart','المضخة العضلية الرئيسية للدورة الدموية','يقع في المنصف داخل التجويف الصدري، بين الرئتين وخلف عظمة القص، ويتكون من أربع حجرات: أذينين وبطينين.','يضخ الدم غير المؤكسج إلى الرئتين، ثم يستقبل الدم المؤكسج ويدفعه إلى أنسجة الجسم عبر الدورة الدموية الكبرى.',['قيّم معدل النبض وانتظامه وقوته في المواقع المناسبة.','افحص ضغط الدم وقارنه بالحالة الأساسية للمريض.','لاحظ ألم الصدر وضيق التنفس والدوخة والتعرق.','قيّم لون الجلد وحرارته وامتلاء الشعيرات الدموية.'],['أصوات القلب الأساسية S1 وS2 تنتج عن انغلاق الصمامات.','الوذمة الطرفية وضيق النفس قد يشيران إلى احتقان قلبي حسب السياق.','راقب توازن السوائل والوزن اليومي عند مرضى قصور القلب.'],'ألم الصدر الجديد أو ضيق النفس الشديد أو الإغماء يستلزم تقييمًا عاجلًا واتباع بروتوكول المنشأة.'),
-    organ('vessels','🩸','الأوعية الدموية','Blood vessels','شبكة نقل الدم بين القلب والأنسجة','الشرايين تنقل الدم بعيدًا عن القلب، والأوردة تعيده إليه، والشعيرات موقع تبادل الغازات والمواد.','توصيل الأكسجين والمغذيات وإزالة ثاني أكسيد الكربون والفضلات من الأنسجة.',['قارن النبض الطرفي بين الجانبين.','قيّم لون وحرارة الأطراف ووجود تورم.','راقب زمن امتلاء الشعيرات والإحساس والحركة.'],['تغيّر اللون أو البرودة أو الألم أو ضعف النبض قد يدل على نقص التروية.','قيّم الطرف بعد القسطرة أو الإجراءات الوعائية وفق البروتوكول.'],'أي فقد مفاجئ للنبض أو ألم شديد مع برودة الطرف يحتاج تصعيدًا عاجلًا.')
-  ]},
-  respiratory:{title:'الجهاز التنفسي',en:'RESPIRATORY SYSTEM',organs:[
-    organ('lungs','🫁','الرئتان','Lungs','العضوان الأساسيان لتبادل الغازات','تقعان داخل التجويف الصدري؛ اليمنى ثلاثة فصوص واليسرى فصان، وتحيط بهما الأغشية الجنبية.','إدخال الأكسجين إلى الدم والتخلص من ثاني أكسيد الكربون عبر الحويصلات الهوائية.',['قيّم معدل وعمق ونمط التنفس ومجهوده.','قِس SpO₂ حسب حالة المريض وتعليمات الفريق.','استمع لأصوات الرئة في مناطق متماثلة.','لاحظ استخدام العضلات المساعدة والسعال والبلغم.'],['الخرخرات أو الصفير أو غياب أصوات التنفس تحتاج تفسيرًا سريريًا.','شجّع التنفس العميق والحركة المبكرة حسب الحالة والأوامر.','تأكد من ملاءمة وسيلة الأكسجين ومراقبة الاستجابة.'],'ضيق النفس الحاد أو الزرقة أو انخفاض الوعي علامات إنذار تستدعي تدخلًا عاجلًا.'),
-    organ('trachea','〰️','القصبة الهوائية','Trachea','ممر رئيسي لمرور الهواء','أنبوب غضروفي يصل الحنجرة بالشعبتين الرئويتين، وتدعمه حلقات غضروفية.','توصيل الهواء وترشيحه وترطيبه جزئيًا قبل وصوله إلى الشعب الهوائية.',['راقب سلامة مجرى الهواء والصوت والسعال.','لاحظ الإفرازات وقدرة المريض على إخراجها.'],['وضعية المريض وشفط الإفرازات قد يساعدان عند وجود استطباب وبروتوكول.'],'انسداد مجرى الهواء حالة طارئة؛ اطلب المساعدة فورًا.')
-  ]},
-  digestive:{title:'الجهاز الهضمي',en:'DIGESTIVE SYSTEM',organs:[
-    organ('stomach','🥼','المعدة','Stomach','عضو عضلي لتخزين الطعام وبدء هضمه','تقع غالبًا في الجزء العلوي الأيسر من البطن أسفل الحجاب الحاجز.','تخلط الطعام بالعصارة المعدية وتبدأ هضم البروتين وتحوّل الطعام إلى كيموس.',['اسأل عن الشهية والغثيان والقيء والألم.','راقب تحمل التغذية وانتفاخ البطن.','تابع نمط الإخراج وتوازن السوائل.'],['قيّم خطر الشفط الرئوي عند القيء أو انخفاض الوعي.','سجّل كمية القيء وصفاته عند الحاجة.'],'القيء الدموي أو ألم البطن الشديد المفاجئ يحتاج تقييمًا عاجلًا.'),
-    organ('liver','🟤','الكبد','Liver','غدة كبيرة متعددة الوظائف','يقع في الربع العلوي الأيمن من البطن أسفل الحجاب الحاجز.','ينتج العصارة الصفراوية، ويشارك في الاستقلاب وتخزين الجليكوجين وتصنيع بروتينات البلازما والتخلص من بعض السموم.',['لاحظ اصفرار الجلد والعينين والحكة.','راجع نتائج وظائف الكبد والتجلط وفق الخطة العلاجية.','قيّم وجود استسقاء أو كدمات غير معتادة.'],['الكبد يؤثر في استقلاب أدوية عديدة؛ راجع أوامر الدواء ووظائف الكبد.','اليرقان علامة تحتاج تقييم السبب وليس تشخيصًا بمفردها.'],'اضطراب الوعي أو النزيف أو التدهور السريع لدى مريض الكبد يستدعي تصعيدًا عاجلًا.'),
-    organ('intestines','〰️','الأمعاء','Intestines','الجزء الرئيسي لاستكمال الهضم والامتصاص','الأمعاء الدقيقة تلي المعدة، ثم الأمعاء الغليظة التي تنتهي بالمستقيم.','امتصاص معظم المغذيات في الأمعاء الدقيقة وامتصاص الماء وتكوين البراز في الغليظة.',['تابع أصوات البطن حسب سياسة المنشأة.','قيّم نمط البراز والإسهال أو الإمساك.','راقب علامات الجفاف وانتفاخ البطن.'],['سجّل المدخلات والمخرجات عند الحاجة.','راقب الجلد حول الفغرة لدى مرضى ostomy.'],'ألم شديد مع انتفاخ وقيء أو دم بالبراز يستلزم تقييمًا طبيًا.')
-  ]},
-  urinary:{title:'الجهاز البولي',en:'URINARY SYSTEM',organs:[
-    organ('kidneys','🫘','الكليتان','Kidneys','عضوان لتنقية الدم وتكوين البول','تقعان خلف الغشاء البريتوني على جانبي العمود الفقري، والكلية اليمنى أخفض قليلًا غالبًا.','ترشيح الدم وتنظيم الماء والأملاح والتوازن الحمضي القاعدي والمساهمة في تنظيم ضغط الدم وإنتاج الإريثروبويتين.',['تابع كمية البول ولونه وصفاته.','راقب الوذمة وضغط الدم وتوازن السوائل.','راجع وظائف الكلى والشوارد حسب الخطة.'],['انخفاض البول قد ينتج عن أسباب متعددة ويحتاج تقييمًا للسياق.','راجع جرعات الأدوية التي تتأثر بوظائف الكلى.'],'انقطاع البول أو تدهور الحالة مع اضطراب السوائل والشوارد يستدعي إبلاغ الفريق فورًا.'),
-    organ('bladder','💧','المثانة','Urinary bladder','خزان عضلي مؤقت للبول','تقع في الحوض خلف عظمة العانة.','تخزين البول وإفراغه عبر الإحليل عند التبول.',['اسأل عن صعوبة التبول أو الألم أو الإلحاح.','راقب كمية البول واحتباسه عند الاشتباه.','قيّم القسطرة ونظام التصريف إذا وُجدت.'],['حافظ على نظام تصريف مغلق للقسطرة وفق السياسة.','تجنب رفع كيس البول فوق مستوى المثانة.'],'ألم أسفل البطن مع عدم القدرة على التبول يحتاج تقييمًا سريعًا.')
-  ]},
-  nervous:{title:'الجهاز العصبي',en:'NERVOUS SYSTEM',organs:[
-    organ('brain','🧠','المخ','Brain','مركز التحكم والتكامل العصبي','يقع داخل الجمجمة ويتكون من مناطق متعددة متخصصة، منها نصفي الكرة والمخيخ وجذع الدماغ.','تنظيم الحركة والإحساس والوعي والذاكرة واللغة والوظائف الحيوية عبر شبكات عصبية.',['قيّم مستوى الوعي باستخدام أداة معتمدة مثل GCS عند اللزوم.','افحص الحدقتين والاستجابة الحركية والحسية.','لاحظ الكلام والاتزان وأي ضعف مفاجئ.'],['وثّق التغير العصبي مقارنة بخط الأساس.','استخدم احتياطات السقوط والشفط عند وجود خطر.','راقب سكر الدم وفق البروتوكول في تغير الوعي.'],'ضعف مفاجئ بأحد جانبي الجسم أو اضطراب الكلام أو صداع شديد مفاجئ يستدعي تفعيل مسار الطوارئ.'),
-    organ('spinal','🧵','الحبل الشوكي','Spinal cord','مسار رئيسي لنقل الإشارات العصبية','يمتد داخل القناة الفقرية من قاعدة الدماغ إلى المنطقة القطنية العليا تقريبًا.','ينقل الإشارات بين الدماغ والجسم ويساهم في بعض المنعكسات.',['قيّم القوة والإحساس والحركة بالأطراف.','اسأل عن ألم الظهر أو التنميل أو فقد التحكم بالإخراج.'],['بعد إصابة العمود الفقري، حافظ على الاحتياطات حسب البروتوكول.','قارن التقييم العصبي بين الجانبين.'],'ضعف جديد أو فقد إحساس أو تغير التحكم بالمثانة والأمعاء بعد إصابة يستدعي تقييمًا عاجلًا.')
-  ]},
-  skeletal:{title:'الجهاز الهيكلي',en:'SKELETAL SYSTEM',organs:[
-    organ('skeleton','🦴','الهيكل العظمي','Skeleton','الدعامة البنيوية للجسم','يتكون من عظام محورية تشمل الجمجمة والعمود الفقري والقفص الصدري، وعظام طرفية تشمل الأطراف والأحزمة.','دعم الجسم وحماية الأعضاء والمساعدة في الحركة وتخزين المعادن وتكوين خلايا الدم داخل نخاع العظم.',['قيّم الألم والتورم والتشوه ومدى الحركة.','افحص الإحساس والحركة والنبض الطرفي بعد الإصابة أو الجبس.','شجّع الحركة الآمنة والوقاية من السقوط.'],['راقب علامات compartment syndrome مثل الألم الشديد المتزايد وفق التقييم والبروتوكول.','تأكد من ملاءمة وسائل المساعدة على الحركة.'],'ألم شديد متزايد أو خدر أو برودة الطرف بعد الجبس أو الإصابة يحتاج إبلاغًا عاجلًا.'),
-    organ('spine','🦴','العمود الفقري','Vertebral column','محور دعم وحماية الحبل الشوكي','يتكون عادة من فقرات عنقية وصدرية وقطنية وعجزية وعصعصية.','دعم الجذع وحماية الحبل الشوكي والسماح بحركة مرنة ومضبوطة.',['قيّم وضعية الجسم والألم ومدى الحركة.','راقب التغير العصبي عند وجود إصابة.'],['استخدم ميكانيكا الجسم الصحيحة أثناء النقل.','التزم باحتياطات العمود الفقري عند الاشتباه بإصابة.'],'لا تحرّك مريضًا مع اشتباه إصابة العمود الفقري إلا وفق بروتوكول الطوارئ.')
-  ]}
+
+const stage = $('anatomy-stage');
+const loadingElement = $('stage-loading');
+
+if (!stage) {
+  throw new Error('anatomy-stage element was not found.');
+}
+
+/* =========================================
+   ANATOMY DATA
+   ========================================= */
+
+const anatomySystems = {
+
+  circulatory: {
+    name: 'الجهاز الدوري',
+    english: 'Circulatory System',
+    icon: '❤️',
+    organs: [
+      {
+        id: 'heart',
+        name: 'القلب',
+        english: 'Heart',
+        icon: '❤️',
+        model: 'models/anatomy/heart.glb',
+        structure: 'يتكون القلب من أربع حجرات: أذين أيمن وأذين أيسر وبطين أيمن وبطين أيسر. تفصل بينها صمامات تنظم تدفق الدم.',
+        function: 'ضخ الدم إلى الرئتين للحصول على الأكسجين ثم إلى جميع أجزاء الجسم.',
+        assessment: 'قياس النبض ومعدل ضربات القلب وضغط الدم، وملاحظة أصوات القلب وأي علامات لضعف التروية.',
+        notes: 'القلب عضو عضلي أجوف يقع داخل التجويف الصدري بين الرئتين.',
+        alert: 'ألم الصدر المفاجئ وضيق التنفس والتعرق الشديد تستدعي تقييمًا طبيًا عاجلًا.'
+      },
+      {
+        id: 'blood-vessels',
+        name: 'الأوعية الدموية',
+        english: 'Blood Vessels',
+        icon: '🩸',
+        model: 'models/anatomy/blood-vessels.glb',
+        structure: 'تشمل الشرايين والأوردة والشعيرات الدموية.',
+        function: 'نقل الدم والأكسجين والمواد الغذائية إلى الأنسجة وإعادة الدم إلى القلب.',
+        assessment: 'تقييم النبض الطرفي وامتلاء الشعيرات وحرارة الجلد ولونه.',
+        notes: 'الشرايين تنقل الدم بعيدًا عن القلب، والأوردة تعيده إليه.',
+        alert: 'البرودة المفاجئة أو فقدان النبض في أحد الأطراف يحتاج تقييمًا عاجلًا.'
+      }
+    ]
+  },
+
+  respiratory: {
+    name: 'الجهاز التنفسي',
+    english: 'Respiratory System',
+    icon: '🫁',
+    organs: [
+      {
+        id: 'lungs',
+        name: 'الرئتان',
+        english: 'Lungs',
+        icon: '🫁',
+        model: 'models/anatomy/lungs.glb',
+        structure: 'تتكون الرئة اليمنى من ثلاثة فصوص، واليسرى من فصين، وتحتويان على الحويصلات الهوائية.',
+        function: 'تبادل الأكسجين وثاني أكسيد الكربون بين الهواء والدم.',
+        assessment: 'تقييم معدل التنفس وعمقه وتشبع الأكسجين وأصوات الرئة.',
+        notes: 'تتم عملية تبادل الغازات داخل الحويصلات الهوائية.',
+        alert: 'ضيق التنفس الشديد أو انخفاض تشبع الأكسجين يتطلب تقييمًا عاجلًا.'
+      },
+      {
+        id: 'trachea',
+        name: 'القصبة الهوائية',
+        english: 'Trachea',
+        icon: '🫁',
+        model: 'models/anatomy/trachea.glb',
+        structure: 'أنبوب مدعّم بحلقات غضروفية يمتد من الحنجرة وينقسم إلى شعبتين رئيسيتين.',
+        function: 'توصيل الهواء من الجهاز التنفسي العلوي إلى الشعب الهوائية.',
+        assessment: 'ملاحظة نمط التنفس ووجود إفرازات أو انسداد أو أصوات غير طبيعية.',
+        notes: 'تساعد الحلقات الغضروفية على إبقاء مجرى الهواء مفتوحًا.',
+        alert: 'انسداد مجرى الهواء حالة طارئة.'
+      }
+    ]
+  },
+
+  digestive: {
+    name: 'الجهاز الهضمي',
+    english: 'Digestive System',
+    icon: '🫃',
+    organs: [
+      {
+        id: 'stomach',
+        name: 'المعدة',
+        english: 'Stomach',
+        icon: '🫃',
+        model: 'models/anatomy/stomach.glb',
+        structure: 'عضو عضلي أجوف يتكون جداره من طبقات عضلية ومخاطية.',
+        function: 'تخزين الطعام وخلطه بالعصارة المعدية وبدء هضم البروتين.',
+        assessment: 'تقييم الألم والغثيان والقيء والانتفاخ ونمط التغذية.',
+        notes: 'تساعد البيئة الحمضية في المعدة على عملية الهضم.',
+        alert: 'القيء الدموي أو الألم البطني الشديد يحتاج تقييمًا عاجلًا.'
+      },
+      {
+        id: 'liver',
+        name: 'الكبد',
+        english: 'Liver',
+        icon: '🟤',
+        model: 'models/anatomy/liver.glb',
+        structure: 'أكبر عضو داخلي صلب في الجسم، ويتكون تشريحيًا من فصوص وفصيصات كبدية.',
+        function: 'استقلاب المغذيات وإنتاج العصارة الصفراوية والمساهمة في إزالة السموم.',
+        assessment: 'متابعة اليرقان ولون البول والبراز ونتائج وظائف الكبد حسب الخطة العلاجية.',
+        notes: 'يقع في الجزء العلوي الأيمن من البطن.',
+        alert: 'ظهور اليرقان مع اضطراب الوعي أو النزيف يحتاج تقييمًا عاجلًا.'
+      },
+      {
+        id: 'intestines',
+        name: 'الأمعاء',
+        english: 'Intestines',
+        icon: '🧬',
+        model: 'models/anatomy/intestines.glb',
+        structure: 'تتكون من الأمعاء الدقيقة والأمعاء الغليظة.',
+        function: 'امتصاص المغذيات والماء وتكوين البراز.',
+        assessment: 'تقييم أصوات الأمعاء وحركة الإخراج والألم وانتفاخ البطن.',
+        notes: 'يحدث معظم امتصاص العناصر الغذائية في الأمعاء الدقيقة.',
+        alert: 'ألم البطن الشديد المصحوب بقيء مستمر أو انتفاخ شديد يحتاج تقييمًا عاجلًا.'
+      }
+    ]
+  },
+
+  urinary: {
+    name: 'الجهاز البولي',
+    english: 'Urinary System',
+    icon: '🫘',
+    organs: [
+      {
+        id: 'kidneys',
+        name: 'الكليتان',
+        english: 'Kidneys',
+        icon: '🫘',
+        model: 'models/anatomy/kidneys.glb',
+        structure: 'عضوان على شكل حبة الفاصوليا، يحتويان على القشرة والنخاع والحوض الكلوي.',
+        function: 'ترشيح الدم وتنظيم السوائل والأملاح وإنتاج البول.',
+        assessment: 'متابعة كمية البول ولونه وضغط الدم ووظائف الكلى.',
+        notes: 'تقع الكليتان خلف التجويف البريتوني.',
+        alert: 'قلة البول الشديدة أو انقطاعه يحتاج تقييمًا طبيًا.'
+      },
+      {
+        id: 'bladder',
+        name: 'المثانة البولية',
+        english: 'Urinary Bladder',
+        icon: '💧',
+        model: 'models/anatomy/bladder.glb',
+        structure: 'عضو عضلي أجوف يقع داخل الحوض.',
+        function: 'تخزين البول حتى عملية التبول.',
+        assessment: 'تقييم نمط التبول وكمية البول ووجود ألم أو احتباس.',
+        notes: 'تتمدد المثانة مع امتلائها بالبول.',
+        alert: 'احتباس البول المؤلم يحتاج تقييمًا عاجلًا.'
+      }
+    ]
+  },
+
+  nervous: {
+    name: 'الجهاز العصبي',
+    english: 'Nervous System',
+    icon: '🧠',
+    organs: [
+      {
+        id: 'brain',
+        name: 'الدماغ',
+        english: 'Brain',
+        icon: '🧠',
+        model: 'models/anatomy/brain.glb',
+        structure: 'يتكون من المخ والمخيخ وجذع الدماغ، ويحتوي على مناطق متخصصة بوظائف مختلفة.',
+        function: 'تنظيم الحركة والإحساس والتفكير والذاكرة والوظائف الحيوية.',
+        assessment: 'تقييم مستوى الوعي والحدقات والاستجابة الحركية والحسية.',
+        notes: 'يحمي الجمجمة الدماغ من الإصابات الخارجية.',
+        alert: 'ضعف أحد جانبي الجسم أو اضطراب الكلام المفاجئ قد يشير إلى سكتة دماغية.'
+      },
+      {
+        id: 'spinal-cord',
+        name: 'الحبل الشوكي',
+        english: 'Spinal Cord',
+        icon: '🧠',
+        model: 'models/anatomy/spinal-cord.glb',
+        structure: 'حزمة من النسيج العصبي تمتد داخل القناة الفقرية.',
+        function: 'نقل الإشارات العصبية بين الدماغ والجسم والمشاركة في المنعكسات.',
+        assessment: 'تقييم القوة العضلية والإحساس والمنعكسات حسب الحالة.',
+        notes: 'يمتد داخل العمود الفقري وتحميه الفقرات والسحايا.',
+        alert: 'فقدان الحركة أو الإحساس المفاجئ يستدعي تقييمًا عاجلًا.'
+      }
+    ]
+  },
+
+  skeletal: {
+    name: 'الجهاز الهيكلي',
+    english: 'Skeletal System',
+    icon: '🦴',
+    organs: [
+      {
+        id: 'skeleton',
+        name: 'الهيكل العظمي',
+        english: 'Human Skeleton',
+        icon: '🦴',
+        model: 'models/anatomy/skeleton.glb',
+        structure: 'يتكون الهيكل العظمي للبالغ عادة من 206 عظمة.',
+        function: 'دعم الجسم وحماية الأعضاء والمساعدة في الحركة وتكوين خلايا الدم وتخزين المعادن.',
+        assessment: 'تقييم الحركة والألم والتشوهات وسلامة الأطراف.',
+        notes: 'ينقسم الهيكل العظمي إلى هيكل محوري وهيكل طرفي.',
+        alert: 'الألم الشديد أو التشوه بعد إصابة يستدعي تقييمًا طبيًا.'
+      },
+      {
+        id: 'spine',
+        name: 'العمود الفقري',
+        english: 'Vertebral Column',
+        icon: '🦴',
+        model: 'models/anatomy/spine.glb',
+        structure: 'يتكون عادة من 33 فقرة تشمل الفقرات العنقية والصدرية والقطنية والعجزية والعصعصية.',
+        function: 'دعم الجسم وحماية الحبل الشوكي والمساعدة في الحركة.',
+        assessment: 'تقييم وضعية الجسم والحركة والألم والإحساس والقوة العضلية.',
+        notes: 'الأقراص بين الفقرات تساعد على امتصاص الصدمات.',
+        alert: 'الإصابة المصحوبة بضعف أو تنميل جديد تتطلب تقييمًا عاجلًا.'
+      }
+    ]
+  }
 };
-function organ(id,icon,name,en,subtitle,structure,fn,assessment,notes,alert){return{id,icon,name,en,subtitle,structure,fn,assessment,notes,alert}}
-const quizzes=[
- {q:'ما الوظيفة الأساسية للحويصلات الهوائية؟',a:['تبادل الأكسجين وثاني أكسيد الكربون','تخزين البول','إنتاج العصارة الصفراوية','تنظيم حركة المفاصل'],correct:0,why:'الحويصلات الهوائية هي الموقع الرئيسي لتبادل الغازات بين الهواء والدم.'},
- {q:'أي تقييم يساعد في متابعة التروية الطرفية؟',a:['لون الشعر','النبض الطرفي وامتلاء الشعيرات','حدة السمع','عدد مرات البلع'],correct:1,why:'النبض الطرفي وحرارة ولون الطرف وامتلاء الشعيرات عناصر مهمة في تقييم التروية.'},
- {q:'ما الوظيفة الأساسية للكليتين؟',a:['إنتاج الصفراء','تبادل الغازات','ترشيح الدم وتنظيم السوائل والشوارد','ضخ الدم'],correct:2,why:'الكليتان ترشحان الدم وتساهمان في تنظيم السوائل والشوارد والتوازن الحمضي القاعدي.'},
- {q:'أي تغير عصبي مفاجئ يستدعي تصعيدًا عاجلًا؟',a:['جوع بسيط','ضعف مفاجئ بأحد جانبي الجسم','عطش بعد المجهود','نعاس معتاد قبل النوم'],correct:1,why:'الضعف المفاجئ أحادي الجانب قد يكون علامة سكتة دماغية ويحتاج تفعيل مسار الطوارئ.'}
+
+/* =========================================
+   FULL BODY LAYER MANIFEST
+========================================= */
+
+const bodyLayers = {
+  skin: 'models/anatomy/body-skin.glb',
+  muscles: 'models/anatomy/body-muscles.glb',
+  skeleton: 'models/anatomy/body-skeleton.glb',
+  organs: 'models/anatomy/body-organs.glb'
+};
+
+/* =========================================
+   QUIZ DATA
+========================================= */
+
+const quizQuestions = [
+  {
+    question: 'ما الوظيفة الأساسية للقلب؟',
+    options: [
+      'هضم الطعام',
+      'ضخ الدم',
+      'تنقية الهواء',
+      'تخزين البول'
+    ],
+    answer: 1,
+    explanation: 'القلب يضخ الدم إلى الرئتين وإلى باقي أجزاء الجسم.'
+  },
+  {
+    question: 'أين يحدث تبادل الغازات في الرئتين؟',
+    options: [
+      'القصبة الهوائية',
+      'الحنجرة',
+      'الحويصلات الهوائية',
+      'البلعوم'
+    ],
+    answer: 2,
+    explanation: 'تحدث عملية تبادل الأكسجين وثاني أكسيد الكربون في الحويصلات الهوائية.'
+  },
+  {
+    question: 'ما الوحدة الوظيفية الأساسية للكلى؟',
+    options: [
+      'النيفرون',
+      'الحويصلة',
+      'العصبون',
+      'العضلة'
+    ],
+    answer: 0,
+    explanation: 'النيفرون هو الوحدة التركيبية والوظيفية الأساسية للكلى.'
+  },
+  {
+    question: 'كم عدد عظام الهيكل العظمي للإنسان البالغ عادة؟',
+    options: [
+      '106',
+      '156',
+      '206',
+      '306'
+    ],
+    answer: 2,
+    explanation: 'يتكون الهيكل العظمي للبالغ عادة من 206 عظمة.'
+  }
 ];
-let currentSystem='circulatory',currentOrgan=systems.circulatory.organs[0],quizIndex=0,quizAnswered=false;
-let scene,camera,renderer,controls,organGroup,raycaster,mouse,autoRotate=true,resizeObserver;
-const themeBtn=$('anatomy-theme-toggle');
-const savedTheme=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',savedTheme);themeBtn.textContent=savedTheme==='dark'?'☀️':'🌙';
-themeBtn.addEventListener('click',()=>{const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);localStorage.setItem('theme',next);themeBtn.textContent=next==='dark'?'☀️':'🌙'});
-function init3D(){const host=$('anatomy-stage');scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(35,host.clientWidth/host.clientHeight,.1,100);camera.position.set(0,1.2,7.2);renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(host.clientWidth,host.clientHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;host.prepend(renderer.domElement);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.minDistance=3.5;controls.maxDistance=11;scene.add(new THREE.AmbientLight(0xffffff,2));const light=new THREE.DirectionalLight(0xffffff,2.4);light.position.set(4,6,5);scene.add(light);organGroup=new THREE.Group();scene.add(organGroup);raycaster=new THREE.Raycaster();mouse=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',pickObject);resizeObserver=new ResizeObserver(()=>{camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();renderer.setSize(host.clientWidth,host.clientHeight)});resizeObserver.observe(host);$('stage-loading').classList.add('hidden');animate();}
-function material(color){return new THREE.MeshStandardMaterial({color,roughness:.55,metalness:.02})}
-function mesh(geometry,color,x,y,z,sx=1,sy=1,sz=1,id=''){const m=new THREE.Mesh(geometry,material(color));m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.userData.organId=id;organGroup.add(m);return m}
-function sphere(color,x,y,z,sx,sy,sz,id){return mesh(new THREE.SphereGeometry(1,32,24),color,x,y,z,sx,sy,sz,id)}
-function cylinder(color,x,y,z,r1,r2,h,id){return mesh(new THREE.CylinderGeometry(r1,r2,h,24),color,x,y,z,1,1,1,id)}
-function torus(color,x,y,z,r,t,id){return mesh(new THREE.TorusGeometry(r,t,12,48),color,x,y,z,1,1,1,id)}
-function clearModel(){while(organGroup.children.length){const obj=organGroup.children.pop();obj.geometry?.dispose();if(Array.isArray(obj.material))obj.material.forEach(m=>m.dispose());else obj.material?.dispose()}}
-function buildModel(key){clearModel();const blue=0x38a6d8,red=0xd94b58,pink=0xe8899c,bone=0xe8d9b8,gold=0xb97835,green=0x6caa75;
- if(key==='heart'){sphere(red,0,0,0,.72,.88,.55,key);sphere(red,-.38,.38,0,.48,.55,.48,key);sphere(red,.38,.38,0,.48,.55,.48,key);cylinder(blue,-.2,1.05,0,.16,.2,.75,key);cylinder(red,.25,1.05,0,.15,.18,.75,key);}
- else if(key==='vessels'){cylinder(red,0,.2,0,.09,.13,2.8,key);for(let i=0;i<5;i++){const y=.8-i*.4;const branch=cylinder(i%2?blue:red,(i-2)*.38,y,0,.045,.08,.9,key);branch.rotation.z=(i-2)*-.35;}}
- else if(key==='lungs'){sphere(pink,-.72,0,0,.62,1.05,.45,key);sphere(pink,.72,0,0,.62,1.05,.45,key);cylinder(bone,0,1.25,0,.12,.12,.8,key);cylinder(bone,-.35,.65,0,.07,.09,.75,key).rotation.z=-.5;cylinder(bone,.35,.65,0,.07,.09,.75,key).rotation.z=.5;}
- else if(key==='trachea'){cylinder(bone,0,.2,0,.17,.17,2.7,key);for(let y=-1;y<1.3;y+=.23)torus(0xb69c7b,0,y,0,.17,.035,key);}
- else if(key==='stomach'){sphere(pink,0,0,0,.7,.95,.48,key);sphere(pink,.42,-.55,0,.48,.5,.4,key);}
- else if(key==='liver'){sphere(gold,0,0,0,1.25,.62,.48,key);sphere(gold,.8,-.25,.02,.48,.42,.4,key);}
- else if(key==='intestines'){for(let i=0;i<4;i++){const t=torus(pink,0,.55-i*.38,0,.72,.12,key);t.scale.set(1,.45,1)}for(let i=0;i<3;i++){const t=torus(gold,0,.3-i*.3,-.08,.9,.09,key);t.scale.set(1,.65,1)}}
- else if(key==='kidneys'){sphere(red,-.72,0,0,.42,.72,.3,key);sphere(red,.72,0,0,.42,.72,.3,key);cylinder(gold,0,-.75,0,.08,.08,1.2,key);}
- else if(key==='bladder'){sphere(pink,0,-.2,0,.65,.55,.5,key);cylinder(gold,0,-.95,0,.12,.12,.7,key)}
- else if(key==='brain'){sphere(pink,0,.2,0,1.05,.82,.7,key);for(let i=0;i<5;i++){const t=torus(0xc66d86,0,.5-i*.2,.12,.72-i*.04,.025,key);t.scale.set(1,.6,1)}sphere(pink,0,-.75,-.05,.42,.35,.4,key)}
- else if(key==='spinal'){for(let i=0;i<12;i++)mesh(new THREE.BoxGeometry(.42,.16,.32),bone,0,1.1-i*.2,0,1,1,1,key);}
- else if(key==='skeleton'||key==='spine'){cylinder(bone,0,.1,0,.14,.14,2.6,key);for(let i=0;i<6;i++){const t=torus(bone,0,.75-i*.28,0,.72-i*.035,.055,key);t.scale.set(1,.55,1)}sphere(bone,0,1.65,0,.42,.5,.36,key);cylinder(bone,-.55,-1.05,0,.09,.13,1.5,key).rotation.z=.15;cylinder(bone,.55,-1.05,0,.09,.13,1.5,key).rotation.z=-.15;}
- organGroup.children.forEach(o=>{o.userData.organId=key});}
-function pickObject(event){const rect=renderer.domElement.getBoundingClientRect();mouse.x=((event.clientX-rect.left)/rect.width)*2-1;mouse.y=-((event.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(mouse,camera);const hits=raycaster.intersectObjects(organGroup.children,false);if(hits.length){const found=systems[currentSystem].organs.find(o=>o.id===hits[0].object.userData.organId);if(found)selectOrgan(found)}}
-function animate(){requestAnimationFrame(animate);if(autoRotate&&organGroup)organGroup.rotation.y+=.003;controls?.update();renderer?.render(scene,camera)}
-function selectOrgan(o){currentOrgan=o;buildModel(o.id);$('organ-name').textContent=`${o.name} (${o.en})`;$('organ-subtitle').textContent=o.subtitle;$('organ-icon').textContent=o.icon;$('organ-structure').textContent=o.structure;$('organ-function').textContent=o.fn;$('organ-assessment').innerHTML=o.assessment.map(x=>`<li>${x}</li>`).join('');$('organ-notes').innerHTML=o.notes.map(x=>`<li>${x}</li>`).join('');$('organ-alert').textContent=o.alert;document.querySelectorAll('.organ-chip').forEach(b=>b.classList.toggle('active',b.dataset.organ===o.id));}
-function selectSystem(key){currentSystem=key;const data=systems[key];$('viewer-title').textContent=data.title;$('viewer-kicker').textContent=data.en;document.querySelectorAll('.system-button').forEach(b=>b.classList.toggle('active',b.dataset.system===key));$('organ-picker').innerHTML=data.organs.map(o=>`<button class="organ-chip" data-organ="${o.id}" type="button">${o.icon} ${o.name}</button>`).join('');$('organ-picker').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>selectOrgan(data.organs.find(o=>o.id===b.dataset.organ))));selectOrgan(data.organs[0]);if(organGroup){camera.position.set(0,1.2,7.2);controls.target.set(0,0,0);controls.update()}}
-document.querySelectorAll('.system-button').forEach(b=>b.addEventListener('click',()=>selectSystem(b.dataset.system)));
-$('rotate-toggle').addEventListener('click',()=>{autoRotate=!autoRotate;$('rotate-toggle').textContent=autoRotate?'⏸ إيقاف الدوران':'▶ تشغيل الدوران'});
-$('reset-view').addEventListener('click',()=>{camera.position.set(0,1.2,7.2);controls.target.set(0,0,0);controls.update();organGroup.rotation.set(0,0,0)});
-$('zoom-in').addEventListener('click',()=>{camera.position.multiplyScalar(.85);controls.update()});$('zoom-out').addEventListener('click',()=>{camera.position.multiplyScalar(1.15);controls.update()});
-function renderQuiz(){const q=quizzes[quizIndex%quizzes.length];quizAnswered=false;$('quiz-question').textContent=q.q;$('quiz-feedback').textContent='';$('quiz-options').innerHTML=q.a.map((a,i)=>`<button class="quiz-option" data-answer="${i}" type="button">${a}</button>`).join('');$('quiz-options').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{if(quizAnswered)return;quizAnswered=true;const correct=Number(b.dataset.answer)===q.correct;$('quiz-options').querySelectorAll('button').forEach((btn,i)=>{btn.disabled=true;if(i===q.correct)btn.classList.add('correct');else if(btn===b)btn.classList.add('wrong')});$('quiz-feedback').textContent=(correct?'✅ إجابة صحيحة! ':'❌ مش بالضبط. ')+q.why}))}
-$('next-question').addEventListener('click',()=>{quizIndex++;renderQuiz()});
-try{init3D();selectSystem('circulatory');renderQuiz()}catch(error){console.error('Anatomy 3D initialization failed:',error);$('stage-loading').classList.remove('hidden');$('stage-loading').textContent='تعذر تشغيل العرض ثلاثي الأبعاد. تأكد من اتصال الإنترنت ودعم WebGL.'}
+
+/* =========================================
+   THREE.JS VIEWER
+========================================= */
+
+let scene;
+let camera;
+let renderer;
+let controls;
+let animationFrame;
+
+let autoRotate = false;
+let currentSystem = null;
+let currentOrgan = null;
+let requestNumber = 0;
+
+const loadedBodyLayers = new Set();
+
+function initViewer() {
+  scene = new THREE.Scene();
+
+  scene.background = new THREE.Color(0xf1f5fa);
+
+  camera = new THREE.PerspectiveCamera(
+    45,
+    stage.clientWidth / stage.clientHeight,
+    0.1,
+    1000
+  );
+
+  camera.position.set(0, 0, 5);
+
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+    powerPreference: 'high-performance'
+  });
+
+  renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio || 1, 2)
+  );
+
+  renderer.setSize(
+    stage.clientWidth,
+    stage.clientHeight
+  );
+
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  stage.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(
+    camera,
+    renderer.domElement
+  );
+
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.minDistance = 1;
+  controls.maxDistance = 15;
+
+  const ambient = new THREE.AmbientLight(
+    0xffffff,
+    2
+  );
+
+  scene.add(ambient);
+
+  const keyLight = new THREE.DirectionalLight(
+    0xffffff,
+    2
+  );
+
+  keyLight.position.set(5, 8, 6);
+  scene.add(keyLight);
+
+  const fillLight = new THREE.DirectionalLight(
+    0x9bbcff,
+    0.8
+  );
+
+  fillLight.position.set(-5, 2, -4);
+  scene.add(fillLight);
+
+  animate();
+
+  window.addEventListener('resize', resizeViewer);
+}
+
+function animate() {
+  animationFrame = requestAnimationFrame(animate);
+
+  if (autoRotate) {
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.2;
+  } else {
+    controls.autoRotate = false;
+  }
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+function resizeViewer() {
+  if (!renderer || !camera) return;
+
+  const width = stage.clientWidth;
+  const height = stage.clientHeight;
+
+  if (!width || !height) return;
+
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(width, height);
+}
+
+/* =========================================
+   VIEWER CONTROLS
+========================================= */
+
+function resetCamera() {
+  camera.position.set(0, 0, 5);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+$('rotate-toggle')?.addEventListener('click', () => {
+  autoRotate = !autoRotate;
+});
+
+$('reset-view')?.addEventListener('click', resetCamera);
+
+$('zoom-in')?.addEventListener('click', () => {
+  camera.position.multiplyScalar(0.85);
+  controls.update();
+});
+
+$('zoom-out')?.addEventListener('click', () => {
+  camera.position.multiplyScalar(1.15);
+  controls.update();
+});
+
+/* =========================================
+   LOADING UI
+========================================= */
+
+function showLoading(message = 'جاري تحميل النموذج...') {
+  if (!loadingElement) return;
+
+  loadingElement.hidden = false;
+
+  const paragraph = loadingElement.querySelector('p');
+
+  if (paragraph) {
+    paragraph.textContent = message;
+  }
+}
+
+function hideLoading() {
+  if (loadingElement) {
+    loadingElement.hidden = true;
+  }
+}
+
+/* =========================================
+   MODEL LOADING
+========================================= */
+
+async function loadBodyLayer(layerId) {
+  const url = bodyLayers[layerId];
+
+  if (!url) return false;
+
+  const existing = getAnatomyLayer(`body-${layerId}`);
+
+  if (existing) {
+    toggleAnatomyLayer(`body-${layerId}`, true);
+    loadedBodyLayers.add(layerId);
+    return true;
+  }
+
+  showLoading(`جاري تحميل طبقة ${layerId}...`);
+
+  try {
+    await loadAnatomyLayer({
+      id: `body-${layerId}`,
+      url,
+      scene,
+      onProgress: (percent) => {
+        showLoading(`تحميل ${layerId}: ${percent}%`);
+      }
+    });
+
+    loadedBodyLayers.add(layerId);
+
+    return true;
+
+  } catch (error) {
+    console.error(`Failed to load ${layerId}:`, error);
+    return false;
+  }
+}
+
+async function loadOrganModel(organ) {
+  const thisRequest = ++requestNumber;
+
+  if (!organ?.model) return;
+
+  showLoading(`جاري تحميل ${organ.name}...`);
+
+  removeAnatomyLayer('current-organ');
+
+  try {
+    const model = await loadAnatomyLayer({
+      id: 'current-organ',
+      url: organ.model,
+      scene,
+      onProgress: (percent) => {
+        if (thisRequest === requestNumber) {
+          showLoading(`تحميل ${organ.name}: ${percent}%`);
+        }
+      }
+    });
+
+    // تجاهل أي طلب قديم انتهى بعد اختيار عضو جديد
+    if (thisRequest !== requestNumber) {
+      removeAnatomyLayer('current-organ');
+      return;
+    }
+
+    centerAndScaleOrgan(model);
+
+    hideLoading();
+
+  } catch (error) {
+    if (thisRequest !== requestNumber) return;
+
+    console.error('Organ model loading error:', error);
+
+    showLoading(
+      `تعذر تحميل نموذج ${organ.name}. تحقق من وجود ملف GLB والمسار.`
+    );
+  }
+}
+
+/* =========================================
+   ORGAN MODEL TRANSFORM
+========================================= */
+
+function centerAndScaleOrgan(model) {
+  // هذه المعالجة مخصصة لنموذج العضو المنفرد فقط.
+  // لا نعيد تحجيم طبقات الجسم المستقلة حتى لا نفقد محاذاتها.
+
+  const box = new THREE.Box3().setFromObject(model);
+
+  if (box.isEmpty()) return;
+
+  const center = box.getCenter(new THREE.Vector3());
+
+  model.position.sub(center);
+
+  const size = box.getSize(new THREE.Vector3());
+  const maxDimension = Math.max(size.x, size.y, size.z);
+
+  if (maxDimension > 0) {
+    const scale = 2.5 / maxDimension;
+    model.scale.setScalar(scale);
+  }
+
+  resetCamera();
+}
+
+/* =========================================
+   BODY LAYERS CONTROLS
+========================================= */
+
+async function handleLayerChange(layerId, visible) {
+  const id = `body-${layerId}`;
+
+  if (visible) {
+    const success = await loadBodyLayer(layerId);
+
+    if (!success) {
+      const checkbox = document.querySelector(
+        `[data-layer="${layerId}"]`
+      );
+
+      if (checkbox) checkbox.checked = false;
+
+      showLoading(
+        `لم يتم العثور على ملف الطبقة: ${bodyLayers[layerId]}`
+      );
+
+      return;
+    }
+
+    toggleAnatomyLayer(id, true);
+
+  } else {
+    toggleAnatomyLayer(id, false);
+  }
+
+  hideLoading();
+}
+
+document.querySelectorAll('[data-layer]').forEach((checkbox) => {
+  checkbox.addEventListener('change', (event) => {
+    const layerId = event.currentTarget.dataset.layer;
+
+    handleLayerChange(
+      layerId,
+      event.currentTarget.checked
+    );
+  });
+});
+
+$('show-all-layers')?.addEventListener('click', async () => {
+  const checkboxes = document.querySelectorAll('[data-layer]');
+
+  for (const checkbox of checkboxes) {
+    checkbox.checked = true;
+    await handleLayerChange(checkbox.dataset.layer, true);
+  }
+});
+
+$('hide-all-layers')?.addEventListener('click', () => {
+  document.querySelectorAll('[data-layer]').forEach((checkbox) => {
+    checkbox.checked = false;
+
+    toggleAnatomyLayer(
+      `body-${checkbox.dataset.layer}`,
+      false
+    );
+  });
+
+  hideLoading();
+});
+
+/* =========================================
+   ORGAN INFORMATION
+========================================= */
+
+function selectOrgan(organ) {
+  if (!organ) return;
+
+  currentOrgan = organ;
+
+  $('organ-name').textContent = organ.name;
+  $('organ-subtitle').textContent = organ.english;
+  $('organ-icon').textContent = organ.icon;
+
+  $('organ-structure').textContent = organ.structure;
+  $('organ-function').textContent = organ.function;
+  $('organ-assessment').textContent = organ.assessment;
+  $('organ-notes').textContent = organ.notes;
+
+  const alertElement = $('organ-alert');
+
+  alertElement.textContent = organ.alert || '';
+  alertElement.hidden = !organ.alert;
+
+  loadOrganModel(organ);
+}
+
+function populateOrganPicker(system) {
+  const picker = $('organ-picker');
+
+  picker.innerHTML = '';
+
+  system.organs.forEach((organ) => {
+    const option = document.createElement('option');
+
+    option.value = organ.id;
+    option.textContent = `${organ.name} - ${organ.english}`;
+
+    picker.appendChild(option);
+  });
+}
+
+$('organ-picker')?.addEventListener('change', (event) => {
+  const organ = currentSystem.organs.find(
+    (item) => item.id === event.target.value
+  );
+
+  selectOrgan(organ);
+});
+
+/* =========================================
+   SYSTEM SELECTION
+========================================= */
+
+function selectSystem(systemId) {
+  const system = anatomySystems[systemId];
+
+  if (!system) return;
+
+  currentSystem = system;
+
+  document.querySelectorAll('.system-button').forEach((button) => {
+    button.classList.toggle(
+      'active',
+      button.dataset.system === systemId
+    );
+  });
+
+  $('viewer-title').textContent = system.name;
+  $('viewer-kicker').textContent = system.english;
+
+  populateOrganPicker(system);
+
+  selectOrgan(system.organs[0]);
+}
+
+document.querySelectorAll('.system-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    selectSystem(button.dataset.system);
+  });
+});
+
+/* =========================================
+   QUIZ
+========================================= */
+
+let currentQuestionIndex = 0;
+let questionAnswered = false;
+
+function renderQuestion() {
+  const question = quizQuestions[currentQuestionIndex];
+
+  if (!question) return;
+
+  questionAnswered = false;
+
+  $('quiz-question').textContent =
+    `${currentQuestionIndex + 1}. ${question.question}`;
+
+  $('quiz-feedback').textContent = '';
+
+  $('quiz-options').innerHTML = '';
+
+  question.options.forEach((option, index) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.textContent = option;
+
+    button.addEventListener('click', () => {
+      answerQuestion(index);
+    });
+
+    $('quiz-options').appendChild(button);
+  });
+
+  $('next-question').textContent =
+    currentQuestionIndex === quizQuestions.length - 1
+      ? 'إعادة الاختبار'
+      : 'السؤال التالي';
+}
+
+function answerQuestion(selectedIndex) {
+  if (questionAnswered) return;
+
+  questionAnswered = true;
+
+  const question = quizQuestions[currentQuestionIndex];
+  const buttons = $('quiz-options').querySelectorAll('button');
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === question.answer) {
+      button.style.borderColor = '#16a34a';
+      button.style.background = 'rgba(22,163,74,0.12)';
+    } else if (index === selectedIndex) {
+      button.style.borderColor = '#dc3545';
+      button.style.background = 'rgba(220,53,69,0.10)';
+    }
+  });
+
+  if (selectedIndex === question.answer) {
+    $('quiz-feedback').textContent =
+      `✅ إجابة صحيحة! ${question.explanation}`;
+  } else {
+    $('quiz-feedback').textContent =
+      `❌ إجابة غير صحيحة. ${question.explanation}`;
+  }
+}
+
+$('next-question')?.addEventListener('click', () => {
+  if (currentQuestionIndex >= quizQuestions.length - 1) {
+    currentQuestionIndex = 0;
+  } else {
+    currentQuestionIndex++;
+  }
+
+  renderQuestion();
+});
+
+/* =========================================
+   THEME
+========================================= */
+
+$('anatomy-theme-toggle')?.addEventListener('click', () => {
+  const page = document.querySelector('.anatomy-page');
+
+  page.classList.toggle('dark-mode');
+
+  const button = $('anatomy-theme-toggle');
+
+  button.textContent = page.classList.contains('dark-mode')
+    ? '☀️'
+    : '🌙';
+
+  if (scene) {
+    scene.background = new THREE.Color(
+      page.classList.contains('dark-mode')
+        ? 0x101827
+        : 0xf1f5fa
+    );
+  }
+});
+
+/* =========================================
+   INITIALIZATION
+========================================= */
+
+function initializeAnatomy() {
+  initViewer();
+
+  renderQuestion();
+
+  selectSystem('circulatory');
+
+  console.log('Nursing Hub Anatomy Explorer initialized.');
+}
+
+initializeAnatomy();
+
+/* =========================================
+   CLEANUP
+========================================= */
+
+window.addEventListener('beforeunload', () => {
+  cancelAnimationFrame(animationFrame);
+
+  window.removeEventListener('resize', resizeViewer);
+
+  controls?.dispose();
+
+  renderer?.dispose();
+
+  removeAllAnatomyLayers();
+});
