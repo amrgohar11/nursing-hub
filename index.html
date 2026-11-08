@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -59,6 +60,142 @@
 
     @media (max-width: 768px) {
       .search-input-wrapper { left: auto; right: 0; width: 200px; }
+    }
+
+    /* شريط تفعيل إشعارات Nursing Hub */
+    .push-banner {
+      display: none;
+      max-width: 1200px;
+      margin: 15px auto 25px;
+      padding: 0 20px;
+    }
+
+    .push-banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 17px 20px;
+      border: 1px solid var(--border);
+      border-right: 5px solid var(--primary);
+      border-radius: 17px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .push-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .push-banner-icon {
+      width: 45px;
+      height: 45px;
+      flex: 0 0 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--primary-light);
+      font-size: 23px;
+    }
+
+    .push-banner-text h3 {
+      margin: 0 0 5px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .push-banner-text p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .push-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .push-banner-enable {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--primary);
+      color: white;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .push-banner-enable:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .push-banner-enable:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
+
+    .push-banner-later {
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .push-banner-later:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .push-banner-message {
+      display: none;
+      margin: 10px 5px 0;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      .push-banner {
+        margin: 12px auto 20px;
+        padding: 0 12px;
+      }
+
+      .push-banner-inner {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 15px;
+        gap: 13px;
+      }
+
+      .push-banner-content {
+        align-items: flex-start;
+      }
+
+      .push-banner-actions {
+        width: 100%;
+      }
+
+      .push-banner-enable,
+      .push-banner-later {
+        flex: 1;
+      }
     }
   </style>
 
@@ -132,6 +269,29 @@
     </div>
   </header>
 
+  <!-- شريط تفعيل الإشعارات -->
+  <section id="push-banner" class="push-banner" aria-label="تفعيل إشعارات المنصة">
+    <div class="push-banner-inner">
+      <div class="push-banner-content">
+        <div class="push-banner-icon">🔔</div>
+        <div class="push-banner-text">
+          <h3>خليك متابع جديد Nursing Hub</h3>
+          <p>فعّل الإشعارات عشان يوصلك تنبيه بالمحاضرات الجديدة والإعلانات المهمة.</p>
+        </div>
+      </div>
+
+      <div class="push-banner-actions">
+        <button id="push-banner-enable" class="push-banner-enable" type="button">
+          تفعيل الإشعارات
+        </button>
+        <button id="push-banner-later" class="push-banner-later" type="button">
+          لاحقاً
+        </button>
+      </div>
+    </div>
+    <p id="push-banner-message" class="push-banner-message" role="status" aria-live="polite"></p>
+  </section>
+
   <section class="hero">
     <div class="hero-content">
       <div class="badge animate-fade-in-up">✨ منصة تم تطويرها بواسطة <span style="color: white; margin-right: 5px;">Amr Gohar</span></div>
@@ -158,7 +318,6 @@
       <h3 style="color: #b45309; margin-bottom: 10px;">📢 إعلان هام</h3>
       <p style="color: #92400e; font-weight: 600;" id="announcement-content">جاري تحميل الإعلان...</p>
     </div>
-
 
     <!-- اختصارات سريعة للطالب -->
     <section class="home-shortcuts" aria-label="روابط سريعة">
