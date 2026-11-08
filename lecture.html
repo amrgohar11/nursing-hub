@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -193,7 +194,7 @@
     </div>
   </div>
 
-    <div class="modal-overlay" id="notes-modal">
+  <div class="modal-overlay" id="notes-modal">
     <div class="modal-content">
       <button class="close-modal">✕</button>
       <h3 style="margin-bottom: 15px; color: var(--primary-dark);">📝 ملاحظاتي الخاصة</h3>
@@ -318,7 +319,15 @@
 
     // === التعليقات والردود ===
     const commentsCol = () => collection(db, 'subjects', subjectId, 'lectures', lectureId, 'comments');
-    const author = () => ({ userId: currentUser.uid, userName: currentUser.email.split('@')[0], isAdmin });
+
+    // اسم الأدمن الجديد
+    const author = () => ({
+      userId: currentUser.uid,
+      userName: isAdmin
+        ? 'Amr Gohar'
+        : (currentUser.email?.split('@')[0] || 'طالب'),
+      isAdmin
+    });
 
     $('submit-comment').addEventListener('click', async () => {
       const text = $('comment-text').value.trim();
@@ -331,7 +340,12 @@
       } catch (e) { alert('حدث خطأ أثناء إضافة التعليق'); }
     });
 
+    // شارة الأدمن
     const adminTag = (c) => c.isAdmin ? ' <span class="admin-tag">المطور</span>' : '';
+
+    // الاسم الظاهر في التعليقات والردود القديمة والجديدة
+    const displayName = (c) =>
+      c.isAdmin ? 'Amr Gohar' : (c.userName || 'طالب');
 
     async function loadComments() {
       const list = $('comments-list');
@@ -345,9 +359,9 @@
           const reps = all.filter((r) => r.parentId === c.id).reverse();
           const stars = '★'.repeat(Math.min(5, Math.max(0, c.rating | 0)));
           return `<div class="comment-card" data-id="${esc(c.id)}">
-            <div class="comment-header"><span>👤 ${esc(c.userName)}${adminTag(c)}</span><span style="color:#f59e0b;">${stars}</span></div>
+            <div class="comment-header"><span>👤 ${esc(displayName(c))}${adminTag(c)}</span><span style="color:#f59e0b;">${stars}</span></div>
             <div class="comment-text">${esc(c.text)}</div>
-            ${reps.map((r) => `<div class="reply-card"><div class="comment-header"><span>↩️ ${esc(r.userName)}${adminTag(r)}</span></div><div class="comment-text">${esc(r.text)}</div></div>`).join('')}
+            ${reps.map((r) => `<div class="reply-card"><div class="comment-header"><span>↩️ ${esc(displayName(r))}${adminTag(r)}</span></div><div class="comment-text">${esc(r.text)}</div></div>`).join('')}
             <button class="reply-btn">↩️ رد</button>
           </div>`;
         }).join('');
