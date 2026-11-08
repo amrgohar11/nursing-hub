@@ -24,6 +24,15 @@
     .trainer-link{display:inline-flex;align-items:center;gap:8px;margin:0 auto 25px;padding:11px 20px;border-radius:30px;background:var(--primary);color:#fff;text-decoration:none;font-weight:700}
     .trainer-wrap{text-align:center}
     @media(max-width:600px){.terms-section .section-title{font-size:19px}.subject-card{min-height:75px}}
+
+    .term-def{font-size:13px;color:var(--text-muted);margin:6px 0 0;text-align:right}
+    .term-meta{font-size:12px;color:var(--text-muted);margin:4px 0 0;direction:ltr;text-align:left;overflow-wrap:anywhere}
+    .term-drug{font-size:12.5px;margin:3px 0 0;text-align:right;color:var(--text-muted)}
+    .cat-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 24px;max-width:900px}
+    .cat-nav a{font-size:13px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);color:var(--primary);text-decoration:none;background:var(--white)}
+    .terms-section{scroll-margin-top:80px}
+    .speak-btn{border:1px solid var(--border);background:var(--white);color:var(--primary);border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:14px;line-height:1;margin-top:6px;float:left}
+    .speak-btn:hover,.speak-btn.playing{background:var(--primary);color:#fff}
   </style>
 </head>
 <body>
@@ -46,9 +55,10 @@
     <div class="trainer-wrap">
       <a class="trainer-link" href="pronunciation.html">🎙️ انتقل إلى مدرب النطق الطبي</a>
     </div>
+    <nav class="cat-nav" aria-label="أقسام القاموس"><a href="#sec1">1. المصطلحات الطبية الأساسية</a><a href="#sec2">2. التشريح وأجهزة الجسم Anatomy</a><a href="#sec3">3. الاتجاهات والوضعيات التشريحية</a><a href="#sec4">4. أساسيات التمريض والعملية التمريضية</a><a href="#sec5">5. العلامات الحيوية والتقييم السريري</a><a href="#sec6">6. مكافحة العدوى وسلامة المريض</a><a href="#sec7">7. الأدوية وعلم الأدوية Pharmacology</a><a href="#sec8">8. الإجراءات والمهارات التمريضية</a><a href="#sec9">9. التحاليل والفحوصات الطبية</a><a href="#sec10">10. الأمراض والحالات الشائعة</a><a href="#sec11">11. التمريض العملي ومهارات التواصل</a><a href="#sec12">12. الطوارئ والإنعاش</a><a href="#sec13">13. الأمومة والتوليد والتمريض النسائي</a><a href="#sec14">14. تمريض الأطفال وحديثي الولادة</a><a href="#sec15">15. الصحة النفسية والتمريض النفسي</a><a href="#sec16">16. التغذية والسوائل والإخراج</a><a href="#sec17">17. الاختصارات الطبية والتمريضية الشائعة</a><a href="#sec18">18. الجراحة والتخدير والرعاية المحيطة بالعملية</a><a href="#sec19">19. التغذية العلاجية وإعادة التأهيل والرعاية طويلة الأمد</a><a href="#sec20">20. مصطلحات إضافية مهمة في بيئة المستشفى</a><a href="#cardio">21. القلب والأوعية الدموية (موسّع)</a><a href="#resp">22. الجهاز التنفسي (موسّع)</a><a href="#gi">23. الجهاز الهضمي والكبد (موسّع)</a><a href="#renal">24. الكلى والمسالك البولية والغدد الصماء</a><a href="#neuro">25. الأعصاب والنفسية والدم والأورام</a><a href="#inf">26. الأمراض المعدية والتحاليل والأشعة</a><a href="#proc">27. الإجراءات والأجهزة والرعاية المتقدمة</a><a href="#abbr">28. الاختصارات الإضافية</a><a href="#drug">29. الأدوية: الأسماء العلمية والمجموعات الدوائية</a><a href="#surg">30. الجراحة والعظام والجلدية والحروق</a><a href="#peds">31. طب الأطفال والتطعيمات والنمو</a><a href="#ob">32. النساء والتوليد (موسّع)</a><a href="#anes">33. التخدير وإدارة الألم والرعاية التلطيفية</a><a href="#pgroups">34. المجموعات الدوائية</a><a href="#drugs2">35. أدوية إضافية بأسمائها العلمية</a></nav>
     <div class="no-results" id="no-results">مفيش نتائج مطابقة للبحث. جرّب كلمة تانية.</div>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec1">
       <h2 class="section-title">1. المصطلحات الطبية الأساسية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Diagnosis</h3><p class="subject-desc">التشخيص</p></div>
@@ -79,7 +89,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec2">
       <h2 class="section-title">2. التشريح وأجهزة الجسم Anatomy</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Anatomy</h3><p class="subject-desc">علم التشريح</p></div>
@@ -117,7 +127,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec3">
       <h2 class="section-title">3. الاتجاهات والوضعيات التشريحية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Anterior</h3><p class="subject-desc">أمامي</p></div>
@@ -139,7 +149,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec4">
       <h2 class="section-title">4. أساسيات التمريض والعملية التمريضية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Nursing</h3><p class="subject-desc">التمريض</p></div>
@@ -170,7 +180,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec5">
       <h2 class="section-title">5. العلامات الحيوية والتقييم السريري</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Temperature</h3><p class="subject-desc">درجة الحرارة</p></div>
@@ -201,7 +211,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec6">
       <h2 class="section-title">6. مكافحة العدوى وسلامة المريض</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Infection Control</h3><p class="subject-desc">مكافحة العدوى</p></div>
@@ -232,7 +242,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec7">
       <h2 class="section-title">7. الأدوية وعلم الأدوية Pharmacology</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Medication</h3><p class="subject-desc">دواء</p></div>
@@ -270,7 +280,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec8">
       <h2 class="section-title">8. الإجراءات والمهارات التمريضية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Bed Making</h3><p class="subject-desc">تجهيز سرير المريض</p></div>
@@ -307,7 +317,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec9">
       <h2 class="section-title">9. التحاليل والفحوصات الطبية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Complete Blood Count (CBC)</h3><p class="subject-desc">صورة دم كاملة</p></div>
@@ -345,7 +355,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec10">
       <h2 class="section-title">10. الأمراض والحالات الشائعة</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Diabetes Mellitus</h3><p class="subject-desc">داء السكري</p></div>
@@ -376,7 +386,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec11">
       <h2 class="section-title">11. التمريض العملي ومهارات التواصل</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Therapeutic Communication</h3><p class="subject-desc">التواصل العلاجي</p></div>
@@ -402,7 +412,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec12">
       <h2 class="section-title">12. الطوارئ والإنعاش</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Emergency</h3><p class="subject-desc">حالة طارئة</p></div>
@@ -430,7 +440,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec13">
       <h2 class="section-title">13. الأمومة والتوليد والتمريض النسائي</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Obstetrics</h3><p class="subject-desc">طب التوليد</p></div>
@@ -462,7 +472,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec14">
       <h2 class="section-title">14. تمريض الأطفال وحديثي الولادة</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Pediatrics</h3><p class="subject-desc">طب الأطفال</p></div>
@@ -487,7 +497,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec15">
       <h2 class="section-title">15. الصحة النفسية والتمريض النفسي</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Mental Health</h3><p class="subject-desc">الصحة النفسية</p></div>
@@ -510,7 +520,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec16">
       <h2 class="section-title">16. التغذية والسوائل والإخراج</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Nutrition</h3><p class="subject-desc">التغذية</p></div>
@@ -538,7 +548,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec17">
       <h2 class="section-title">17. الاختصارات الطبية والتمريضية الشائعة</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">BP</h3><p class="subject-desc">Blood Pressure — ضغط الدم</p></div>
@@ -583,7 +593,7 @@
       <p style="color:var(--text-muted);font-size:13px;margin-top:12px;">تنبيه: الاختصارات الطبية قد يختلف معناها حسب المؤسسة والسياق. تجنب الاختصارات الملتبسة في أوامر الأدوية، واتبع سياسة مكان التدريب.</p>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec18">
       <h2 class="section-title">18. الجراحة والتخدير والرعاية المحيطة بالعملية</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Surgery</h3><p class="subject-desc">جراحة</p></div>
@@ -609,7 +619,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec19">
       <h2 class="section-title">19. التغذية العلاجية وإعادة التأهيل والرعاية طويلة الأمد</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Rehabilitation</h3><p class="subject-desc">إعادة التأهيل</p></div>
@@ -630,7 +640,7 @@
       </div>
     </section>
 
-    <section class="terms-section">
+    <section class="terms-section" id="sec20">
       <h2 class="section-title">20. مصطلحات إضافية مهمة في بيئة المستشفى</h2>
       <div class="grid">
         <div class="subject-card"><h3 class="subject-name-ar">Ward</h3><p class="subject-desc">عنبر / قسم داخلي</p></div>
@@ -660,6 +670,386 @@
       <p>© Nursing Hub — قاموس تعليمي للمصطلحات الطبية والتمريضية</p>
       <p style="font-size:12px;">المحتوى للمذاكرة والتعليم، ولا يُستخدم بديلًا عن السياسات والإرشادات السريرية المعتمدة.</p>
     </footer>
+  
+    <section class="terms-section" id="cardio">
+      <h2 class="section-title">21. القلب والأوعية الدموية (موسّع)</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Myocardial infarction</h3><p class="subject-desc">احتشاء عضلة القلب</p><p class="term-def">موت جزء من عضلة القلب لانسداد الشريان التاجي</p><p class="term-meta">/ˌmaɪəˈkɑːrdiəl ɪnˈfɑːrkʃən/ — مايوكاردييال إنفاركشن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Angina pectoris</h3><p class="subject-desc">الذبحة الصدرية</p><p class="term-def">ألم صدري بسبب نقص تروية القلب</p><p class="term-meta">/ænˈdʒaɪnə ˈpɛktərɪs/ — أنجاينا بيكتوريس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Atrial fibrillation</h3><p class="subject-desc">الرجفان الأذيني</p><p class="term-def">اضطراب نظم غير منتظم سريع في الأذينين</p><p class="term-meta">/ˈeɪtriəl ˌfɪbrɪˈleɪʃən/ — إيتريال فيبريليشن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cardiomyopathy</h3><p class="subject-desc">اعتلال عضلة القلب</p><p class="term-def">مرض يصيب عضلة القلب ويضعف كفاءتها</p><p class="term-meta">/ˌkɑːrdioʊmaɪˈɒpəθi/ — كارديو مايوباثي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Endocarditis</h3><p class="subject-desc">التهاب شغاف القلب</p><p class="term-def">التهاب البطانة الداخلية للقلب وصماماته</p><p class="term-meta">/ˌɛndoʊkɑːrˈdaɪtɪs/ — إندوكارديتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pericarditis</h3><p class="subject-desc">التهاب التامور</p><p class="term-def">التهاب الغشاء المحيط بالقلب</p><p class="term-meta">/ˌpɛrɪkɑːrˈdaɪtɪs/ — بيريكارديتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Deep vein thrombosis</h3><p class="subject-desc">الخثار الوريدي العميق</p><p class="term-def">جلطة في الأوردة العميقة غالبًا بالساق</p><p class="term-meta">/diːp veɪn θrɒmˈboʊsɪs/ — ديب فين ثرومبوسيس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Aneurysm</h3><p class="subject-desc">أم الدم (تمدد الشريان)</p><p class="term-def">توسع موضعي في جدار شريان</p><p class="term-meta">/ˈænjərɪzəm/ — أنيوريزم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cardiac tamponade</h3><p class="subject-desc">السدادة القلبية</p><p class="term-def">ضغط على القلب بسبب تجمع سائل حول التامور</p><p class="term-meta">/ˈkɑːrdiæk ˌtæmpəˈneɪd/ — كارديـاك تامبونيد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Peripheral artery disease</h3><p class="subject-desc">مرض الشرايين الطرفية</p><p class="term-def">تضيق شرايين الأطراف وقلة التروية</p><p class="term-meta">/pəˈrɪfərəl ˈɑːrtəri dɪˈziːz/ — بيريفيرال آرتري ديزيز</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="resp">
+      <h2 class="section-title">22. الجهاز التنفسي (موسّع)</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Pneumothorax</h3><p class="subject-desc">استرواح الصدر</p><p class="term-def">تجمع هواء في الحيز الجنبي وانهيار الرئة</p><p class="term-meta">/ˌnjuːmoʊˈθɔːræks/ — نيوموثوراكس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pleural effusion</h3><p class="subject-desc">الانصباب الجنبي</p><p class="term-def">تجمع سائل في الحيز الجنبي</p><p class="term-meta">/ˈplʊərəl ɪˈfjuːʒən/ — بلورال إفيوجن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pulmonary embolism</h3><p class="subject-desc">الانسداد الرئوي</p><p class="term-def">انسداد شريان رئوي بجلطة</p><p class="term-meta">/ˈpʌlməneri ˈɛmbəlɪzəm/ — بولمونري إمبوليزم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bronchiectasis</h3><p class="subject-desc">توسع القصبات</p><p class="term-def">توسع دائم في الشعب الهوائية مع تراكم إفرازات</p><p class="term-meta">/ˌbrɒŋkiˈɛktəsɪs/ — برونكيكتاسيس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">COPD</h3><p class="subject-desc">مرض الانسداد الرئوي المزمن</p><p class="term-def">مرض مزمن يحد من تدفق الهواء</p><p class="term-meta">/ˌsiː oʊ piː ˈdiː/ — سي أو بي دي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypoxemia</h3><p class="subject-desc">نقص أكسجة الدم</p><p class="term-def">انخفاض الأكسجين في الدم الشرياني</p><p class="term-meta">/haɪˈpɒksiːmiə/ — هايبوكسيميا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Tracheostomy</h3><p class="subject-desc">فغر القصبة الهوائية</p><p class="term-def">فتحة جراحية في الرقبة للتنفس</p><p class="term-meta">/ˌtreɪkiˈɒstəmi/ — تريكيوستومي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pulmonary edema</h3><p class="subject-desc">الوذمة الرئوية</p><p class="term-def">تجمع سوائل داخل الحويصلات الهوائية</p><p class="term-meta">/ˈpʌlməneri ɪˈdiːmə/ — بولمونري إديما</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="gi">
+      <h2 class="section-title">23. الجهاز الهضمي والكبد (موسّع)</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Gastroesophageal reflux disease</h3><p class="subject-desc">الارتجاع المعدي المريئي</p><p class="term-def">رجوع حمض المعدة إلى المريء</p><p class="term-meta">/ˌɡæstroʊɪˌsɒfəˈdʒiːəl ˈriːflʌks/ — جاستروإيزوفاجيال ريفلكس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cirrhosis</h3><p class="subject-desc">تليف الكبد</p><p class="term-def">استبدال نسيج الكبد بنسيج ليفي</p><p class="term-meta">/sɪˈroʊsɪs/ — سيروسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hepatitis</h3><p class="subject-desc">التهاب الكبد</p><p class="term-def">التهاب في الكبد غالبًا فيروسي</p><p class="term-meta">/ˌhɛpəˈtaɪtɪs/ — هيباتايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cholecystitis</h3><p class="subject-desc">التهاب المرارة</p><p class="term-def">التهاب المرارة غالبًا بسبب حصوات</p><p class="term-meta">/ˌkɒləsɪsˈtaɪtɪs/ — كوليسيستايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pancreatitis</h3><p class="subject-desc">التهاب البنكرياس</p><p class="term-def">التهاب حاد أو مزمن في البنكرياس</p><p class="term-meta">/ˌpæŋkriəˈtaɪtɪs/ — بانكرياتايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Appendicitis</h3><p class="subject-desc">التهاب الزائدة الدودية</p><p class="term-def">التهاب الزائدة ويحتاج غالبًا جراحة</p><p class="term-meta">/əˌpɛndɪˈsaɪtɪs/ — أبنديسايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hematemesis</h3><p class="subject-desc">قيء دموي</p><p class="term-def">قيء يحتوي على دم</p><p class="term-meta">/ˌhiːməˈtɛməsɪs/ — هيماتيميسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Melena</h3><p class="subject-desc">براز أسود قطراني</p><p class="term-def">براز أسود بسبب نزف هضمي علوي</p><p class="term-meta">/məˈliːnə/ — ميلينا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ascites</h3><p class="subject-desc">الاستسقاء</p><p class="term-def">تجمع سوائل في التجويف البطني</p><p class="term-meta">/əˈsaɪtiːz/ — أسايتيز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diverticulitis</h3><p class="subject-desc">التهاب الرتج</p><p class="term-def">التهاب جيوب صغيرة في جدار القولون</p><p class="term-meta">/ˌdaɪvərtɪkjʊˈlaɪtɪs/ — دايفرتيكيولايتس</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="renal">
+      <h2 class="section-title">24. الكلى والمسالك البولية والغدد الصماء</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Nephrolithiasis</h3><p class="subject-desc">حصوات الكلى</p><p class="term-def">تكوّن حصوات في الكلى</p><p class="term-meta">/ˌnɛfroʊlɪˈθaɪəsɪs/ — نيفروليثيازيس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pyelonephritis</h3><p class="subject-desc">التهاب الحويضة والكلية</p><p class="term-def">عدوى بكتيرية تصيب الكلية</p><p class="term-meta">/ˌpaɪəloʊnɪˈfraɪtɪs/ — بايلونيفرايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Glomerulonephritis</h3><p class="subject-desc">التهاب كبيبات الكلى</p><p class="term-def">التهاب وحدات الترشيح في الكلية</p><p class="term-meta">/ɡloʊˌmɛrjʊloʊnɪˈfraɪtɪs/ — جلوميرولونيفرايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hemodialysis</h3><p class="subject-desc">الغسيل الكلوي الدموي</p><p class="term-def">تنقية الدم بجهاز خارج الجسم</p><p class="term-meta">/ˌhiːmoʊdaɪˈæləsɪs/ — هيموداياليسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diabetic ketoacidosis</h3><p class="subject-desc">الحماض الكيتوني السكري</p><p class="term-def">حالة طارئة من نقص الإنسولين وارتفاع الكيتونات</p><p class="term-meta">/ˌdaɪəˈbɛtɪk ˌkiːtoʊˌæsɪˈdoʊsɪs/ — دايابيتيك كيتوأسيدوسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hyperthyroidism</h3><p class="subject-desc">فرط نشاط الغدة الدرقية</p><p class="term-def">زيادة إفراز هرمونات الدرقية</p><p class="term-meta">/ˌhaɪpərˈθaɪrɔɪdɪzəm/ — هايبرثايرويديزم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypothyroidism</h3><p class="subject-desc">قصور الغدة الدرقية</p><p class="term-def">نقص إفراز هرمونات الدرقية</p><p class="term-meta">/ˌhaɪpoʊˈθaɪrɔɪdɪzəm/ — هايبوثايرويديزم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cushing syndrome</h3><p class="subject-desc">متلازمة كوشنج</p><p class="term-def">زيادة هرمون الكورتيزول</p><p class="term-meta">/ˈkʊʃɪŋ ˈsɪndroʊm/ — كوشينج سيندروم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Addison disease</h3><p class="subject-desc">مرض أديسون</p><p class="term-def">قصور الغدة الكظرية</p><p class="term-meta">/ˈædɪsən dɪˈziːz/ — أديسون ديزيز</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="neuro">
+      <h2 class="section-title">25. الأعصاب والنفسية والدم والأورام</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Meningitis</h3><p class="subject-desc">التهاب السحايا</p><p class="term-def">التهاب الأغشية المحيطة بالدماغ والنخاع</p><p class="term-meta">/ˌmɛnɪnˈdʒaɪtɪs/ — مينينجايتس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Parkinson disease</h3><p class="subject-desc">مرض باركنسون</p><p class="term-def">مرض تنكسي يسبب رعشة وبطء حركة</p><p class="term-meta">/ˈpɑːrkɪnsənz dɪˈziːz/ — باركنسونز ديزيز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Multiple sclerosis</h3><p class="subject-desc">التصلب المتعدد</p><p class="term-def">مرض مناعي يصيب غلاف الأعصاب المركزية</p><p class="term-meta">/ˈmʌltɪpəl sklɪˈroʊsɪs/ — مالتيبل سكليروسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Delirium</h3><p class="subject-desc">الهذيان</p><p class="term-def">اضطراب حاد في الوعي والانتباه</p><p class="term-meta">/dɪˈlɪriəm/ — ديليريوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Leukemia</h3><p class="subject-desc">ابيضاض الدم (اللوكيميا)</p><p class="term-def">سرطان الخلايا المكوّنة للدم</p><p class="term-meta">/luːˈkiːmiə/ — لوكيميا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lymphoma</h3><p class="subject-desc">الورم الليمفاوي</p><p class="term-def">سرطان الجهاز الليمفاوي</p><p class="term-meta">/lɪmˈfoʊmə/ — ليمفوما</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Thrombocytopenia</h3><p class="subject-desc">نقص الصفائح الدموية</p><p class="term-def">انخفاض عدد الصفائح</p><p class="term-meta">/ˌθrɒmboʊˌsaɪtoʊˈpiːniə/ — ثرومبوسايتوبينيا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Metastasis</h3><p class="subject-desc">النقائل (انتشار الورم)</p><p class="term-def">انتشار الخلايا السرطانية لأعضاء أخرى</p><p class="term-meta">/məˈtæstəsɪs/ — ميتاستاسيس</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="inf">
+      <h2 class="section-title">26. الأمراض المعدية والتحاليل والأشعة</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Tuberculosis</h3><p class="subject-desc">السل</p><p class="term-def">عدوى بكتيرية تصيب الرئة غالبًا</p><p class="term-meta">/tjuːˌbɜːrkjʊˈloʊsɪs/ — تيوبركيولوسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Malaria</h3><p class="subject-desc">الملاريا</p><p class="term-def">مرض طفيلي ينتقل بلدغة البعوض</p><p class="term-meta">/məˈlɛəriə/ — ملاريا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Candidiasis</h3><p class="subject-desc">داء المبيضات</p><p class="term-def">عدوى فطرية بالمبيضات</p><p class="term-meta">/ˌkændɪˈdaɪəsɪs/ — كانديدايسس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Scabies</h3><p class="subject-desc">الجرب</p><p class="term-def">عدوى جلدية طفيلية شديدة الحكة</p><p class="term-meta">/ˈskeɪbiːz/ — سكيبيز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Complete blood count</h3><p class="subject-desc">صورة الدم الكاملة</p><p class="term-def">فحص يقيس مكوّنات الدم</p><p class="term-meta">/kəmˈpliːt blʌd kaʊnt/ — كومبليت بلاد كاونت</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Arterial blood gas</h3><p class="subject-desc">غازات الدم الشرياني</p><p class="term-def">تحليل الأكسجين وثاني أكسيد الكربون وحموضة الدم</p><p class="term-meta">/ɑːrˈtɪəriəl blʌd ɡæs/ — آرتيريال بلاد جاس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Electrocardiogram</h3><p class="subject-desc">تخطيط القلب الكهربائي</p><p class="term-def">تسجيل النشاط الكهربائي للقلب</p><p class="term-meta">/ɪˌlɛktroʊˈkɑːrdiəˌɡræm/ — إلكتروكارديوجرام</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Computed tomography</h3><p class="subject-desc">الأشعة المقطعية</p><p class="term-def">تصوير مقطعي بالأشعة السينية</p><p class="term-meta">/kəmˈpjuːtɪd təˈmɒɡrəfi/ — كومبيوتد توموجرافي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Magnetic resonance imaging</h3><p class="subject-desc">التصوير بالرنين المغناطيسي</p><p class="term-def">تصوير بمجال مغناطيسي دون إشعاع مؤين</p><p class="term-meta">/mæɡˈnɛtɪk ˈrɛzənəns ˈɪmɪdʒɪŋ/ — ماجنتيك ريزوننس إيميجينج</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Endoscopy</h3><p class="subject-desc">المنظار</p><p class="term-def">فحص داخلي بأنبوب مزود بكاميرا</p><p class="term-meta">/ɛnˈdɒskəpi/ — إندوسكوبي</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="proc">
+      <h2 class="section-title">27. الإجراءات والأجهزة والرعاية المتقدمة</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Central venous catheter</h3><p class="subject-desc">القسطرة الوريدية المركزية</p><p class="term-def">قسطرة تُوضع في وريد كبير</p><p class="term-meta">/ˈsɛntrəl ˈviːnəs ˈkæθɪtər/ — سنترال فينوس كاثيتر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nasogastric tube</h3><p class="subject-desc">أنبوب أنفي معدي</p><p class="term-def">أنبوب من الأنف إلى المعدة للتغذية أو التفريغ</p><p class="term-meta">/ˌneɪzoʊˈɡæstrɪk tjuːb/ — نيزوجاستريك تيوب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mechanical ventilation</h3><p class="subject-desc">التهوية الميكانيكية</p><p class="term-def">دعم التنفس بجهاز تنفس صناعي</p><p class="term-meta">/mɪˈkænɪkəl ˌvɛntɪˈleɪʃən/ — ميكانيكال فنتيليشن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Defibrillator</h3><p class="subject-desc">جهاز صدمات القلب</p><p class="term-def">جهاز يعيد انتظام القلب بصدمة كهربائية</p><p class="term-meta">/diːˈfɪbrɪˌleɪtər/ — ديفيبريلاتور</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Infusion pump</h3><p class="subject-desc">مضخة التسريب</p><p class="term-def">جهاز يتحكم بمعدل إعطاء السوائل والأدوية</p><p class="term-meta">/ɪnˈfjuːʒən pʌmp/ — إنفيوجن بامب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Glasgow Coma Scale</h3><p class="subject-desc">مقياس غلاسكو للغيبوبة</p><p class="term-def">تقييم مستوى الوعي</p><p class="term-meta">/ˈɡlæzɡoʊ ˈkoʊmə skeɪl/ — جلاسجو كوما سكيل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient advocacy</h3><p class="subject-desc">الدفاع عن حقوق المريض</p><p class="term-def">دور التمريض في حماية حقوق المريض</p><p class="term-meta">/ˈpeɪʃənt ˈædvəkəsi/ — بيشنت أدفوكاسي</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="abbr">
+      <h2 class="section-title">28. الاختصارات الإضافية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">MI</h3><p class="subject-desc">احتشاء عضلة القلب</p><p class="term-def">Myocardial Infarction</p><p class="term-meta">/ɛm aɪ/ — إم آي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">CHF</h3><p class="subject-desc">فشل القلب الاحتقاني</p><p class="term-def">Congestive Heart Failure</p><p class="term-meta">/siː eɪtʃ ɛf/ — سي إتش إف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">DM</h3><p class="subject-desc">داء السكري</p><p class="term-def">Diabetes Mellitus</p><p class="term-meta">/diː ɛm/ — دي إم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">HTN</h3><p class="subject-desc">ارتفاع ضغط الدم</p><p class="term-def">Hypertension</p><p class="term-meta">/eɪtʃ tiː ɛn/ — إتش تي إن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">UTI</h3><p class="subject-desc">عدوى المسالك البولية</p><p class="term-def">Urinary Tract Infection</p><p class="term-meta">/juː tiː aɪ/ — يو تي آي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">DVT</h3><p class="subject-desc">الخثار الوريدي العميق</p><p class="term-def">Deep Vein Thrombosis</p><p class="term-meta">/diː viː tiː/ — دي في تي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">PE</h3><p class="subject-desc">الانسداد الرئوي</p><p class="term-def">Pulmonary Embolism</p><p class="term-meta">/piː iː/ — بي إي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ARDS</h3><p class="subject-desc">متلازمة الضائقة التنفسية الحادة</p><p class="term-def">Acute Respiratory Distress Syndrome</p><p class="term-meta">/ɑːrdz/ — إيه آر دي إس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">GERD</h3><p class="subject-desc">الارتجاع المعدي المريئي</p><p class="term-def">Gastroesophageal Reflux Disease</p><p class="term-meta">/ɡɜːrd/ — جيرد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">CKD</h3><p class="subject-desc">الفشل الكلوي المزمن</p><p class="term-def">Chronic Kidney Disease</p><p class="term-meta">/siː keɪ diː/ — سي كيه دي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">AKI</h3><p class="subject-desc">إصابة الكلى الحادة</p><p class="term-def">Acute Kidney Injury</p><p class="term-meta">/eɪ keɪ aɪ/ — إيه كيه آي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">CPR</h3><p class="subject-desc">الإنعاش القلبي الرئوي</p><p class="term-def">Cardiopulmonary Resuscitation</p><p class="term-meta">/siː piː ɑːr/ — سي بي آر</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="drug">
+      <h2 class="section-title">29. الأدوية: الأسماء العلمية والمجموعات الدوائية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Paracetamol</h3><p class="subject-desc">باراسيتامول</p><p class="term-drug"><b>المجموعة:</b> خافض حرارة ومسكن<br><b>الاستخدام العام:</b> تسكين الألم الخفيف وخفض الحرارة<br><b>تنبيه:</b> الإفراط قد يضر الكبد</p><p class="term-meta">/ˌpærəˈsiːtəmɒl/ — باراسيتامول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ibuprofen</h3><p class="subject-desc">إيبوبروفين</p><p class="term-drug"><b>المجموعة:</b> مضاد التهاب غير ستيرويدي NSAID<br><b>الاستخدام العام:</b> تسكين الألم وخفض الالتهاب والحرارة<br><b>تنبيه:</b> قد يسبب تهيج المعدة ونزفًا ويؤثر على الكلى</p><p class="term-meta">/ˌaɪbjuːˈproʊfən/ — آيبيوبروفين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Aspirin</h3><p class="subject-desc">أسبرين</p><p class="term-drug"><b>المجموعة:</b> مضاد صفائح / NSAID<br><b>الاستخدام العام:</b> مضاد للتجلط في أمراض القلب وتسكين الألم<br><b>تنبيه:</b> خطر النزف وتهيج المعدة</p><p class="term-meta">/ˈæspɪrɪn/ — أسبرين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amoxicillin</h3><p class="subject-desc">أموكسيسيلين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي من البنسلينات<br><b>الاستخدام العام:</b> عدوى بكتيرية متنوعة<br><b>تنبيه:</b> قد يسبب حساسية بنسلين</p><p class="term-meta">/əˌmɒksɪˈsɪlɪn/ — أموكسيسيلين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ceftriaxone</h3><p class="subject-desc">سيفترياكسون</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي سيفالوسبورين<br><b>الاستخدام العام:</b> عدوى بكتيرية شديدة<br><b>تنبيه:</b> حساسية وإسهال</p><p class="term-meta">/ˌsɛftraɪˈæksoʊn/ — سيفترياكسون</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Azithromycin</h3><p class="subject-desc">أزيثروميسين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي ماكروليد<br><b>الاستخدام العام:</b> عدوى تنفسية وأخرى<br><b>تنبيه:</b> قد يؤثر على نظم القلب</p><p class="term-meta">/ˌæzɪθroʊˈmaɪsɪn/ — أزيثروميسين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Metformin</h3><p class="subject-desc">ميتفورمين</p><p class="term-drug"><b>المجموعة:</b> خافض سكر (بيجوانيد)<br><b>الاستخدام العام:</b> السكري من النوع الثاني<br><b>تنبيه:</b> اضطراب هضمي، وحماض لاكتيكي نادر</p><p class="term-meta">/mɛtˈfɔːrmɪn/ — ميتفورمين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Furosemide</h3><p class="subject-desc">فيوروسيميد</p><p class="term-drug"><b>المجموعة:</b> مدر بولي عروي<br><b>الاستخدام العام:</b> الوذمة وفشل القلب<br><b>تنبيه:</b> فقدان البوتاسيوم والجفاف</p><p class="term-meta">/fjʊˈroʊsɪmaɪd/ — فيوروسيمايد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amlodipine</h3><p class="subject-desc">أملوديبين</p><p class="term-drug"><b>المجموعة:</b> حاصر قنوات الكالسيوم<br><b>الاستخدام العام:</b> ارتفاع الضغط والذبحة<br><b>تنبيه:</b> تورم الكاحلين وصداع</p><p class="term-meta">/æmˈloʊdɪpiːn/ — أملوديبين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Atenolol</h3><p class="subject-desc">أتينولول</p><p class="term-drug"><b>المجموعة:</b> حاصر بيتا<br><b>الاستخدام العام:</b> ارتفاع الضغط واضطرابات النظم<br><b>تنبيه:</b> بطء القلب وإخفاء أعراض هبوط السكر</p><p class="term-meta">/əˈtɛnəlɒl/ — أتينولول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Enalapril</h3><p class="subject-desc">إينالابريل</p><p class="term-drug"><b>المجموعة:</b> مثبط الإنزيم المحول ACEI<br><b>الاستخدام العام:</b> ارتفاع الضغط وفشل القلب<br><b>تنبيه:</b> سعال جاف وارتفاع البوتاسيوم</p><p class="term-meta">/ɪˈnæləprɪl/ — إينالابريل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Warfarin</h3><p class="subject-desc">وارفارين</p><p class="term-drug"><b>المجموعة:</b> مضاد تخثر<br><b>الاستخدام العام:</b> الوقاية من الجلطات<br><b>تنبيه:</b> خطر النزف وتداخلات دوائية وغذائية كثيرة</p><p class="term-meta">/ˈwɔːrfərɪn/ — وارفارين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Heparin</h3><p class="subject-desc">هيبارين</p><p class="term-drug"><b>المجموعة:</b> مضاد تخثر<br><b>الاستخدام العام:</b> الوقاية من الجلطات وعلاجها<br><b>تنبيه:</b> خطر النزف ونقص الصفائح</p><p class="term-meta">/ˈhɛpərɪn/ — هيبارين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Omeprazole</h3><p class="subject-desc">أوميبرازول</p><p class="term-drug"><b>المجموعة:</b> مثبط مضخة البروتون PPI<br><b>الاستخدام العام:</b> الارتجاع والقرحة<br><b>تنبيه:</b> الاستخدام الطويل قد يقلل امتصاص بعض المعادن</p><p class="term-meta">/oʊˈmɛprəzoʊl/ — أوميبرازول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Salbutamol</h3><p class="subject-desc">سالبيوتامول</p><p class="term-drug"><b>المجموعة:</b> موسع شعب (SABA)<br><b>الاستخدام العام:</b> الربو وضيق التنفس الانقباضي<br><b>تنبيه:</b> رعشة وتسارع القلب</p><p class="term-meta">/sælˈbjuːtəmɒl/ — سالبيوتامول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Prednisolone</h3><p class="subject-desc">بريدنيزولون</p><p class="term-drug"><b>المجموعة:</b> كورتيكوستيرويد<br><b>الاستخدام العام:</b> حالات التهابية ومناعية<br><b>تنبيه:</b> رفع السكر وضعف المناعة</p><p class="term-meta">/prɛdˈnɪsəloʊn/ — بريدنيزولون</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Morphine</h3><p class="subject-desc">مورفين</p><p class="term-drug"><b>المجموعة:</b> مسكن أفيوني<br><b>الاستخدام العام:</b> الألم الشديد<br><b>تنبيه:</b> تثبيط التنفس وإدمان وإمساك</p><p class="term-meta">/ˈmɔːrfiːn/ — مورفين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diazepam</h3><p class="subject-desc">ديازيبام</p><p class="term-drug"><b>المجموعة:</b> بنزوديازيبين<br><b>الاستخدام العام:</b> القلق والتشنجات<br><b>تنبيه:</b> نعاس وإدمان وتثبيط تنفسي</p><p class="term-meta">/daɪˈæzəpæm/ — ديازيبام</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Haloperidol</h3><p class="subject-desc">هالوبيريدول</p><p class="term-drug"><b>المجموعة:</b> مضاد ذهان<br><b>الاستخدام العام:</b> الذهان والهياج<br><b>تنبيه:</b> أعراض خارج هرمية وإطالة QT</p><p class="term-meta">/ˌhæloʊˈpɛrɪdɒl/ — هالوبيريدول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ondansetron</h3><p class="subject-desc">أوندانسيترون</p><p class="term-drug"><b>المجموعة:</b> مضاد قيء (5-HT3)<br><b>الاستخدام العام:</b> الغثيان والقيء<br><b>تنبيه:</b> إمساك وصداع، وإطالة QT</p><p class="term-meta">/ɒnˈdænsətrɒn/ — أوندانسيترون</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Atropine</h3><p class="subject-desc">أتروبين</p><p class="term-drug"><b>المجموعة:</b> مضاد كولين<br><b>الاستخدام العام:</b> بطء القلب وتجفيف الإفرازات<br><b>تنبيه:</b> جفاف الفم وتسارع القلب</p><p class="term-meta">/ˈætrəpiːn/ — أتروبين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Adrenaline</h3><p class="subject-desc">أدرينالين (إبينفرين)</p><p class="term-drug"><b>المجموعة:</b> ناهض أدرينالي<br><b>الاستخدام العام:</b> الحساسية المفرطة والإنعاش<br><b>تنبيه:</b> تسارع القلب وارتفاع الضغط</p><p class="term-meta">/əˈdrɛnəlɪn/ — أدرينالين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Naloxone</h3><p class="subject-desc">نالوكسون</p><p class="term-drug"><b>المجموعة:</b> مضاد أفيوني<br><b>الاستخدام العام:</b> عكس تسمم الأفيونات<br><b>تنبيه:</b> قد يسبب أعراض انسحاب</p><p class="term-meta">/nəˈlɒksoʊn/ — نالوكسون</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="surg">
+      <h2 class="section-title">30. الجراحة والعظام والجلدية والحروق</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Dislocation</h3><p class="subject-desc">خلع</p><p class="term-def">خروج المفصل من موضعه</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sprain</h3><p class="subject-desc">التواء</p><p class="term-def">تمزق في أربطة المفصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Strain</h3><p class="subject-desc">شد عضلي</p><p class="term-def">إصابة في العضلة أو الوتر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Osteomyelitis</h3><p class="subject-desc">التهاب العظم والنقي</p><p class="term-def">عدوى في العظم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Arthritis</h3><p class="subject-desc">التهاب المفاصل</p><p class="term-def">التهاب مؤلم في المفصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gout</h3><p class="subject-desc">النقرس</p><p class="term-def">التهاب مفصلي بسبب ترسب حمض اليوريك</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Scoliosis</h3><p class="subject-desc">الجنف</p><p class="term-def">انحناء جانبي في العمود الفقري</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Herniated disc</h3><p class="subject-desc">انزلاق غضروفي</p><p class="term-def">بروز القرص بين الفقرات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Carpal tunnel syndrome</h3><p class="subject-desc">متلازمة النفق الرسغي</p><p class="term-def">ضغط على العصب الأوسط في المعصم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Compartment syndrome</h3><p class="subject-desc">متلازمة الحيز</p><p class="term-def">ارتفاع الضغط داخل حيز عضلي يهدد التروية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amputation</h3><p class="subject-desc">بتر</p><p class="term-def">استئصال طرف أو جزء منه</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Traction</h3><p class="subject-desc">الشد العظمي</p><p class="term-def">تثبيت الكسر بقوة شد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cast</h3><p class="subject-desc">جبيرة جبس</p><p class="term-def">تثبيت خارجي للعظم المكسور</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Splint</h3><p class="subject-desc">جبيرة مؤقتة</p><p class="term-def">دعم مؤقت للطرف المصاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Wound dehiscence</h3><p class="subject-desc">انفتاح الجرح</p><p class="term-def">انفصال حواف جرح جراحي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Evisceration</h3><p class="subject-desc">انسلال الأحشاء</p><p class="term-def">بروز الأحشاء من الجرح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hernia</h3><p class="subject-desc">فتق</p><p class="term-def">بروز عضو من جدار الحيز الذي يحتويه</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Laparotomy</h3><p class="subject-desc">فتح البطن</p><p class="term-def">شق جراحي في جدار البطن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Laparoscopy</h3><p class="subject-desc">تنظير البطن</p><p class="term-def">جراحة بمنظار عبر شقوق صغيرة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cholecystectomy</h3><p class="subject-desc">استئصال المرارة</p><p class="term-def">إزالة المرارة جراحيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Appendectomy</h3><p class="subject-desc">استئصال الزائدة الدودية</p><p class="term-def">إزالة الزائدة جراحيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Colostomy</h3><p class="subject-desc">فغر القولون</p><p class="term-def">فتحة جراحية للقولون على جدار البطن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ileostomy</h3><p class="subject-desc">فغر اللفائفي</p><p class="term-def">فتحة جراحية للأمعاء الدقيقة على البطن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mastectomy</h3><p class="subject-desc">استئصال الثدي</p><p class="term-def">إزالة الثدي جراحيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Thyroidectomy</h3><p class="subject-desc">استئصال الغدة الدرقية</p><p class="term-def">إزالة الغدة جراحيًا كليًا أو جزئيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Craniotomy</h3><p class="subject-desc">بضع القحف</p><p class="term-def">فتح جراحي في الجمجمة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Arthroplasty</h3><p class="subject-desc">رأب المفصل</p><p class="term-def">استبدال أو ترميم مفصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Superficial burn</h3><p class="subject-desc">حرق سطحي</p><p class="term-def">يصيب البشرة فقط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Partial-thickness burn</h3><p class="subject-desc">حرق جزئي السمك</p><p class="term-def">يصيب البشرة وجزءًا من الأدمة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Full-thickness burn</h3><p class="subject-desc">حرق كامل السمك</p><p class="term-def">يدمر الجلد بكامل سمكه</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Skin graft</h3><p class="subject-desc">ترقيع الجلد</p><p class="term-def">نقل جلد لتغطية منطقة متضررة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Eczema</h3><p class="subject-desc">الأكزيما</p><p class="term-def">التهاب جلدي مزمن مع حكة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Psoriasis</h3><p class="subject-desc">الصدفية</p><p class="term-def">مرض جلدي مناعي بقشور سميكة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Urticaria</h3><p class="subject-desc">الشرى (الأرتكاريا)</p><p class="term-def">طفح جلدي منتفخ مع حكة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cellulitis</h3><p class="subject-desc">التهاب النسيج الخلوي</p><p class="term-def">عدوى بكتيرية في الجلد والنسيج تحته</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Abscess</h3><p class="subject-desc">خراج</p><p class="term-def">تجمع صديدي موضعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pruritus</h3><p class="subject-desc">الحكة</p><p class="term-def">إحساس يدفع للحك</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Erythema</h3><p class="subject-desc">احمرار</p><p class="term-def">احمرار الجلد بسبب توسع الأوعية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ecchymosis</h3><p class="subject-desc">كدمة</p><p class="term-def">تغير لون الجلد بسبب نزف تحته</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Petechiae</h3><p class="subject-desc">نمشات نزفية</p><p class="term-def">نقاط حمراء صغيرة تحت الجلد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Alopecia</h3><p class="subject-desc">الثعلبة / تساقط الشعر</p><p class="term-def">فقدان الشعر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Laceration</h3><p class="subject-desc">جرح قطعي</p><p class="term-def">تمزق في الجلد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Abrasion</h3><p class="subject-desc">سحجة</p><p class="term-def">خدش سطحي للجلد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Contusion</h3><p class="subject-desc">رضّ</p><p class="term-def">كدمة بسبب ضربة</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="peds">
+      <h2 class="section-title">31. طب الأطفال والتطعيمات والنمو</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Vaccine</h3><p class="subject-desc">لقاح</p><p class="term-def">مستحضر يحفز المناعة ضد مرض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">BCG vaccine</h3><p class="subject-desc">لقاح السل (بي سي جي)</p><p class="term-def">لقاح للوقاية من أشكال السل الشديدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hepatitis B vaccine</h3><p class="subject-desc">لقاح الكبد الوبائي ب</p><p class="term-def">للوقاية من التهاب الكبد ب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Polio vaccine</h3><p class="subject-desc">لقاح شلل الأطفال</p><p class="term-def">للوقاية من شلل الأطفال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">MMR vaccine</h3><p class="subject-desc">لقاح الحصبة والنكاف والحصبة الألمانية</p><p class="term-def">لقاح ثلاثي فيروسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">DTP vaccine</h3><p class="subject-desc">اللقاح الثلاثي (دفتيريا وتيتانوس وسعال ديكي)</p><p class="term-def">للوقاية من ثلاثة أمراض بكتيرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Rotavirus vaccine</h3><p class="subject-desc">لقاح الروتا</p><p class="term-def">للوقاية من إسهال الروتا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Growth chart</h3><p class="subject-desc">منحنى النمو</p><p class="term-def">مقارنة نمو الطفل بالمعدلات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Developmental milestone</h3><p class="subject-desc">مرحلة نمائية</p><p class="term-def">مهارة متوقعة عند عمر معين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Failure to thrive</h3><p class="subject-desc">فشل النمو</p><p class="term-def">عدم زيادة وزن الطفل كما ينبغي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Weaning</h3><p class="subject-desc">الفطام</p><p class="term-def">الانتقال من الرضاعة إلى الطعام</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Colic</h3><p class="subject-desc">المغص الرضيعي</p><p class="term-def">نوبات بكاء شديد عند الرضيع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Epiglottitis</h3><p class="subject-desc">التهاب لسان المزمار</p><p class="term-def">التهاب خطير يسد المجرى الهوائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intussusception</h3><p class="subject-desc">انغلاف الأمعاء</p><p class="term-def">دخول جزء من الأمعاء في جزء آخر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pyloric stenosis</h3><p class="subject-desc">تضيق البواب</p><p class="term-def">تضيق مخرج المعدة عند الرضع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cleft lip</h3><p class="subject-desc">الشفة المشقوقة</p><p class="term-def">شق خلقي في الشفة العليا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cleft palate</h3><p class="subject-desc">الحنك المشقوق</p><p class="term-def">شق خلقي في سقف الحلق</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Down syndrome</h3><p class="subject-desc">متلازمة داون</p><p class="term-def">اضطراب كروموسومي بزيادة الكروموسوم 21</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cerebral palsy</h3><p class="subject-desc">الشلل الدماغي</p><p class="term-def">اضطراب حركي دائم ناتج عن إصابة دماغية مبكرة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Measles</h3><p class="subject-desc">الحصبة</p><p class="term-def">مرض فيروسي معدٍ مع طفح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mumps</h3><p class="subject-desc">النكاف</p><p class="term-def">عدوى فيروسية تصيب الغدد اللعابية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Rubella</h3><p class="subject-desc">الحصبة الألمانية</p><p class="term-def">عدوى فيروسية خفيفة وخطيرة على الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pertussis</h3><p class="subject-desc">السعال الديكي</p><p class="term-def">عدوى بكتيرية بنوبات سعال شديدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chickenpox</h3><p class="subject-desc">الجدري المائي</p><p class="term-def">عدوى فيروسية بطفح حويصلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Kangaroo care</h3><p class="subject-desc">رعاية الكانجارو</p><p class="term-def">ملامسة جلد الأم لجلد الوليد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fontanelle</h3><p class="subject-desc">اليافوخ</p><p class="term-def">الفراغ اللين بين عظام جمجمة الرضيع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Meconium</h3><p class="subject-desc">العقي</p><p class="term-def">أول براز للوليد</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="ob">
+      <h2 class="section-title">32. النساء والتوليد (موسّع)</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Gestation</h3><p class="subject-desc">الحمل (فترة الحمل)</p><p class="term-def">المدة بين الإخصاب والولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antenatal care</h3><p class="subject-desc">رعاية ما قبل الولادة</p><p class="term-def">متابعة الحامل أثناء الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postpartum</h3><p class="subject-desc">ما بعد الولادة</p><p class="term-def">الفترة التالية للولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gestational diabetes</h3><p class="subject-desc">سكري الحمل</p><p class="term-def">سكري يظهر أثناء الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Placenta previa</h3><p class="subject-desc">المشيمة المنزاحة</p><p class="term-def">مشيمة تغطي عنق الرحم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Placental abruption</h3><p class="subject-desc">انفصال المشيمة</p><p class="term-def">انفصال المشيمة قبل الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postpartum hemorrhage</h3><p class="subject-desc">نزف ما بعد الولادة</p><p class="term-def">نزف شديد بعد الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Cesarean section</h3><p class="subject-desc">العملية القيصرية</p><p class="term-def">ولادة جراحية عبر البطن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Episiotomy</h3><p class="subject-desc">بضع الفرج</p><p class="term-def">شق في العجان أثناء الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amniocentesis</h3><p class="subject-desc">بزل السلى</p><p class="term-def">أخذ عينة من السائل الأمنيوسي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lochia</h3><p class="subject-desc">النفاس (الإفرازات)</p><p class="term-def">إفرازات مهبلية بعد الولادة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Mastitis</h3><p class="subject-desc">التهاب الثدي</p><p class="term-def">التهاب في أنسجة الثدي أثناء الرضاعة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Endometriosis</h3><p class="subject-desc">بطانة الرحم المهاجرة</p><p class="term-def">نسيج شبيه ببطانة الرحم خارج الرحم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Polycystic ovary syndrome</h3><p class="subject-desc">تكيس المبايض</p><p class="term-def">اضطراب هرموني يؤثر على التبويض</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Menopause</h3><p class="subject-desc">سن اليأس</p><p class="term-def">توقف الدورة الشهرية نهائيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dysmenorrhea</h3><p class="subject-desc">عسر الطمث</p><p class="term-def">ألم أثناء الدورة الشهرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amenorrhea</h3><p class="subject-desc">انقطاع الطمث</p><p class="term-def">غياب الدورة الشهرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Menorrhagia</h3><p class="subject-desc">غزارة الطمث</p><p class="term-def">نزف حيض غزير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Pap smear</h3><p class="subject-desc">مسحة عنق الرحم</p><p class="term-def">فحص للكشف المبكر عن سرطان العنق</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hysterectomy</h3><p class="subject-desc">استئصال الرحم</p><p class="term-def">إزالة الرحم جراحيًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fetal heart rate</h3><p class="subject-desc">معدل ضربات قلب الجنين</p><p class="term-def">مؤشر لحالة الجنين</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="anes">
+      <h2 class="section-title">33. التخدير وإدارة الألم والرعاية التلطيفية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Epidural anesthesia</h3><p class="subject-desc">التخدير فوق الجافية</p><p class="term-def">مخدر حول الجافية في الظهر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sedation</h3><p class="subject-desc">التسكين العميق (التهدئة)</p><p class="term-def">تخفيف القلق والوعي بدواء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Intubation</h3><p class="subject-desc">التنبيب الرغامي</p><p class="term-def">إدخال أنبوب في القصبة الهوائية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Extubation</h3><p class="subject-desc">نزع الأنبوب</p><p class="term-def">إزالة أنبوب القصبة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Malignant hyperthermia</h3><p class="subject-desc">فرط الحرارة الخبيث</p><p class="term-def">استجابة خطيرة لبعض أدوية التخدير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Postoperative nausea</h3><p class="subject-desc">غثيان ما بعد العملية</p><p class="term-def">غثيان وقيء بعد الجراحة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Analgesia</h3><p class="subject-desc">تسكين الألم</p><p class="term-def">غياب الإحساس بالألم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nociceptive pain</h3><p class="subject-desc">ألم حسي مستقبِلي</p><p class="term-def">ألم من تلف النسيج</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Neuropathic pain</h3><p class="subject-desc">ألم عصبي</p><p class="term-def">ألم من تلف أو اضطراب الأعصاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chronic pain</h3><p class="subject-desc">ألم مزمن</p><p class="term-def">ألم يستمر أكثر من 3 أشهر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Breakthrough pain</h3><p class="subject-desc">ألم اختراقي</p><p class="term-def">ألم يظهر رغم العلاج المنتظم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Patient-controlled analgesia</h3><p class="subject-desc">المسكن المتحكم به من المريض</p><p class="term-def">مضخة يضغط عليها المريض لجرعة مسكن</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hospice</h3><p class="subject-desc">رعاية المحتضرين (الهوسبيس)</p><p class="term-def">رعاية في نهاية الحياة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Advance directive</h3><p class="subject-desc">التوجيه المسبق</p><p class="term-def">رغبات المريض الصحية المكتوبة مسبقًا</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Do not resuscitate</h3><p class="subject-desc">عدم الإنعاش</p><p class="term-def">أمر بعدم إجراء الإنعاش</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bereavement</h3><p class="subject-desc">الحداد</p><p class="term-def">الاستجابة لفقدان شخص عزيز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dying patient</h3><p class="subject-desc">المريض المحتضر</p><p class="term-def">مريض في المراحل النهائية</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="pgroups">
+      <h2 class="section-title">34. المجموعات الدوائية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Antiviral</h3><p class="subject-desc">مضاد فيروسات</p><p class="term-def">دواء ضد الفيروسات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antifungal</h3><p class="subject-desc">مضاد فطريات</p><p class="term-def">دواء ضد الفطريات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antiparasitic</h3><p class="subject-desc">مضاد طفيليات</p><p class="term-def">دواء ضد الطفيليات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">NSAID</h3><p class="subject-desc">مضاد التهاب غير ستيرويدي</p><p class="term-def">يسكن الألم ويخفض الالتهاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antihypertensive</h3><p class="subject-desc">خافض ضغط الدم</p><p class="term-def">دواء لعلاج ارتفاع الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Beta blocker</h3><p class="subject-desc">حاصر بيتا</p><p class="term-def">يبطئ القلب ويخفض الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">ACE inhibitor</h3><p class="subject-desc">مثبط الإنزيم المحول للأنجيوتنسين</p><p class="term-def">يخفض الضغط ويحمي الكلى</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Calcium channel blocker</h3><p class="subject-desc">حاصر قنوات الكالسيوم</p><p class="term-def">يوسع الأوعية ويخفض الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Statin</h3><p class="subject-desc">ستاتين</p><p class="term-def">يخفض الكوليسترول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antiplatelet</h3><p class="subject-desc">مضاد صفائح</p><p class="term-def">يمنع التصاق الصفائح</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Thrombolytic</h3><p class="subject-desc">مذيب جلطات</p><p class="term-def">يذيب الجلطة الموجودة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Bronchodilator</h3><p class="subject-desc">موسع شعب</p><p class="term-def">يوسع الشعب الهوائية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Corticosteroid</h3><p class="subject-desc">كورتيكوستيرويد</p><p class="term-def">مضاد التهاب قوي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antihistamine</h3><p class="subject-desc">مضاد هيستامين</p><p class="term-def">يخفف أعراض الحساسية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Proton pump inhibitor</h3><p class="subject-desc">مثبط مضخة البروتون</p><p class="term-def">يقلل حمض المعدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antiemetic</h3><p class="subject-desc">مضاد قيء</p><p class="term-def">يخفف الغثيان والقيء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Laxative</h3><p class="subject-desc">ملين</p><p class="term-def">يسهل إخراج البراز</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antidiarrheal</h3><p class="subject-desc">مضاد إسهال</p><p class="term-def">يقلل الإسهال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anticonvulsant</h3><p class="subject-desc">مضاد صرع</p><p class="term-def">يمنع التشنجات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antidepressant</h3><p class="subject-desc">مضاد اكتئاب</p><p class="term-def">يعالج الاكتئاب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antipsychotic</h3><p class="subject-desc">مضاد ذهان</p><p class="term-def">يعالج الذهان</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Benzodiazepine</h3><p class="subject-desc">بنزوديازيبين</p><p class="term-def">مهدئ ومنوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Opioid</h3><p class="subject-desc">أفيوني</p><p class="term-def">مسكن قوي من مشتقات الأفيون</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sedative</h3><p class="subject-desc">مهدئ</p><p class="term-def">يخفف التوتر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypnotic</h3><p class="subject-desc">منوم</p><p class="term-def">يحفز النوم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Muscle relaxant</h3><p class="subject-desc">مرخي عضلات</p><p class="term-def">يخفف التشنج العضلي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anesthetic</h3><p class="subject-desc">مخدر</p><p class="term-def">يسبب فقدان الإحساس</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hypoglycemic agent</h3><p class="subject-desc">خافض سكر</p><p class="term-def">يخفض سكر الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hormone replacement</h3><p class="subject-desc">علاج هرموني تعويضي</p><p class="term-def">يعوض هرمونات ناقصة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Immunosuppressant</h3><p class="subject-desc">مثبط مناعة</p><p class="term-def">يضعف الجهاز المناعي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Chemotherapy</h3><p class="subject-desc">العلاج الكيميائي</p><p class="term-def">أدوية تقتل الخلايا السرطانية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vasopressor</h3><p class="subject-desc">رافع ضغط</p><p class="term-def">يرفع ضغط الدم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Inotrope</h3><p class="subject-desc">مقوٍّ لعضلة القلب</p><p class="term-def">يزيد قوة انقباض القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antiarrhythmic</h3><p class="subject-desc">مضاد اضطراب النظم</p><p class="term-def">يعالج اضطرابات نظم القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antacid</h3><p class="subject-desc">مضاد حموضة</p><p class="term-def">يعادل حمض المعدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Expectorant</h3><p class="subject-desc">مقشع</p><p class="term-def">يسهل خروج البلغم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antitussive</h3><p class="subject-desc">مضاد سعال</p><p class="term-def">يخفف السعال</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Decongestant</h3><p class="subject-desc">مزيل احتقان</p><p class="term-def">يخفف انسداد الأنف</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Anthelmintic</h3><p class="subject-desc">طارد ديدان</p><p class="term-def">يعالج الديدان المعوية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Antidote</h3><p class="subject-desc">ترياق</p><p class="term-def">يعاكس تأثير سم أو دواء</p></div>
+      </div>
+    </section>
+
+    <section class="terms-section" id="drugs2">
+      <h2 class="section-title">35. أدوية إضافية بأسمائها العلمية</h2>
+      <div class="grid">
+        <div class="subject-card"><h3 class="subject-name-ar">Ciprofloxacin</h3><p class="subject-desc">سيبروفلوكساسين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي كينولوني<br><b>الاستخدام العام:</b> عدوى المسالك البولية والتنفسية وغيرها</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Metronidazole</h3><p class="subject-desc">ميترونيدازول</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي ومضاد طفيليات<br><b>الاستخدام العام:</b> عدوى لاهوائية وطفيلية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vancomycin</h3><p class="subject-desc">فانكومايسين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي جليكوببتيدي<br><b>الاستخدام العام:</b> عدوى المكورات العنقودية المقاومة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Gentamicin</h3><p class="subject-desc">جنتامايسين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي أمينوجليكوزيد<br><b>الاستخدام العام:</b> عدوى بكتيرية شديدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Clarithromycin</h3><p class="subject-desc">كلاريثروميسين</p><p class="term-drug"><b>المجموعة:</b> مضاد حيوي ماكروليد<br><b>الاستخدام العام:</b> عدوى تنفسية وجرثومة المعدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fluconazole</h3><p class="subject-desc">فلوكونازول</p><p class="term-drug"><b>المجموعة:</b> مضاد فطريات<br><b>الاستخدام العام:</b> داء المبيضات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Acyclovir</h3><p class="subject-desc">أسيكلوفير</p><p class="term-drug"><b>المجموعة:</b> مضاد فيروسات<br><b>الاستخدام العام:</b> الهربس والجديري المائي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Atorvastatin</h3><p class="subject-desc">أتورفاستاتين</p><p class="term-drug"><b>المجموعة:</b> ستاتين<br><b>الاستخدام العام:</b> خفض الكوليسترول</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Clopidogrel</h3><p class="subject-desc">كلوبيدوجريل</p><p class="term-drug"><b>المجموعة:</b> مضاد صفائح<br><b>الاستخدام العام:</b> الوقاية من الجلطات القلبية والدماغية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Enoxaparin</h3><p class="subject-desc">إينوكساپارين</p><p class="term-drug"><b>المجموعة:</b> هيبارين منخفض الوزن<br><b>الاستخدام العام:</b> الوقاية من الجلطات الوريدية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Losartan</h3><p class="subject-desc">لوسارتان</p><p class="term-drug"><b>المجموعة:</b> حاصر مستقبلات الأنجيوتنسين<br><b>الاستخدام العام:</b> ارتفاع الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Spironolactone</h3><p class="subject-desc">سبيرونولاكتون</p><p class="term-drug"><b>المجموعة:</b> مدر موفر للبوتاسيوم<br><b>الاستخدام العام:</b> فشل القلب والاستسقاء</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Digoxin</h3><p class="subject-desc">ديجوكسين</p><p class="term-drug"><b>المجموعة:</b> جليكوزيد قلبي<br><b>الاستخدام العام:</b> فشل القلب والرجفان الأذيني</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Amiodarone</h3><p class="subject-desc">أميودارون</p><p class="term-drug"><b>المجموعة:</b> مضاد اضطراب النظم<br><b>الاستخدام العام:</b> اضطرابات نظم القلب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Nitroglycerin</h3><p class="subject-desc">نيتروجليسرين</p><p class="term-drug"><b>المجموعة:</b> موسع أوعية<br><b>الاستخدام العام:</b> الذبحة الصدرية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dopamine</h3><p class="subject-desc">دوبامين</p><p class="term-drug"><b>المجموعة:</b> مقوٍّ قلبي ورافع ضغط<br><b>الاستخدام العام:</b> الصدمة وهبوط الضغط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Glibenclamide</h3><p class="subject-desc">جليبنكلاميد</p><p class="term-drug"><b>المجموعة:</b> سلفونيل يوريا<br><b>الاستخدام العام:</b> السكري من النوع الثاني</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Levothyroxine</h3><p class="subject-desc">ليفوثيروكسين</p><p class="term-drug"><b>المجموعة:</b> هرمون درقي<br><b>الاستخدام العام:</b> قصور الغدة الدرقية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Hydrocortisone</h3><p class="subject-desc">هيدروكورتيزون</p><p class="term-drug"><b>المجموعة:</b> كورتيكوستيرويد<br><b>الاستخدام العام:</b> حالات التهابية وقصور الكظر</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Dexamethasone</h3><p class="subject-desc">ديكساميثازون</p><p class="term-drug"><b>المجموعة:</b> كورتيكوستيرويد<br><b>الاستخدام العام:</b> الالتهاب وتورم الدماغ</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ranitidine</h3><p class="subject-desc">رانيتيدين</p><p class="term-drug"><b>المجموعة:</b> مضاد مستقبلات H2<br><b>الاستخدام العام:</b> حموضة المعدة (سُحب في دول عدة)</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Metoclopramide</h3><p class="subject-desc">ميتوكلوبراميد</p><p class="term-drug"><b>المجموعة:</b> مضاد قيء<br><b>الاستخدام العام:</b> الغثيان وبطء إفراغ المعدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lactulose</h3><p class="subject-desc">لاكتيولوز</p><p class="term-drug"><b>المجموعة:</b> ملين<br><b>الاستخدام العام:</b> الإمساك وغيبوبة الكبد</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Loratadine</h3><p class="subject-desc">لوراتادين</p><p class="term-drug"><b>المجموعة:</b> مضاد هيستامين<br><b>الاستخدام العام:</b> الحساسية</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Diclofenac</h3><p class="subject-desc">ديكلوفيناك</p><p class="term-drug"><b>المجموعة:</b> مضاد التهاب غير ستيرويدي<br><b>الاستخدام العام:</b> ألم والتهاب المفاصل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Tramadol</h3><p class="subject-desc">ترامادول</p><p class="term-drug"><b>المجموعة:</b> مسكن أفيوني ضعيف<br><b>الاستخدام العام:</b> ألم متوسط</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Fentanyl</h3><p class="subject-desc">فنتانيل</p><p class="term-drug"><b>المجموعة:</b> مسكن أفيوني قوي<br><b>الاستخدام العام:</b> ألم شديد والتخدير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Midazolam</h3><p class="subject-desc">ميدازولام</p><p class="term-drug"><b>المجموعة:</b> بنزوديازيبين<br><b>الاستخدام العام:</b> تهدئة وتحضير للتخدير</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Propofol</h3><p class="subject-desc">بروبوفول</p><p class="term-drug"><b>المجموعة:</b> مخدر وريدي<br><b>الاستخدام العام:</b> بدء التخدير العام والتهدئة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lidocaine</h3><p class="subject-desc">ليدوكايين</p><p class="term-drug"><b>المجموعة:</b> مخدر موضعي<br><b>الاستخدام العام:</b> تخدير موضعي ومضاد نظم</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Phenytoin</h3><p class="subject-desc">فينيتوين</p><p class="term-drug"><b>المجموعة:</b> مضاد صرع<br><b>الاستخدام العام:</b> نوبات الصرع</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Carbamazepine</h3><p class="subject-desc">كاربامازيبين</p><p class="term-drug"><b>المجموعة:</b> مضاد صرع<br><b>الاستخدام العام:</b> الصرع وألم العصب الثلاثي</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Sertraline</h3><p class="subject-desc">سيرترالين</p><p class="term-drug"><b>المجموعة:</b> مضاد اكتئاب SSRI<br><b>الاستخدام العام:</b> الاكتئاب والقلق</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Lithium</h3><p class="subject-desc">ليثيوم</p><p class="term-drug"><b>المجموعة:</b> مثبت مزاج<br><b>الاستخدام العام:</b> اضطراب ثنائي القطب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Risperidone</h3><p class="subject-desc">ريسبيريدون</p><p class="term-drug"><b>المجموعة:</b> مضاد ذهان<br><b>الاستخدام العام:</b> الفصام وثنائي القطب</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Vitamin K</h3><p class="subject-desc">فيتامين ك</p><p class="term-drug"><b>المجموعة:</b> فيتامين<br><b>الاستخدام العام:</b> عكس تأثير الوارفارين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Protamine sulfate</h3><p class="subject-desc">بروتامين سلفات</p><p class="term-drug"><b>المجموعة:</b> ترياق<br><b>الاستخدام العام:</b> عكس الهيبارين</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Flumazenil</h3><p class="subject-desc">فلومازينيل</p><p class="term-drug"><b>المجموعة:</b> ترياق<br><b>الاستخدام العام:</b> عكس البنزوديازيبينات</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Activated charcoal</h3><p class="subject-desc">الفحم المنشط</p><p class="term-drug"><b>المجموعة:</b> ممتز<br><b>الاستخدام العام:</b> امتصاص بعض السموم في المعدة</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Oxytocin</h3><p class="subject-desc">أوكسيتوسين</p><p class="term-drug"><b>المجموعة:</b> هرمون<br><b>الاستخدام العام:</b> تحفيز الولادة ومنع النزف بعدها</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Magnesium sulfate</h3><p class="subject-desc">كبريتات المغنيسيوم</p><p class="term-drug"><b>المجموعة:</b> مضاد تشنج<br><b>الاستخدام العام:</b> الوقاية من تشنجات تسمم الحمل</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Ipratropium</h3><p class="subject-desc">إبراتروبيوم</p><p class="term-drug"><b>المجموعة:</b> موسع شعب مضاد كولين<br><b>الاستخدام العام:</b> COPD والربو</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Budesonide</h3><p class="subject-desc">بوديزونيد</p><p class="term-drug"><b>المجموعة:</b> كورتيكوستيرويد استنشاقي<br><b>الاستخدام العام:</b> الوقاية من نوبات الربو</p></div>
+        <div class="subject-card"><h3 class="subject-name-ar">Potassium chloride</h3><p class="subject-desc">كلوريد البوتاسيوم</p><p class="term-drug"><b>المجموعة:</b> معدن<br><b>الاستخدام العام:</b> علاج نقص البوتاسيوم</p></div>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -668,12 +1058,14 @@
     const noResults = document.getElementById('no-results');
     const visibleCount = document.getElementById('visible-count');
 
+    function norm(s){return s.toLocaleLowerCase('ar').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').trim();}
+
     function filterTerms() {
-      const term = (searchInput.value || '').toLocaleLowerCase('ar').trim();
+      const term = norm(searchInput.value || '');
       let visible = 0;
 
       allCards.forEach(card => {
-        const text = card.textContent.toLocaleLowerCase('ar');
+        const text = norm(card.textContent);
         const match = text.includes(term);
         card.style.display = match ? '' : 'none';
         if (match) visible++;
@@ -691,6 +1083,35 @@
 
     searchInput.addEventListener('input', filterTerms);
     visibleCount.textContent = allCards.length;
+
+    /* نطق إنجليزي لكل مصطلح عبر محرك الصوت في المتصفح (بدون مكتبات) */
+    (function(){
+      if(!('speechSynthesis' in window)) return;
+      const asWords=['GERD','NSAID','ARDS','COPD','AIDS','HIV','AKI','CKD'];
+      const lettersOnly=/^[A-Z0-9]{2,7}$/;
+      function speakable(t){
+        t=t.replace(/\(.*?\)/g,' ').replace(/[\/–—-]/g,' ').trim();
+        if(lettersOnly.test(t)&&!asWords.includes(t)) return t.split('').join(' ');
+        return t;
+      }
+      let current=null;
+      allCards.forEach(card=>{
+        const h=card.querySelector('h3'); if(!h) return;
+        const btn=document.createElement('button');
+        btn.type='button'; btn.className='speak-btn'; btn.textContent='🔊';
+        btn.setAttribute('aria-label','استمع لنطق '+h.textContent); btn.title='استمع للنطق';
+        btn.addEventListener('click',()=>{
+          speechSynthesis.cancel();
+          if(current) current.classList.remove('playing');
+          const u=new SpeechSynthesisUtterance(speakable(h.textContent));
+          u.lang='en-US'; u.rate=0.85;
+          u.onend=u.onerror=()=>btn.classList.remove('playing');
+          current=btn; btn.classList.add('playing'); speechSynthesis.speak(u);
+        });
+        h.after(btn);
+      });
+    })();
+
   </script>
 </body>
 </html>
