@@ -1,243 +1,209 @@
+// pronunciation.js — مدرب النطق الطبي: سماع + تسجيل + تقييم + ترجمة ما قلته من القاموس
 const $ = (id) => document.getElementById(id);
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-const select = $('ph-term-select');
-const termCard = $('ph-term-card');
-const speakBtn = $('ph-speak');
-const nextBtn = $('ph-next');
-const startBtn = $('ph-start');
-const stopBtn = $('ph-stop');
-const statusEl = $('ph-status');
-const transcriptEl = $('ph-transcript');
-const scoreEl = $('ph-score');
-const playback = $('ph-playback');
+let terms = [];                 // {en, ar, note, key}
+const index = new Map();        // key (normalized en) → term
+let current = null;
+let recog = null, recorder = null, stream = null, playbackUrl = null;
+let heard = [], recErr = '', active = false;
 
-let terms = [];
-let selectedTerm = null;
-let recorder = null;
-let mediaStream = null;
-let chunks = [];
-let recognition = null;
-let recognizedText = '';
-let recognitionAvailable = false;
-let audioUrl = null;
+/* ───────── أدوات ───────── */
+const clean = (s) => s.replace(/\(.*?\)/g, ' ').replace(/\s+/g, ' ').trim();           // "Intravenous (IV)" → "Intravenous"
+const norm = (s) => s.toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9\s']/g, ' ').replace(/\s+/g, ' ').trim();
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const status = (t) => { $('ph-status').textContent = t; };
 
-function normalize(text) {
-  return (text || '').toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function similarity(expected, actual) {
-  const a = normalize(expected).split(' ').filter(Boolean);
-  const b = normalize(actual).split(' ').filter(Boolean);
-  if (!a.length || !b.length) return 0;
-  const remaining = [...b];
-  let matches = 0;
-  for (const word of a) {
-    const index = remaining.indexOf(word);
-    if (index !== -1) {
-      matches++;
-      remaining.splice(index, 1);
-    }
+function sim(a, b) {            // تشابه 0..1 (Levenshtein)
+  if (!a || !b) return 0;
+  const m = a.length, n = b.length;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++)
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
   }
-  return Math.round((matches / a.length) * 100);
+  return 1 - prev[n] / Math.max(m, n);
 }
 
-function setStatus(message) {
-  statusEl.textContent = message;
-}
+/* ستايل بسيط للعناصر اللي بتتولد من الـ JS */
+document.head.appendChild(Object.assign(document.createElement('style'), { textContent: `
+  .ph-t-en{font-size:26px;font-weight:900;direction:ltr;text-align:center;color:var(--primary,#0d9488);margin:0}
+  .ph-t-ar{font-size:20px;font-weight:800;text-align:center;margin:6px 0 0}
+  .ph-t-note{text-align:center;color:var(--text-muted,#64748b);margin:6px 0 0;line-height:1.7}
+  .ph-tr{margin-top:14px;padding:14px;border-radius:14px;border:1px dashed var(--primary,#0d9488)}
+  .ph-tr h3{margin:0 0 8px;font-size:16px}
+  .ph-tr p{margin:4px 0;line-height:1.8}
+  .ph-tr .en{direction:ltr;unicode-bidi:embed;font-weight:800}
+  .ph-alt{direction:ltr;text-align:left;color:var(--text-muted,#64748b);font-size:14px}
+` }));
 
-function renderTerm() {
-  if (!selectedTerm) return;
-  termCard.innerHTML = '';
-  const en = document.createElement('p');
-  en.className = 'ph-term-en';
-  en.dir = 'ltr';
-  en.textContent = selectedTerm.english;
-  const ar = document.createElement('p');
-  ar.className = 'ph-term-ar';
-  ar.textContent = selectedTerm.arabic || 'لا توجد ترجمة مسجلة';
-  termCard.append(en, ar);
-  speakBtn.disabled = false;
-}
-
-function chooseTerm(value) {
-  selectedTerm = terms.find((term) => term.id === value) || null;
-  renderTerm();
-  transcriptEl.textContent = 'لم يتم تسجيل محاولة لهذا المصطلح بعد.';
-  scoreEl.hidden = true;
-}
-
+/* ───────── تحميل القاموس من terms.html ───────── */
 async function loadTerms() {
   try {
-    const response = await fetch(new URL('terms.html', window.location.href));
-    if (!response.ok) throw new Error('تعذر فتح صفحة القاموس.');
-    const html = await response.text();
-    const parsed = new DOMParser().parseFromString(html, 'text/html');
-    const cards = [...parsed.querySelectorAll('.subject-card')];
+    const res = await fetch('terms.html', { cache: 'no-cache' });
+    if (!res.ok) throw new Error(res.status);
+    const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    terms = [...doc.querySelectorAll('.subject-card')].map((c) => {
+      const en = c.querySelector('.subject-name-ar')?.textContent.trim() || '';
+      return { en, ar: c.querySelector('.subject-desc')?.textContent.trim() || '',
+               note: c.querySelector('small')?.textContent.trim() || '', key: norm(en) };
+    }).filter((t) => t.en && t.key);
+    if (!terms.length) throw new Error('empty');
+    terms.forEach((t) => index.set(t.key, t));
 
-    terms = cards.map((card, index) => ({
-      id: String(index),
-      english: card.querySelector('.subject-name-ar')?.textContent.trim() || '',
-      arabic: card.querySelector('.subject-desc')?.textContent.trim() || ''
-    })).filter((term) => term.english);
-
-    if (!terms.length) throw new Error('لم يتم العثور على مصطلحات. تأكد من وجود بطاقات .subject-card في terms.html.');
-
-    select.innerHTML = '';
-    for (const term of terms) {
-      const option = document.createElement('option');
-      option.value = term.id;
-      option.textContent = term.english + (term.arabic ? ` — ${term.arabic}` : '');
-      select.appendChild(option);
-    }
-    select.disabled = false;
-    nextBtn.disabled = false;
-    chooseTerm(terms[0].id);
-    setStatus(`تم تحميل ${terms.length} مصطلحًا من القاموس.`);
-  } catch (error) {
-    select.innerHTML = '<option value="">تعذر تحميل القاموس</option>';
-    setStatus(`${error.message} تأكد أن pronunciation.html وterms.html على نفس الموقع.`);
-    console.error('[Pronunciation Trainer]', error);
+    const sel = $('ph-term-select');
+    sel.replaceChildren(...terms.map((t, i) => Object.assign(new Option(`${t.en} — ${t.ar}`, i))));
+    ['ph-speak', 'ph-next'].forEach((id) => ($(id).disabled = false));
+    pick(0);
+  } catch (e) {
+    console.error(e);
+    $('ph-term-select').replaceChildren(new Option('تعذر تحميل القاموس', ''));
+    $('ph-term-card').replaceChildren(el('p', 'ph-muted', 'تأكد إن terms.html في نفس المجلد وإن الصفحة بتتفتح من نفس الموقع (مش file://).'));
   }
 }
 
-select.addEventListener('change', () => chooseTerm(select.value));
-
-speakBtn.addEventListener('click', () => {
-  if (!selectedTerm || !('speechSynthesis' in window)) {
-    setStatus('ميزة النطق الصوتي غير مدعومة في هذا المتصفح.');
-    return;
-  }
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(selectedTerm.english);
-  utterance.lang = 'en-US';
-  utterance.rate = 0.82;
-  window.speechSynthesis.speak(utterance);
-});
-
-nextBtn.addEventListener('click', () => {
-  if (!terms.length) return;
-  let candidate = terms[Math.floor(Math.random() * terms.length)];
-  if (terms.length > 1 && candidate.id === selectedTerm?.id) {
-    candidate = terms[(terms.findIndex(t => t.id === candidate.id) + 1) % terms.length];
-  }
-  select.value = candidate.id;
-  chooseTerm(candidate.id);
-});
-
-function setupRecognition() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) return null;
-  const instance = new SpeechRecognition();
-  instance.lang = 'en-US';
-  instance.continuous = true;
-  instance.interimResults = true;
-  instance.onresult = (event) => {
-    let text = '';
-    for (let i = 0; i < event.results.length; i++) {
-      text += event.results[i][0].transcript + ' ';
-    }
-    recognizedText = text.trim();
-    transcriptEl.textContent = recognizedText || 'جارٍ انتظار الكلام...';
-  };
-  instance.onerror = (event) => setStatus(`مشكلة في التعرف الصوتي: ${event.error}`);
-  instance.onend = () => {
-    if (stopBtn.disabled === false) setStatus('انتهى التعرف الصوتي. اضغط إيقاف لإنهاء المحاولة.');
-  };
-  return instance;
+function pick(i) {
+  current = terms[i];
+  $('ph-term-select').value = i;
+  $('ph-term-card').replaceChildren(
+    el('p', 'ph-t-en', current.en), el('p', 'ph-t-ar', current.ar), el('p', 'ph-t-note', current.note));
+  resetResult();
 }
 
-async function startRecording() {
-  if (!selectedTerm) return;
-  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-    setStatus('تسجيل الصوت غير مدعوم. استخدم متصفحًا حديثًا واتصالًا آمنًا HTTPS.');
-    return;
-  }
+function resetResult() {
+  $('ph-transcript').textContent = 'لم يتم تسجيل محاولة بعد.';
+  $('ph-score').hidden = true;
+  $('ph-translation')?.remove();
+  $('ph-playback').hidden = true;
+}
 
-  try {
-    recognizedText = '';
-    chunks = [];
-    transcriptEl.textContent = 'جارٍ الاستماع...';
-    scoreEl.hidden = true;
-    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    recorder = new MediaRecorder(mediaStream);
-    recorder.ondataavailable = (event) => {
-      if (event.data.size) chunks.push(event.data);
-    };
+/* ───────── النطق ───────── */
+function speak() {
+  if (!current || !('speechSynthesis' in window)) return status('المتصفح مش بيدعم النطق الصوتي.');
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(clean(current.en));
+  u.lang = 'en-US'; u.rate = 0.85;
+  const v = speechSynthesis.getVoices().find((x) => /^en[-_]US/i.test(x.lang)) || speechSynthesis.getVoices().find((x) => /^en/i.test(x.lang));
+  if (v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+
+/* ───────── التسجيل والتعرف ───────── */
+async function start() {
+  if (!current) return;
+  if (!SR) return status('التعرف على الكلام مش مدعوم في المتصفح ده. جرّب Chrome أو Edge.');
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch (_) { return status('لازم تسمح باستخدام الميكروفون.'); }
+
+  resetResult();
+  heard = []; recErr = ''; active = true;
+
+  try {                                   // تسجيل الصوت للإعادة (لو فشل مش مشكلة)
+    const chunks = [];
+    recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = (e) => e.data.size && chunks.push(e.data);
     recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
-      if (audioUrl) URL.revokeObjectURL(audioUrl);
-      audioUrl = URL.createObjectURL(blob);
-      playback.src = audioUrl;
-      playback.hidden = false;
-      mediaStream?.getTracks().forEach(track => track.stop());
-      mediaStream = null;
-      showResult();
+      stream?.getTracks().forEach((t) => t.stop());
+      if (!chunks.length) return;
+      if (playbackUrl) URL.revokeObjectURL(playbackUrl);
+      playbackUrl = URL.createObjectURL(new Blob(chunks, { type: recorder.mimeType }));
+      Object.assign($('ph-playback'), { src: playbackUrl, hidden: false });
     };
-
     recorder.start();
-    recognition = setupRecognition();
-    if (recognition) {
-      recognitionAvailable = true;
-      try { recognition.start(); } catch (e) { console.warn('Recognition start:', e); }
-    } else {
-      recognitionAvailable = false;
-    }
+  } catch (_) { recorder = null; }
 
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-    setStatus(recognitionAvailable
-      ? 'التسجيل والتعرف الصوتي يعملان الآن. انطق المصطلح بالإنجليزية.'
-      : 'التسجيل يعمل، لكن التعرف الصوتي غير مدعوم؛ لن يظهر تقييم نصي.');
-  } catch (error) {
-    setStatus(error.name === 'NotAllowedError'
-      ? 'لم تسمح باستخدام الميكروفون. فعّل الإذن من إعدادات المتصفح.'
-      : `تعذر بدء التسجيل: ${error.message}`);
-  }
+  recog = new SR();
+  recog.lang = 'en-US'; recog.interimResults = false; recog.maxAlternatives = 5; recog.continuous = false;
+  recog.onresult = (e) => { heard = [...e.results[e.results.length - 1]].map((a) => a.transcript.trim()).filter(Boolean); };
+  recog.onerror = (e) => { recErr = e.error; };
+  recog.onend = finish;
+  recog.start();
+
+  $('ph-start').disabled = true; $('ph-stop').disabled = false;
+  status(`بسجّل... انطق: ${clean(current.en)}`);
 }
 
-function stopRecording() {
-  if (recognition) {
-    try { recognition.stop(); } catch (_) {}
-    recognition = null;
-  }
-  if (recorder && recorder.state !== 'inactive') recorder.stop();
-  startBtn.disabled = false;
-  stopBtn.disabled = true;
-  setStatus('تم إيقاف التسجيل.');
+function stop() {
+  try { recog?.stop(); } catch (_) {}
 }
 
-function showResult() {
-  if (!recognitionAvailable || !recognizedText) {
-    transcriptEl.textContent = recognizedText || 'لم يستطع المتصفح تحويل التسجيل إلى نص. يمكنك تشغيل التسجيل والاستماع إليه.';
-    scoreEl.hidden = true;
+function finish() {
+  if (!active) return;
+  active = false;
+  if (recorder && recorder.state !== 'inactive') recorder.stop(); else stream?.getTracks().forEach((t) => t.stop());
+  $('ph-start').disabled = false; $('ph-stop').disabled = true;
+  status('تم التسجيل.');
+  evaluate();
+}
+
+/* ───────── الترجمة من القاموس ───────── */
+function translate(text) {
+  const n = norm(text);
+  if (!n) return null;
+  if (index.has(n)) return { kind: 'exact', term: index.get(n) };
+
+  let best = null, bs = 0;
+  for (const t of terms) { const s = sim(n, t.key); if (s > bs) { bs = s; best = t; } }
+  if (best && bs >= 0.72) return { kind: 'close', term: best, score: bs };
+
+  const words = [...new Set(n.split(' '))].map((w) => index.get(w)).filter(Boolean);
+  if (words.length) return { kind: 'words', list: words };
+  return null;
+}
+
+function evaluate() {
+  const tr = $('ph-transcript');
+  if (!heard.length) {
+    tr.textContent = recErr === 'not-allowed' ? 'المتصفح منع التعرف على الكلام. اسمح بالميكروفون.'
+      : recErr === 'network' ? 'التعرف على الكلام محتاج اتصال إنترنت.'
+      : 'ما سمعتش كلام واضح. جرّب تاني وقرّب من الميكروفون.';
+    $('ph-score').hidden = true;
     return;
   }
-  const score = similarity(selectedTerm.english, recognizedText);
-  transcriptEl.textContent = recognizedText;
-  scoreEl.textContent = `تطابق الكلمات التقريبي: ${score}%`;
-  scoreEl.hidden = false;
+
+  // ما سمعه المتصفح
+  tr.replaceChildren(el('div', null, `سمعتك تقول: «${heard[0]}»`));
+  if (heard.length > 1) tr.appendChild(el('div', 'ph-alt', 'احتمالات تانية: ' + heard.slice(1).join(' | ')));
+
+  // التقييم مقابل المصطلح المطلوب
+  const pct = Math.round(sim(norm(heard[0]), norm(current.en)) * 100);
+  const label = pct >= 85 ? 'ممتاز 👏' : pct >= 65 ? 'جيد، قرّب 👍' : 'حاول تاني 🔁';
+  const sc = $('ph-score');
+  sc.hidden = false;
+  sc.textContent = `التطابق مع «${clean(current.en)}»: ${pct}% — ${label}`;
+
+  // الترجمة (أول احتمال له معنى في القاموس)
+  let found = null, said = '';
+  for (const h of heard) { found = translate(h); if (found) { said = h; break; } }
+  const box = el('div', 'ph-tr'); box.id = 'ph-translation';
+  box.appendChild(el('h3', null, '🌐 معنى اللي قلته'));
+  if (!found) {
+    box.appendChild(el('p', 'ph-muted', 'مفيش مصطلح في القاموس مطابق لكلامك. جرّب تنطق مصطلح واحد بوضوح.'));
+  } else if (found.kind === 'words') {
+    found.list.forEach((t) => box.appendChild(el('p', null, `${t.en} ← ${t.ar}`)));
+  } else {
+    const t = found.term;
+    if (found.kind === 'close') box.appendChild(el('p', 'ph-muted', `أقرب مصطلح لكلامك («${said}»):`));
+    box.appendChild(el('p', 'en', t.en));
+    box.appendChild(el('p', null, `المعنى: ${t.ar}`));
+    if (t.note) box.appendChild(el('p', 'ph-muted', t.note));
+  }
+  $('ph-result').appendChild(box);
 }
 
-startBtn.addEventListener('click', startRecording);
-stopBtn.addEventListener('click', stopRecording);
+/* ───────── الأحداث ───────── */
+$('ph-term-select').addEventListener('change', (e) => e.target.value !== '' && pick(+e.target.value));
+$('ph-speak').addEventListener('click', speak);
+$('ph-next').addEventListener('click', () => pick(Math.floor(Math.random() * terms.length)));
+$('ph-start').addEventListener('click', start);
+$('ph-stop').addEventListener('click', stop);
+speechSynthesis?.addEventListener?.('voiceschanged', () => {});
 
-const themeButton = $('ph-theme-toggle');
-const savedTheme = localStorage.getItem('theme') || document.documentElement.getAttribute('data-theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-themeButton.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-themeButton.addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
-});
-
-window.addEventListener('beforeunload', () => {
-  mediaStream?.getTracks().forEach(track => track.stop());
-  if (audioUrl) URL.revokeObjectURL(audioUrl);
-});
+const tb = $('ph-theme-toggle');
+const setTheme = (t) => { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); tb.textContent = t === 'dark' ? '☀️' : '🌙'; };
+setTheme(localStorage.getItem('theme') || 'light');
+tb.addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
 loadTerms();
