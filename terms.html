@@ -6,22 +6,28 @@
   <meta name="theme-color" content="#0284c7">
   <meta name="description" content="قاموس المصطلحات الطبية والتمريضية في Nursing Hub مع ترجمة عربية مبسطة.">
   <title>المصطلحات الطبية | Nursing Hub</title>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light')</script>
   <link rel="stylesheet" href="style.css">
   <style>
     .terms-page{max-width:1100px;margin:0 auto;padding:28px 16px 110px}
     .terms-hero{padding:28px 22px;border-radius:22px;background:linear-gradient(135deg,#e0f2fe,#f0fdfa);color:#0f172a;margin-bottom:22px}
     .terms-hero h1{margin:0 0 10px;font-size:clamp(25px,4vw,36px)}
     .terms-hero p{margin:0;color:#475569;line-height:1.8}
-    .terms-tools{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
-    .terms-search{flex:1;min-width:220px;padding:13px 15px;border:1px solid #dbeafe;border-radius:13px;background:#fff;font:inherit;outline:none}
+    .terms-tools{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 12px}
+    .terms-search{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--border,#dbeafe);border-radius:13px;background:var(--white,#fff);color:var(--text,#0f172a);font:inherit;outline:none}
     .terms-search:focus{border-color:#0284c7;box-shadow:0 0 0 3px #0284c71a}
     .pronunciation-entry-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;background:var(--primary,#0d9488);color:#fff;text-decoration:none;font-weight:800}
-    .terms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-    .term-card{background:var(--card-bg,#fff);border:1px solid #e2e8f0;border-radius:16px;padding:17px;box-shadow:0 5px 18px #0f172a08}
-    .term-card h3{margin:0 0 7px;color:#0284c7;font-size:18px;direction:ltr;text-align:right}
-    .term-card p{margin:0;color:#475569;line-height:1.7}
-    .term-card small{display:block;margin-top:9px;color:#64748b}
-    .terms-empty{display:none;text-align:center;padding:25px;color:#64748b}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .chip{padding:7px 14px;border:1px solid var(--border,#e2e8f0);border-radius:999px;background:var(--white,#fff);color:var(--text-muted,#475569);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+    .chip[aria-pressed="true"]{background:#0284c7;border-color:#0284c7;color:#fff}
+    .terms-count{color:var(--text-muted,#64748b);font-size:14px;margin-bottom:12px}
+    .terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .term-card{background:var(--white,#fff);border:1px solid var(--border,#e2e8f0);border-radius:16px;padding:17px}
+    .term-card h3{margin:0 0 7px;color:var(--primary,#0284c7);font-size:18px;direction:ltr;text-align:right}
+    .term-card p{margin:0;color:var(--text,#334155);font-weight:700;line-height:1.7}
+    .term-card small{display:block;margin-top:9px;color:var(--text-muted,#64748b);line-height:1.6}
+    .terms-empty{display:none;text-align:center;padding:25px;color:var(--text-muted,#64748b)}
+    .more-btn{display:none;margin:20px auto 0;padding:12px 28px;border:0;border-radius:12px;background:#0369a1;color:#fff;font:inherit;font-weight:800;cursor:pointer}
     @media(max-width:600px){.terms-page{padding:18px 12px 100px}.terms-hero{padding:22px 17px}.terms-tools{flex-direction:column}.pronunciation-entry-link{width:100%;box-sizing:border-box}}
   </style>
 </head>
@@ -29,53 +35,279 @@
   <main class="terms-page">
     <section class="terms-hero">
       <h1>المصطلحات الطبية</h1>
-      <p>قاموس صغير يساعدك تتعرف على أشهر المصطلحات الطبية والتمريضية ومعانيها بالعربي.</p>
+      <p>قاموس يساعدك تتعرف على أشهر المصطلحات الطبية والتمريضية ومعانيها بالعربي، مقسّم حسب التخصص.</p>
     </section>
 
     <div class="terms-tools">
-      <input id="termSearch" class="terms-search" type="search" placeholder="ابحث عن مصطلح أو معناه..." aria-label="البحث في المصطلحات">
+      <input id="termSearch" class="terms-search" type="search" placeholder="ابحث بالإنجليزي أو العربي..." aria-label="البحث في المصطلحات">
       <a class="pronunciation-entry-link" href="pronunciation.html">🎙️ افتح مدرب النطق الطبي</a>
     </div>
+    <div class="chips" id="chips" role="group" aria-label="تصفية حسب التخصص"></div>
+    <div class="terms-count" id="termsCount" aria-live="polite"></div>
 
-    <section class="terms-grid" id="termsGrid" aria-label="قائمة المصطلحات">
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Diagnosis</h3><p class="subject-desc">التشخيص</p><small>تحديد الحالة أو المرض بناءً على التقييم والفحوصات.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Assessment</h3><p class="subject-desc">التقييم</p><small>جمع بيانات المريض ومراجعتها لتحديد احتياجاته.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Symptom</h3><p class="subject-desc">عَرَض</p><small>شيء يشعر به المريض ويصفه، مثل الألم أو الغثيان.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Sign</h3><p class="subject-desc">علامة</p><small>معلومة يمكن ملاحظتها أو قياسها، مثل ارتفاع الحرارة.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Vital Signs</h3><p class="subject-desc">العلامات الحيوية</p><small>تشمل الحرارة والنبض والتنفس وضغط الدم.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Pulse</h3><p class="subject-desc">النبض</p><small>عدد ضربات القلب المحسوسة خلال دقيقة.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Respiration</h3><p class="subject-desc">التنفس</p><small>عملية دخول وخروج الهواء وتبادل الغازات.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Blood Pressure</h3><p class="subject-desc">ضغط الدم</p><small>ضغط الدم على جدران الأوعية الدموية.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Temperature</h3><p class="subject-desc">درجة الحرارة</p><small>قياس حرارة الجسم.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Infection</h3><p class="subject-desc">عدوى</p><small>دخول وتكاثر كائنات دقيقة ممرضة داخل الجسم.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Inflammation</h3><p class="subject-desc">التهاب</p><small>استجابة الجسم للإصابة أو العدوى أو التهيّج.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Medication</h3><p class="subject-desc">دواء</p><small>مادة تُستخدم للوقاية من المرض أو علاجه أو تخفيف أعراضه.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Administration</h3><p class="subject-desc">إعطاء / تقديم</p><small>إيصال الدواء أو العلاج للمريض بالطريقة المحددة.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Intravenous (IV)</h3><p class="subject-desc">عن طريق الوريد</p><small>إعطاء مادة مباشرة داخل الوريد.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Intramuscular (IM)</h3><p class="subject-desc">عن طريق العضل</p><small>إعطاء الحقن داخل العضلة.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Subcutaneous (SC)</h3><p class="subject-desc">تحت الجلد</p><small>إعطاء الحقن في النسيج الموجود أسفل الجلد.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar"> asepsis </h3><p class="subject-desc">منع التلوث / اللاتلوث</p><small>إجراءات منع دخول أو انتقال الميكروبات.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Sterile</h3><p class="subject-desc">معقّم</p><small>خالي من الكائنات الدقيقة القابلة للحياة.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Disinfection</h3><p class="subject-desc">تطهير</p><small>تقليل أو إزالة كثير من الميكروبات على الأسطح والأدوات.</small></article>
-      <article class="term-card subject-card"><h3 class="subject-name-ar">Patient</h3><p class="subject-desc">مريض</p><small>الشخص الذي يتلقى الرعاية الصحية.</small></article>
-    </section>
+    <section class="terms-grid" id="termsGrid" aria-label="قائمة المصطلحات"></section>
     <p class="terms-empty" id="termsEmpty">مفيش مصطلحات مطابقة لبحثك.</p>
+    <button class="more-btn" id="moreBtn" type="button">عرض المزيد</button>
   </main>
 
   <script>
-    const searchInput = document.getElementById('termSearch');
-    const cards = [...document.querySelectorAll('.term-card')];
-    const emptyState = document.getElementById('termsEmpty');
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.trim().toLowerCase();
-      let visible = 0;
-      cards.forEach(card => {
-        const match = card.textContent.toLowerCase().includes(query);
-        card.hidden = !match;
-        if (match) visible++;
-      });
-      emptyState.style.display = visible ? 'none' : 'block';
+    /* الصيغة: كود التخصص|English|العربي|شرح قصير
+       لإضافة مصطلحات: ضيف سطر جديد في أي مكان (الترتيب الأبجدي تلقائي). */
+    const CATS = {g:'أساسيات',v:'علامات حيوية',m:'أدوية وحقن',i:'مكافحة العدوى',r:'تنفس',c:'قلب ودورة دموية',d:'هضمي وكلى',n:'أعصاب',x:'غدد وسكر',w:'أمومة وأطفال',e:'طوارئ وجروح'};
+    const DATA = `
+g|Diagnosis|التشخيص|تحديد الحالة بناءً على التقييم والفحوصات.
+g|Assessment|التقييم|جمع بيانات المريض لتحديد احتياجاته.
+g|Symptom|عَرَض|شيء يشعر به المريض، مثل الألم.
+g|Sign|علامة|شيء يمكن ملاحظته أو قياسه، مثل الحرارة.
+g|Patient|مريض|الشخص الذي يتلقى الرعاية الصحية.
+g|Nursing Process|عملية التمريض|تقييم، تشخيص، تخطيط، تنفيذ، تقويم.
+g|Planning|التخطيط|وضع أهداف وخطة رعاية للمريض.
+g|Implementation|التنفيذ|تطبيق خطة الرعاية فعلياً.
+g|Evaluation|التقويم|مراجعة مدى تحقق أهداف الرعاية.
+g|Prognosis|مآل المرض|توقع مسار المرض ونتيجته.
+g|Etiology|مسببات المرض|سبب حدوث المرض.
+g|Acute|حاد|يبدأ فجأة ويستمر مدة قصيرة.
+g|Chronic|مزمن|يستمر مدة طويلة أو يتكرر.
+g|Informed Consent|الموافقة المستنيرة|موافقة المريض بعد فهم الإجراء ومخاطره.
+g|Admission|دخول / قبول|تسجيل دخول المريض للمستشفى.
+g|Discharge|خروج المريض|خروج المريض مع تعليمات المتابعة.
+g|Documentation|التوثيق|تسجيل الرعاية في ملف المريض.
+g|Handover|تسليم واستلام|نقل معلومات المرضى بين الورديات.
+g|Confidentiality|السرية|حماية معلومات المريض.
+g|Fowler's Position|وضع فاولر|جلوس نصف منتصب برأس السرير مرفوع.
+g|Supine|استلقاء على الظهر|وضع الاستلقاء والوجه لأعلى.
+g|Prone|انبطاح|الاستلقاء على البطن.
+g|Range of Motion (ROM)|مدى الحركة|أقصى حركة طبيعية للمفصل.
+g|Ambulation|المشي / الحركة|مساعدة المريض على المشي.
+v|Vital Signs|العلامات الحيوية|الحرارة والنبض والتنفس وضغط الدم.
+v|Pulse|النبض|عدد ضربات القلب المحسوسة في الدقيقة.
+v|Respiration|التنفس|دخول وخروج الهواء وتبادل الغازات.
+v|Blood Pressure|ضغط الدم|ضغط الدم على جدران الأوعية.
+v|Temperature|درجة الحرارة|قياس حرارة الجسم.
+v|Tachycardia|تسارع القلب|زيادة معدل النبض عن الطبيعي.
+v|Bradycardia|بطء القلب|انخفاض معدل النبض عن الطبيعي.
+v|Tachypnea|تسارع التنفس|زيادة معدل التنفس.
+v|Bradypnea|بطء التنفس|انخفاض معدل التنفس.
+v|Fever (Pyrexia)|حمى|ارتفاع درجة حرارة الجسم.
+v|Hypothermia|انخفاض حرارة الجسم|هبوط الحرارة عن الحد الطبيعي.
+v|Afebrile|بدون حمى|حرارة المريض طبيعية.
+v|Oxygen Saturation (SpO2)|تشبع الأكسجين|نسبة الأكسجين المحمول في الدم.
+v|Palpation|الجس|الفحص باللمس.
+v|Auscultation|الإصغاء (السماعة)|الاستماع لأصوات الجسم بالسماعة.
+v|Percussion|القرع|الطرق على الجسم لتقييم ما تحته.
+v|Inspection|الفحص بالنظر|ملاحظة مظهر الجسم.
+v|Pallor|شحوب|فقدان لون الجلد الطبيعي.
+v|Cyanosis|زرقة|لون مزرق بسبب نقص الأكسجين.
+v|Jaundice|يرقان|اصفرار الجلد والعينين.
+v|Edema|وذمة|تورم بسبب تجمع السوائل.
+v|Skin Turgor|مرونة الجلد|مؤشر لحالة الترطيب.
+m|Medication|دواء|مادة للوقاية أو العلاج أو تخفيف الأعراض.
+m|Administration|إعطاء / تقديم|إيصال الدواء للمريض بالطريقة المحددة.
+m|Intravenous (IV)|عن طريق الوريد|إعطاء مادة داخل الوريد.
+m|Intramuscular (IM)|عن طريق العضل|إعطاء الحقن داخل العضلة.
+m|Subcutaneous (SC)|تحت الجلد|الحقن في النسيج أسفل الجلد.
+m|Oral (PO)|عن طريق الفم|تناول الدواء بالفم.
+m|Sublingual|تحت اللسان|يُذاب الدواء أسفل اللسان.
+m|Topical|موضعي|يُوضع على الجلد.
+m|Inhalation|استنشاق|إعطاء الدواء عبر الجهاز التنفسي.
+m|Dose|جرعة|كمية الدواء في المرة الواحدة.
+m|Side Effect|عرض جانبي|أثر غير مقصود للدواء.
+m|Adverse Reaction|تفاعل ضار|رد فعل خطير غير مرغوب للدواء.
+m|Allergy|حساسية|رد فعل مناعي مبالغ فيه لمادة.
+m|Contraindication|مانع استعمال|حالة لا يُستخدم فيها الدواء.
+m|Antibiotic|مضاد حيوي|يعالج العدوى البكتيرية.
+m|Analgesic|مسكن ألم|يخفف الألم.
+m|Antipyretic|خافض حرارة|يخفض الحمى.
+m|Anticoagulant|مضاد تجلط|يمنع تكوّن الجلطات.
+m|Antihypertensive|خافض ضغط|يعالج ارتفاع ضغط الدم.
+m|Diuretic|مدر للبول|يزيد إدرار البول.
+m|PRN|عند الحاجة|يُعطى عند الاحتياج فقط.
+m|STAT|فوراً|ينفَّذ الأمر في الحال.
+m|Prescription|وصفة طبية|أمر الطبيب بصرف دواء.
+m|Five Rights|الحقوق الخمسة|المريض والدواء والجرعة والطريق والوقت الصحيح.
+m|Infusion|تسريب|إعطاء سوائل أو دواء ببطء عبر الوريد.
+m|Bolus|جرعة سريعة|جرعة كاملة تُعطى دفعة واحدة.
+m|Syringe|محقنة|أداة لسحب وحقن السوائل.
+m|Cannula|كانيولا|أنبوب صغير يُدخل في الوريد.
+i|Infection|عدوى|دخول وتكاثر كائنات دقيقة ممرضة.
+i|Inflammation|التهاب|استجابة الجسم للإصابة أو العدوى.
+i|Asepsis|منع التلوث|إجراءات منع دخول أو انتقال الميكروبات.
+i|Sterile|معقّم|خالٍ من الكائنات الدقيقة الحية.
+i|Disinfection|تطهير|تقليل الميكروبات على الأسطح والأدوات.
+i|Sterilization|تعقيم|القضاء على كل الميكروبات.
+i|Antiseptic|مطهر للجلد|مادة تقلل الميكروبات على الجلد.
+i|Hand Hygiene|نظافة اليدين|أهم وسيلة لمنع نقل العدوى.
+i|PPE|معدات الوقاية الشخصية|قفازات وكمامة ورداء ونظارة.
+i|Isolation|العزل|فصل المريض المعدي عن الآخرين.
+i|Standard Precautions|الاحتياطات القياسية|إجراءات وقاية تُطبّق مع كل المرضى.
+i|Contamination|تلوث|وجود ميكروبات على سطح أو أداة.
+i|Nosocomial Infection|عدوى المستشفيات|عدوى تحدث أثناء تلقي الرعاية.
+i|Pathogen|مُمرِض|كائن يسبب المرض.
+i|Immunity|مناعة|قدرة الجسم على مقاومة العدوى.
+i|Vaccination|تطعيم|إعطاء لقاح لبناء المناعة.
+i|Incubation Period|فترة الحضانة|من دخول الميكروب حتى ظهور الأعراض.
+i|Sharps|الأدوات الحادة|إبر ومشارط تُتخلص منها بحاويات خاصة.
+r|Dyspnea|ضيق التنفس|صعوبة أو شعور بعدم كفاية التنفس.
+r|Apnea|انقطاع التنفس|توقف التنفس مؤقتاً أو دائماً.
+r|Hypoxia|نقص الأكسجة|نقص الأكسجين في الأنسجة.
+r|Asthma|الربو|مرض مزمن يضيّق الشعب الهوائية.
+r|COPD|انسداد الرئة المزمن|مرض رئوي مزمن يعيق تدفق الهواء.
+r|Pneumonia|التهاب رئوي|عدوى تصيب أنسجة الرئة.
+r|Bronchitis|التهاب الشعب الهوائية|التهاب مجرى الهواء الكبير.
+r|Cough|سعال|طرد الهواء بقوة لتنظيف المجرى.
+r|Sputum|بلغم|إفرازات من الرئتين.
+r|Wheezing|أزيز|صوت صفير عند التنفس.
+r|Hemoptysis|نفث دم|سعال مصحوب بدم.
+r|Suction|شفط|إزالة الإفرازات من المجرى التنفسي.
+r|Intubation|التنبيب|إدخال أنبوب في القصبة الهوائية.
+r|Tracheostomy|فغر القصبة الهوائية|فتحة جراحية في الرقبة للتنفس.
+r|Ventilator|جهاز تنفس صناعي|يساعد أو يحل محل التنفس.
+r|Oxygen Therapy|العلاج بالأكسجين|إعطاء أكسجين إضافي للمريض.
+r|Nebulizer|جهاز البخار|يحوّل الدواء لرذاذ يُستنشق.
+r|Pneumothorax|استرواح الصدر|هواء في الحيز حول الرئة.
+c|Hypertension|ارتفاع ضغط الدم|ضغط دم أعلى من الطبيعي باستمرار.
+c|Hypotension|انخفاض ضغط الدم|ضغط دم أقل من الطبيعي.
+c|Myocardial Infarction|جلطة القلب|انسداد شريان يغذي عضلة القلب.
+c|Angina|ذبحة صدرية|ألم صدر بسبب نقص تروية القلب.
+c|Arrhythmia|اضطراب نظم القلب|ضربات قلب غير منتظمة.
+c|Heart Failure|فشل القلب|عجز القلب عن ضخ الدم الكافي.
+c|Cardiac Arrest|توقف القلب|توقف مفاجئ لنبض القلب.
+c|CPR|الإنعاش القلبي الرئوي|ضغطات صدر وتنفس لإنقاذ المريض.
+c|Defibrillation|الصدمة الكهربائية|صدمة لإعادة نظم القلب.
+c|ECG|رسم القلب|تسجيل النشاط الكهربائي للقلب.
+c|Atherosclerosis|تصلب الشرايين|ترسب دهون على جدران الشرايين.
+c|Thrombosis|تجلط|تكوّن جلطة داخل وعاء دموي.
+c|Embolism|انسداد بصمة|جسم يسد وعاءً دموياً بعيداً عن مصدره.
+c|Shock|صدمة|فشل الدورة الدموية في تغذية الأعضاء.
+c|Hemorrhage|نزيف|فقدان الدم من الأوعية.
+c|Anemia|فقر الدم|نقص الهيموجلوبين أو كرات الدم الحمراء.
+c|Hypovolemia|نقص حجم الدم|انخفاض كمية الدم أو السوائل.
+c|Varicose Veins|دوالي|أوردة متضخمة ملتوية.
+d|Nausea|غثيان|شعور بالرغبة في القيء.
+d|Vomiting|قيء|خروج محتويات المعدة من الفم.
+d|Diarrhea|إسهال|براز سائل متكرر.
+d|Constipation|إمساك|صعوبة أو قلة التبرز.
+d|Dehydration|جفاف|نقص سوائل الجسم.
+d|Gastritis|التهاب المعدة|التهاب بطانة المعدة.
+d|Peptic Ulcer|قرحة المعدة|جرح في بطانة المعدة أو الاثنى عشر.
+d|Hepatitis|التهاب الكبد|التهاب في نسيج الكبد.
+d|Cirrhosis|تليف الكبد|استبدال نسيج الكبد بنسيج ليفي.
+d|Appendicitis|التهاب الزائدة الدودية|التهاب يحتاج غالباً لجراحة.
+d|Ascites|استسقاء|تجمع سوائل في البطن.
+d|Dysphagia|عسر البلع|صعوبة في البلع.
+d|NPO|صيام تام|لا شيء عن طريق الفم.
+d|Nasogastric Tube|أنبوب أنفي معدي|أنبوب من الأنف للمعدة.
+d|Enema|حقنة شرجية|إدخال سائل في المستقيم.
+d|Colostomy|فغر القولون|فتحة جراحية للقولون في البطن.
+d|Urinary Catheter|قسطرة بولية|أنبوب لتصريف البول من المثانة.
+d|Dysuria|عسر التبول|ألم أو حرقان عند التبول.
+d|Oliguria|قلة البول|انخفاض كمية البول.
+d|Anuria|انعدام البول|عدم إخراج بول تقريباً.
+d|Hematuria|دم في البول|وجود دم في البول.
+d|Dialysis|غسيل كلى|إزالة الفضلات والسوائل بدل الكلى.
+d|Renal Failure|فشل كلوي|عجز الكلى عن أداء وظيفتها.
+d|UTI|التهاب المسالك البولية|عدوى في الجهاز البولي.
+d|Intake & Output|السوائل الداخلة والخارجة|مراقبة توازن سوائل المريض.
+n|Stroke|جلطة / سكتة دماغية|انقطاع الدم عن جزء من المخ.
+n|Seizure|نوبة تشنج|نشاط كهربائي غير طبيعي بالمخ.
+n|Epilepsy|صرع|نوبات تشنج متكررة.
+n|Coma|غيبوبة|فقدان وعي عميق لا يستجيب.
+n|Glasgow Coma Scale|مقياس غلاسكو|تقييم مستوى الوعي بالنقاط.
+n|Level of Consciousness|مستوى الوعي|درجة يقظة المريض واستجابته.
+n|Syncope|إغماء|فقدان وعي مؤقت.
+n|Vertigo|دوار|إحساس بدوران الجسم أو المكان.
+n|Paralysis|شلل|فقدان القدرة على الحركة.
+n|Hemiplegia|شلل نصفي|شلل في نصف الجسم.
+n|Meningitis|التهاب السحايا|التهاب أغشية المخ والنخاع.
+n|Dementia|خرف|تدهور الذاكرة والتفكير.
+n|Delirium|هذيان|تشوش حاد ومفاجئ في الوعي.
+n|Aphasia|فقدان القدرة على الكلام|اضطراب في فهم اللغة أو التعبير.
+n|Concussion|ارتجاج المخ|إصابة خفيفة بالمخ من ضربة.
+x|Diabetes Mellitus|السكري|ارتفاع مزمن في سكر الدم.
+x|Hyperglycemia|ارتفاع سكر الدم|زيادة الجلوكوز عن الطبيعي.
+x|Hypoglycemia|انخفاض سكر الدم|هبوط الجلوكوز عن الطبيعي.
+x|Insulin|الإنسولين|هرمون ينظم سكر الدم.
+x|Diabetic Ketoacidosis|الحماض الكيتوني|مضاعفة خطيرة لنقص الإنسولين.
+x|Hypothyroidism|قصور الغدة الدرقية|نقص إفراز هرمون الغدة.
+x|Hyperthyroidism|فرط نشاط الغدة الدرقية|زيادة إفراز هرمون الغدة.
+x|Obesity|السمنة|زيادة الوزن بدرجة تضر بالصحة.
+w|Pregnancy|حمل|فترة نمو الجنين داخل الرحم.
+w|Labor|مخاض|عملية الولادة الطبيعية.
+w|Cesarean Section|ولادة قيصرية|ولادة عن طريق عملية جراحية.
+w|Postpartum|النفاس|الفترة التي تلي الولادة.
+w|Antenatal Care|رعاية ما قبل الولادة|متابعة الحامل أثناء الحمل.
+w|Neonate|حديث الولادة|الطفل في أول 28 يوماً.
+w|Apgar Score|مقياس أبغار|تقييم حالة المولود بعد الولادة.
+w|Breastfeeding|رضاعة طبيعية|تغذية الطفل من ثدي الأم.
+w|Preeclampsia|تسمم الحمل|ارتفاع ضغط وبروتين بول أثناء الحمل.
+w|Placenta|مشيمة|عضو يغذي الجنين أثناء الحمل.
+w|Fetus|جنين|الكائن النامي داخل الرحم.
+w|Lactation|إدرار اللبن|إنتاج الحليب في الثدي.
+w|Growth Chart|منحنى النمو|يتابع وزن وطول الطفل.
+w|Immunization Schedule|جدول التطعيمات|مواعيد تطعيم الأطفال.
+w|Contraception|منع الحمل|وسائل لتجنب حدوث الحمل.
+e|First Aid|إسعافات أولية|رعاية فورية قبل وصول الطبيب.
+e|Triage|الفرز|ترتيب المرضى حسب خطورة الحالة.
+e|Wound|جرح|قطع أو تلف في الجلد.
+e|Laceration|جرح قطعي|جرح بحواف غير منتظمة.
+e|Abrasion|سحجة|خدش سطحي في الجلد.
+e|Dressing|ضماد|تغطية الجرح لحمايته.
+e|Suture|غرز جراحية|خياطة حواف الجرح.
+e|Debridement|إزالة الأنسجة الميتة|تنظيف الجرح من الأنسجة التالفة.
+e|Abscess|خراج|تجمع صديد في نسيج.
+e|Burn|حرق|إصابة الجلد بالحرارة أو المواد.
+e|Fracture|كسر|انكسار في العظم.
+e|Sprain|التواء|إصابة أربطة المفصل.
+e|Splint|جبيرة|تثبيت العضو المصاب.
+e|Bandage|رباط|لفافة لتثبيت الضماد.
+e|Pressure Ulcer|قرحة الفراش|تلف الجلد من ضغط مستمر.
+e|Anaphylaxis|صدمة تحسسية|رد فعل تحسسي شديد وسريع.
+e|Choking|اختناق|انسداد مجرى الهواء.
+e|Heimlich Maneuver|مناورة هايمليك|ضغطات لإخراج جسم عالق.
+e|Recovery Position|وضعية الإفاقة|وضع جانبي للمريض فاقد الوعي.
+e|Tourniquet|رباط ضاغط|يوقف النزيف الشديد بالأطراف.
+e|Poisoning|تسمم|دخول مادة سامة للجسم.
+e|Hemostasis|إيقاف النزيف|توقف النزف بالانعقاد أو الضغط.
+    `;
+
+    const PAGE = 60;
+    const T = DATA.trim().split('\n').map(l => { const [c, en, ar, n = ''] = l.split('|'); return {c, en: en.trim(), ar, n}; })
+      .sort((a, b) => a.en.localeCompare(b.en));
+    const $ = id => document.getElementById(id);
+    let cat = 'all', q = '', shown = PAGE;
+
+    const chips = $('chips');
+    [['all', 'الكل'], ...Object.entries(CATS)].forEach(([k, label]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = label; b.dataset.cat = k;
+      b.setAttribute('aria-pressed', k === 'all');
+      chips.appendChild(b);
     });
+    chips.addEventListener('click', e => {
+      const b = e.target.closest('.chip'); if (!b) return;
+      cat = b.dataset.cat; shown = PAGE;
+      chips.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b));
+      render();
+    });
+    $('termSearch').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); shown = PAGE; render(); });
+    $('moreBtn').addEventListener('click', () => { shown += PAGE; render(); });
+
+    function render() {
+      const list = T.filter(t => (cat === 'all' || t.c === cat) && (!q || (t.en + ' ' + t.ar + ' ' + t.n).toLowerCase().includes(q)));
+      const frag = document.createDocumentFragment();
+      list.slice(0, shown).forEach(t => {
+        const card = document.createElement('article'); card.className = 'term-card';
+        const h = document.createElement('h3'); h.textContent = t.en;
+        const p = document.createElement('p'); p.textContent = t.ar;
+        const s = document.createElement('small'); s.textContent = t.n;
+        card.append(h, p, s); frag.appendChild(card);
+      });
+      $('termsGrid').replaceChildren(frag);
+      $('termsEmpty').style.display = list.length ? 'none' : 'block';
+      $('moreBtn').style.display = list.length > shown ? 'block' : 'none';
+      $('termsCount').textContent = list.length + ' مصطلح';
+    }
+    render();
   </script>
 </body>
 </html>
