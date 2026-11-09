@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0284c7">
+  <meta name="description" content="قاموس المصطلحات الطبية والتمريضية في Nursing Hub مع ترجمة عربية مبسطة.">
+  <title>المصطلحات الطبية | Nursing Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .terms-page{max-width:1100px;margin:0 auto;padding:28px 16px 110px}
+    .terms-hero{padding:28px 22px;border-radius:22px;background:linear-gradient(135deg,#e0f2fe,#f0fdfa);color:#0f172a;margin-bottom:22px}
+    .terms-hero h1{margin:0 0 10px;font-size:clamp(25px,4vw,36px)}
+    .terms-hero p{margin:0;color:#475569;line-height:1.8}
+    .terms-tools{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+    .terms-search{flex:1;min-width:220px;padding:13px 15px;border:1px solid #dbeafe;border-radius:13px;background:#fff;font:inherit;outline:none}
+    .terms-search:focus{border-color:#0284c7;box-shadow:0 0 0 3px #0284c71a}
+    .pronunciation-entry-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;background:var(--primary,#0d9488);color:#fff;text-decoration:none;font-weight:800}
+    .terms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .term-card{background:var(--card-bg,#fff);border:1px solid #e2e8f0;border-radius:16px;padding:17px;box-shadow:0 5px 18px #0f172a08}
+    .term-card h3{margin:0 0 7px;color:#0284c7;font-size:18px;direction:ltr;text-align:right}
+    .term-card p{margin:0;color:#475569;line-height:1.7}
+    .term-card small{display:block;margin-top:9px;color:#64748b}
+    .terms-empty{display:none;text-align:center;padding:25px;color:#64748b}
+    @media(max-width:600px){.terms-page{padding:18px 12px 100px}.terms-hero{padding:22px 17px}.terms-tools{flex-direction:column}.pronunciation-entry-link{width:100%;box-sizing:border-box}}
+  </style>
+</head>
+<body>
+  <main class="terms-page">
+    <section class="terms-hero">
+      <h1>المصطلحات الطبية</h1>
+      <p>قاموس صغير يساعدك تتعرف على أشهر المصطلحات الطبية والتمريضية ومعانيها بالعربي.</p>
+    </section>
+
+    <div class="terms-tools">
+      <input id="termSearch" class="terms-search" type="search" placeholder="ابحث عن مصطلح أو معناه..." aria-label="البحث في المصطلحات">
+      <a class="pronunciation-entry-link" href="pronunciation.html">🎙️ افتح مدرب النطق الطبي</a>
+    </div>
+
+    <section class="terms-grid" id="termsGrid" aria-label="قائمة المصطلحات">
+      <article class="term-card"><h3>Diagnosis</h3><p>التشخيص</p><small>تحديد الحالة أو المرض بناءً على التقييم والفحوصات.</small></article>
+      <article class="term-card"><h3>Assessment</h3><p>التقييم</p><small>جمع بيانات المريض ومراجعتها لتحديد احتياجاته.</small></article>
+      <article class="term-card"><h3>Symptom</h3><p>عَرَض</p><small>شيء يشعر به المريض ويصفه، مثل الألم أو الغثيان.</small></article>
+      <article class="term-card"><h3>Sign</h3><p>علامة</p><small>معلومة يمكن ملاحظتها أو قياسها، مثل ارتفاع الحرارة.</small></article>
+      <article class="term-card"><h3>Vital Signs</h3><p>العلامات الحيوية</p><small>تشمل الحرارة والنبض والتنفس وضغط الدم.</small></article>
+      <article class="term-card"><h3>Pulse</h3><p>النبض</p><small>عدد ضربات القلب المحسوسة خلال دقيقة.</small></article>
+      <article class="term-card"><h3>Respiration</h3><p>التنفس</p><small>عملية دخول وخروج الهواء وتبادل الغازات.</small></article>
+      <article class="term-card"><h3>Blood Pressure</h3><p>ضغط الدم</p><small>ضغط الدم على جدران الأوعية الدموية.</small></article>
+      <article class="term-card"><h3>Temperature</h3><p>درجة الحرارة</p><small>قياس حرارة الجسم.</small></article>
+      <article class="term-card"><h3>Infection</h3><p>عدوى</p><small>دخول وتكاثر كائنات دقيقة ممرضة داخل الجسم.</small></article>
+      <article class="term-card"><h3>Inflammation</h3><p>التهاب</p><small>استجابة الجسم للإصابة أو العدوى أو التهيّج.</small></article>
+      <article class="term-card"><h3>Medication</h3><p>دواء</p><small>مادة تُستخدم للوقاية من المرض أو علاجه أو تخفيف أعراضه.</small></article>
+      <article class="term-card"><h3>Administration</h3><p>إعطاء / تقديم</p><small>إيصال الدواء أو العلاج للمريض بالطريقة المحددة.</small></article>
+      <article class="term-card"><h3>Intravenous (IV)</h3><p>عن طريق الوريد</p><small>إعطاء مادة مباشرة داخل الوريد.</small></article>
+      <article class="term-card"><h3>Intramuscular (IM)</h3><p>عن طريق العضل</p><small>إعطاء الحقن داخل العضلة.</small></article>
+      <article class="term-card"><h3>Subcutaneous (SC)</h3><p>تحت الجلد</p><small>إعطاء الحقن في النسيج الموجود أسفل الجلد.</small></article>
+      <article class="term-card"><h3> asepsis </h3><p>منع التلوث / اللاتلوث</p><small>إجراءات منع دخول أو انتقال الميكروبات.</small></article>
+      <article class="term-card"><h3>Sterile</h3><p>معقّم</p><small>خالي من الكائنات الدقيقة القابلة للحياة.</small></article>
+      <article class="term-card"><h3>Disinfection</h3><p>تطهير</p><small>تقليل أو إزالة كثير من الميكروبات على الأسطح والأدوات.</small></article>
+      <article class="term-card"><h3>Patient</h3><p>مريض</p><small>الشخص الذي يتلقى الرعاية الصحية.</small></article>
+    </section>
+    <p class="terms-empty" id="termsEmpty">مفيش مصطلحات مطابقة لبحثك.</p>
+  </main>
+
+  <script>
+    const searchInput = document.getElementById('termSearch');
+    const cards = [...document.querySelectorAll('.term-card')];
+    const emptyState = document.getElementById('termsEmpty');
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach(card => {
+        const match = card.textContent.toLowerCase().includes(query);
+        card.hidden = !match;
+        if (match) visible++;
+      });
+      emptyState.style.display = visible ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
